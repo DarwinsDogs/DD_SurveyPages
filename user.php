@@ -1,40 +1,45 @@
 <div id="user_form" class="nav_target">
-	<iframe name="user_form_frame" style="display: none;"></iframe>
-	<form id="user_form_image" target="user_form_frame" enctype="multipart/form-data" action="#" method="POST">
-		<input type="file" name="user_image" accept="image/*" hidden>
-		<input type="text" name="user_str" hidden>
-		<input type="text" name="user" hidden>
-		<div id="new_image" title="Please select an image file under 4MB.&#10;Images with 3:4 aspect ratios work best"></div>
-		<div class="msg">Click to change image</div>
-	</form>
-	<form>
-	<form>
+	<form id="user_form_data" action="./submit.php" method="POST" enctype="multipart/form-data">
+	<div id="image_column">
+		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
+		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
+			style="background-image: url(<?php echo 'http://darwinsdogs.org/' . $respath . 'users/' . $user['id'] . '.png'; ?>);"
+			onclick="document.getElementById('images').click();"></div>
+		<div class="msg">Click to change image.</div>
+	</div>
 	<h3><?php echo $user['first']; ?>'s profile</h3>
+	<input type="hidden" name="type" value="user">
+	<input type="hidden" name="id" value="<?php echo $user['id']; ?>">
+	<input type="hidden" name="image" value="<?php echo $user['image']; ?>">
+	<input type="hidden" name="flags" value="<?php echo $user['flags']; ?>">
+	<input type="hidden" name="on_success" value="home">
+	<input type="hidden" name="on_fail" value="user">
 	<fieldset>
 		<legend>Name</legend>
-		<input type="text" name="first" placeholder="first" required value="<?php echo $user['first']; ?>">
-		<input type="text" name="last" placeholder="last" required value="<?php echo $user['last']; ?>">
+		<input type="text" class="txtfield" name="first" placeholder="first" required value="<?php echo $user['first']; ?>">
+		<input type="text" class="txtfield" name="last" placeholder="last" required value="<?php echo $user['last']; ?>">
 	</fieldset>
 	<fieldset>
 		<legend>Contact Numbers</legend>
-		<input type="tel" name="phone1" placeholder="Day" required value="<?php echo $user['phoneDay']; ?>">
-		<input type="tel" name="phone2" placeholder="Evening (optional)" value="<?php echo $user['phoneEve']; ?>">
+		<input type="tel" class="txtfield" name="phoneDay" placeholder="Day" required value="<?php echo $user['phoneDay']; ?>">
+		<input type="tel" class="txtfield" name="phoneEve" placeholder="Evening (optional)" value="<?php echo $user['phoneEve']; ?>">
 	</fieldset>
 	<fieldset>
 		<legend>Email Address</legend>
-		<input type="email" name="user_email" required value="<?php echo $user['email']; ?>">
+		<input type="email" name="email" required value="<?php echo $user['email']; ?>">
 	</fieldset>
 	<fieldset id="mailing_address">
 		<legend>Mailing Address</legend>
-		<textarea id="input_address" name="user_address" required style="width: 100%;" onkeydown='address_change();'><?php echo $user['address']; ?></textarea><br/>
+		<textarea id="input_address" name="address" required style="width: 100%;" onkeydown='address_change();'><?php echo $user['address']; ?></textarea><br/>
+		<input type="hidden" name="address_orig" value="<?php echo $user['address']; ?>">
 		<input style="width: 100%; margin-left: 0; display: none;" type="button" value="Validate Address" id="validate_button" onclick='address_validate();'>
-		<input type="text" name="validated" value="0" hidden>
+		<input type="text" name="validated" id="validated" value="0" hidden>
 		<div id="confirmed" style="width: 100%; display: none;" align="right">Address validated.  Update profile to save.</div>
 		<div id="validating" style="width: 100%; display: none;" align="right">Validating.  Please Wait ...</div>
 		<div id="validation_container"></div>
 	</fieldset>
 	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
-	<input style="width: 8em;" type="button" value="Update Profile" id="submit" onclick='user_form_submit();'>
+	<input style="width: 8em;" type="submit" value="Update Profile" id="submit">
 	</form>
 </div>
 <script type="text/javascript">
@@ -63,4 +68,10 @@ function update_address(sel) {
 	document.getElementById('validated').value = "1";
 	update_height();
 }
+function preview() {
+	var reader = new FileReader();
+	reader.onload = function (e) { document.getElementById("new_image").style.backgroundImage = "url(" + e.target.result + ")"; }
+	reader.readAsDataURL(this.files[0]);
+}
+function sub_load() { if (<?php echo ($user['flags'] & 2 ? 'false' : 'true'); ?>) address_change(); }
 </script>

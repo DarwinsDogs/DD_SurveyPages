@@ -10,7 +10,10 @@ if (isset($_GET['id'])) $idpage = $_GET['id'];
 else $idpage = '';
 if (isset($_GET['arg'])) $argpage = $_GET['arg'];
 else $argpage = '';
-$sidebar = true;
+if (isset($_GET['post_img'])) $post_img = '?' . time();
+else $post_img = '';
+if ($page == 'sports') $sidebar = false;
+else $sidebar = true;
 
 $banner = $page;
 if ($page == 'review' || $page == 'thanks') $banner = 'survey';
@@ -51,6 +54,9 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700|Overlock|Overlock+SC' rel='stylesheet' type='text/css'>
 </head>
 <body>
+<script type="text/javascript">
+function sub_load() { /* do nothing, overriden by included pages */ }
+</script>
 <main>
 
 <!-- MAIN NAVIGATION -->
@@ -72,7 +78,7 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div id="side_bar">
 <h2 class="smallcap">Welcome, <?php echo $user['first'];?></h2>
 <div id="user_block">
-	<div id="user_avatar" style="background-image: url(http://darwinsdogs.org/<?php echo $respath . 'users/' . $user['id'] . '.png'; ?>);"></div>
+	<div id="user_avatar" style="background-image: url(http://darwinsdogs.org/<?php echo $respath . 'users/' . $user['id'] . '.png' . $post_img; ?>);"></div>
 	<div id="user_name">
 		<?php echo $user['first'] . ' ' . $user['last'] . '<br/>' .
 		'<span class="sanscap">Member since ' . date('M Y', $user['start_date']) . '</span><br/>' . PHP_EOL; ?>
@@ -82,7 +88,7 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div id="pre_dog_block"><span class="sanscap"><?php echo $user['first']; ?>'s Dogs</span><a class="sanscap fontlink" href="?pg=dog">Add Dog</a></div>
 <?php foreach ($dogs as $dog) : ?>
 <div class="dog_block" id="dog_block">
-	<div id="dog_avatar" style="background-image: url(http://darwinsdogs.org/<?php echo $respath . 'dogs/' . $dog['id'] . '.png'; ?>);"></div>
+	<div id="dog_avatar" style="background-image: url(http://darwinsdogs.org/<?php echo $respath . 'dogs/' . $dog['id'] . '.png' . $post_img; ?>);"></div>
 	<div id="dog_name">
 		<div class="badges"></div>
 		<span class="name"><?php echo $dog['name']; ?></span><br/>
@@ -108,12 +114,28 @@ $dogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </body>
 <script type="text/javascript">
+var debug = <?php echo (isset($_GET['debug']) ? 'true' : 'false'); ?>;
+function post_data(params, success) {
+	http = new XMLHttpRequest();
+	http.open('POST', 'http://darwinsdogs.org/~jmcclure/draft/submit.php' , true);
+	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	http.setRequestHeader('Content-length', params.length);
+	http.setRequestHeader('Connection', 'close');
+	http.onreadystatechange = function () {
+		if (http.readyState == 4 && http.status == 200) {
+			var ret = JSON.parse(this.responseText);
+			if (ret.success) success(ret.msg);
+			else if (debug) alert(ret.msg);
+		}
+	}
+	http.send(params);
+}
 function update_height() {
 	var sidebar = document.getElementById('side_bar');
 	var complete = document.getElementById('surveys_completed');
 	if (sidebar) sidebar.style.minHeight = document.getElementsByClassName('nav_target')[0].clientHeight + "px";
 	if (complete) complete.style.minHeight = (document.getElementById('side_bar').clientHeight - 100) + "px";
 }
-window.onload = update_height;
+window.onload = function() { update_height(); sub_load(); }
 </script>
 </html>

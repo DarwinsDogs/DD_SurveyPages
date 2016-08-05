@@ -1,12 +1,13 @@
 <?php
+
 class AddressOption {
 	protected $streetNumber = '', $route = '', $subpremise = '', $locality = '',
 			$adminArea1 = '', $adminArea2 = '', $postCode = '', $postCodeExt ='',
 			$country = '', $type = '', $boxLine ='';
 	function __construct($xmlAddr, $str) {
 		$this->type = $xmlAddr->type;
-		if ($this->type == 'postal_code' &&
-				preg_match('/^PO\s*BOX\s+([0-9-]+)/i', $str, $matches) === 1 &&
+		if (count($this->type) == 0) $this->type = Array('street_address');
+		if (preg_match('/^P\.?O\.?\s*BOX\s+([0-9-]+)/i', $str, $matches) === 1 &&
 				count($matches) === 2 && is_numeric($matches[1]))
 				$this->boxLine = 'PO Box ' . $matches[1];
 		foreach($xmlAddr->address_component as $a) {
@@ -23,11 +24,17 @@ class AddressOption {
 	}
 	public function optString() {
 		if ($this->country != 'US') return '';
-		else if ($this->type == 'street_address') return $this->_StreetAddress();
-		else if ($this->type == 'premise') return $this->_StreetAddress();
-		else if ($this->type == 'subpremise') return $this->_StreetAddress();
-		else if ($this->type == 'postal_code') return $this->_PoBox();
+		else if ($this->_MatchType('street_address')) return $this->_StreetAddress();
+		else if ($this->_MatchType('premise')) return $this->_StreetAddress();
+		else if ($this->_MatchType('subpremise')) return $this->_StreetAddress();
+		else if ($this->_MatchType('postal_code')) return $this->_PoBox();
+		else if ($this->_MatchType('locality')) return $this->_PoBox();
 		else return '';
+	}
+	private function _MatchType($str) {
+		foreach ($this->type as $el)
+			if ($el == $str) return true;
+		return false;
 	}
 	private function _StreetAddress() {
 		return '<option>' .
@@ -66,7 +73,10 @@ class AddressBox {
 	}
 }
 
+
 if (!isset($_SERVER["QUERY_STRING"])) die('Please enter an address to validate.');
+
 $abox = new AddressBox($_SERVER["QUERY_STRING"]);
 $abox->optBox();
+
 ?>

@@ -23,9 +23,9 @@ $stmt = $db->prepare('
 	FROM questions, formats, answers
 	WHERE questions.survey = :id AND formats.id = questions.format AND
 			answers.dog = :dog AND answers.question = questions.id
-	GROUP BY id');
+	GROUP BY id ORDER BY id');
 $stmt->bindValue(':id', $npage, PDO::PARAM_INT);
-$stmt->bindValue(':dog', $idpage, PDO::PARAM_INT);
+$stmt->bindValue(':dog', $dog['id'], PDO::PARAM_INT);
 if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
 
 /* get next question number, and decremement if first for title page */
@@ -44,7 +44,7 @@ function likert($question, $n) {
 	$a = ($question['answer'] != '' ? $question['answer'] : -1);
 	for ($i = 0; $i < count($opts); $i++) echo
 		"\t\t", '<div class="answer_likert" style="width: ', $w, 'em;"><div id="text">', $opts[$i], '</div>',
-		'<div id="button"', ($a == $i ? ' class="checked"' : ''), ' onclick="answer_likert(', $n, ',', $i, ');"></div></div>', PHP_EOL; // TODO answer == 0?
+		'<div id="button_', $n, '_', $i ,'" class="button', ($a == $i ? ' checked"' : '"'), ' onclick="answer_likert(', $n, ',', $i, ');"></div></div>', PHP_EOL; // TODO answer == 0?
 	echo "\t", '</fieldset>', PHP_EOL;
 }
 
@@ -91,18 +91,29 @@ function show_question($question, $n, $dog) {
 <?php
 $jsq = Array();
 foreach ($questions as $q)
-	$jsq[] = Array('id' => $q['id'], 'answer' => $q['answer'], 'notes' => $q['notes'], 'changed' => false);
+	$jsq[] = Array('answer_id' => $q['answer_id'], 'id' => $q['id'], 'answer' => $q['answer'], 'notes' => $q['notes'], 'changed' => false);
 ?>
 <script type="text/javascript">
 var questions = <?php echo json_encode($jsq); ?>;
 var cur = <?php echo $nextq; ?>;
+var started = <?php echo ($nextq > 0 ? 'true' : 'false'); ?>;
+var sn = <?php echo $npage - 1; ?>;
+var dn = <?php echo $dog['id']; ?>;
+var surveys = '<?php echo $dog['surveys']; ?>';
 function show_question(n) {
 	/* check if we are allowed to see this question yet */
 	var i;
 	for (i = 0; i < questions.length && !(questions[i].answer === null || questions[i].answer === ''); i++);
+	/* if we finished the last question, submit survey, and go to thanks page */
+	if (n == questions.length && i == n) {
+		surveys = surveys.substr(0, sn) + '3' + surveys.substr(sn + 1);
+		params = 'type=survey&id=' + dn + '&surveys=' + surveys;
+		post_data(params, function() { started = true; window.location = '?pg=thanks&n=' + (sn + 1); });
+	}
 	if (n < 0 || n > i) return;
 	/* submit current question if needed */
-	if (questions[cur].changed) submit_question(cur);
+	if (cur >= 0 && cur < questions.length && questions[cur].changed) submit_answer(cur);
+	cur = n;
 	/* draw qballs, hide all questions and intro */
 	document.getElementById('survey_<?php echo $survey['id']; ?>').style.display = 'none';
 	for (i = 0; i < questions.length; i++) {
@@ -118,26 +129,29 @@ function show_question(n) {
 function answer_generic(n, a) {
 	questions[n].answer = a;
 	questions[n].changed = true;
+	document.getElementById('qball_' + n).className += ' qball_filled';
 	// TODO change nav button classes
 }
 function answer_likert(n, a) {
-	// TODO check if changed and call answer_generic(n, a)
+	if (questions[n].answer === a) return;
+	for (i = 0; i < 5; i++)
+		document.getElementById('button_' + n + '_' + i).className = 'button';
+	document.getElementById('button_' + n + '_' + a).className += ' checked';
+	answer_generic(n, a);
 }
-function submit_question(n) {
-	var url = 'http://darwinsdogs.org/~jmcclure/draft/submit.php?type=question';
-	url += '&id=' + (questions[n].question_id ? questions[n].question_id : 0);
-	url += '&dog=' + questions[n].dog;
-	url += '&qn=' + questions[n].id;
-	url += '&ans=' + encodeURIComponent(questions[n].answer);
-	url += '&notes=' + encodeURIComponent(questions[n].notes);
-	push = new XMLHttpRequest();
-	push.open("GET", url, true);
-	push.onreadystatechange = function () {
-		var ret = JSON.parse(this.responseText);
-		if (ret.success) questions[n].changed = false;
-		else alert(ret.msg); // TODO move to conditional debugging
+function submit_answer(n) {
+	var params = 'type=answer';
+	params += '&id=' + (questions[n].answer_id ? questions[n].answer_id : 0);
+	params += '&question=' + questions[n].id;
+	params += '&dog=' + <?php echo $dog['id']; ?>;
+	params += '&answer=' + encodeURIComponent(questions[n].answer);
+	params += '&notes=' + encodeURIComponent(questions[n].notes);
+	post_data(params, function() { questions[n].changed = false; });
+	if (!started) {
+		surveys = surveys.substr(0, sn) + '1' + surveys.substr(sn + 1);
+		params = 'type=survey&id=' + dn + '&surveys=' + surveys;
+		post_data(params, function() { started = true; });
 	}
-	push.send();
 }
-window.onload = show_question(cur);
+function sub_load() { show_question(cur); }
 </script>

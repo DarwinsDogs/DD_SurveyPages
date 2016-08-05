@@ -3,49 +3,51 @@ if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d;
 else { $dog = Array( "name" => "" ); }
 ?>
 <div id="dog_form" class="nav_target">
-	<iframe name="dog_form_frame" style="display: none;"></iframe>
-	<form id="dog_form_image" target="dog_form_frame" enctype="multipart/form-data" action="" method="POST">
-		<input type="file" name="dog_image" accept="image/*" hidden>
-		<input type="text" name="dog_str" hidden>
-		<input type="text" name="dog" hidden>
-		<div id="new_image" title="Please select an image file under 4MB.&#10;Images with 3:4 aspect ratios work best"></div>
-		<div class="msg">Click to change image.  If you upload images for more
-		than one dog in the same session, please refresh your browser page for
-		changes to take effect after updating the profile.</div>
-	</form>
-	<form>
+	<form id="dog_form_data" action="./submit.php" method="POST" enctype="multipart/form-data">
+	<div id="image_column">
+		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
+		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
+			style="background-image: url(<?php echo 'http://darwinsdogs.org/' . $respath . 'dogs/' . $dog['id'] . '.png'; ?>);"
+			onclick="document.getElementById('images').click();"></div>
+		<div class="msg">Click to change image.</div>
+	</div>
+	<input type="hidden" name="type" value="dog">
+	<input type="hidden" name="image" value="<?php echo $dog['image']; ?>">
+	<input type="hidden" name="owner" value="<?php echo $user['id']; ?>">
+	<input type="hidden" name="on_success" value="home">
+	<input type="hidden" purebred="on_fail" value="dog&id=<?php echo $idpage; ?>">
 <?php
 if ($idpage == '') echo '<h3>Oh Boy, a New Dog!</h3>';
 else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3>';
 ?>
 	<fieldset>
 		<legend>Please tell us this dog's name</legend>
-		<input type="text" name="dog_name" id="new_dog_name" value="<?php echo $dog['name']; ?>" onchange="update()">
+		<input type="text" name="name" id="new_dog_name" value="<?php echo $dog['name']; ?>" onchange="update()">
 	</fieldset>
 	<fieldset>
 		<legend>Is <span class="dog_name">the dog</span> male or female</legend>
-		<input type="radio" name="dog_sex" value="male" <?php echo ($dog['sex'] == 'male' ? 'checked' : ''); ?>> Male
-		<input type="radio" name="dog_sex" value="female" <?php echo ($dog['sex'] == 'female' ? 'checked' : ''); ?>> Female
+		<input type="radio" name="sex" value="male" <?php echo ($dog['sex'] == 'male' ? 'checked' : ''); ?>> Male
+		<input type="radio" name="sex" value="female" <?php echo ($dog['sex'] == 'female' ? 'checked' : ''); ?>> Female
 	</fieldset>
 	<fieldset>
 		<legend>Has <span class="dog_name">the dog</span> been <span id="spay_neuter">spayed or neutered</span>?</legend>
-		<input type="radio" name="dog_neutered" value="yes" <?php echo ($dog['neutered'] == 'yes' ? 'checked' : ''); ?>> Yes
-		<input type="radio" name="dog_neutered" value="yes" <?php echo ($dog['neutered'] == 'no' ? 'checked' : ''); ?>> No
+		<input type="radio" name="neutered" value="yes" <?php echo ($dog['neutered'] == 'yes' ? 'checked' : ''); ?>> Yes
+		<input type="radio" name="neutered" value="yes" <?php echo ($dog['neutered'] == 'no' ? 'checked' : ''); ?>> No
 	</fieldset>
 	<fieldset>
 		<legend>What is <span class="dog_name">the dog</span>'s approximate age?</legend>
-		<input type="text" name="dog_age" value="<?php echo $dog['age']; ?>">
+		<input type="text" name="age" value="<?php echo $dog['age']; ?>">
 	</fieldset>
 	<fieldset>
 		<legend>If known, enter <span class="dog_name">the dog</span>'s date of birth or birth year</legend>
-		<input type="text" name="dog_birthday" value="<?php echo $dog['birthday']; ?>">
+		<input type="text" name="birthday" value="<?php echo $dog['birthday']; ?>">
 	</fieldset>
 	<fieldset id="breed">
 	<legend>If known, please enter <span class="dog_name">the dog</span>'s breed, or mix of breeds (up to three)</legend>
-		<input class="breed" type="text" name="dog_breed1" value="<?php echo $dog['breed1']; ?>"><br/>
-		<input class="breed" type="text" name="dog_breed2" value="<?php echo $dog['breed2']; ?>"><br/>
-		<input class="breed" type="text" name="dog_breed3" value="<?php echo $dog['breed3']; ?>"><br/>
-		<input type="checkbox" name="dog_purebred" value="<?php echo $dog['purebred']; ?>"> Check here if <span class="dog_name">the dog</span> is a registered purebred.
+		<input class="breed" type="text" name="breed1" value="<?php echo $dog['breed1']; ?>"><br/>
+		<input class="breed" type="text" name="breed2" value="<?php echo $dog['breed2']; ?>"><br/>
+		<input class="breed" type="text" name="breed3" value="<?php echo $dog['breed3']; ?>"><br/>
+		<input type="checkbox" name="purebred" value="<?php echo $dog['purebred']; ?>"> Check here if <span class="dog_name">the dog</span> is a registered purebred.
 	</fieldset>
 	<div id="consent">
 <?php if ($idpage == ''): ?>
@@ -67,20 +69,28 @@ else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3
 	the study, I can contact the Principal Investigator whose name is on this
 	form at <a href="mailto:info@darwinsdogs.org">info@darwinsdogs.org</a>.</p>
 	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
-	<input style="width: 10em;" type="button" value="Add Dog" id="submit">
+	<input style="width: 10em;" type="submit" value="Add Dog" id="submit">
 <?php else: ?>
+	<input type="hidden" name="id" value="<?php echo $dog['id']; ?>">
 	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
-	<input style="width: 10em;" type="button" value="Save Updates" id="submit">
-	<a href="?pg=contact&arg=retire&id=<?php echo $dog['id']; ?>" id="retire" title="Please use the Contact Us form to let us know if you would like to remove a dog">Retire <span class="dog_name"><?php echo $dog['name']; ?></span></a>
+	<input style="width: 10em;" type="submit" value="Save Updates">
+	<a href="?pg=contact&arg=retire&id=<?php echo $dog['id']; ?>" id="retire"
+		title="Please use the Contact Us form to let us know if you would like to remove a dog">Retire <span class="dog_name"><?php echo $dog['name']; ?></span>
+	</a>
 <?php endif; ?>
 	</div>
 	</form>
 </div>
 <script type="text/javascript">
-update = function() {
+function update() {
 	var n = document.getElementsByClassName('dog_name');
 	var name = document.getElementById("new_dog_name").value
 	for (i = 0; i < n.length; i++) { n[i].innerHTML = name; }
 }
-<?php if ($idpage != '') echo 'window.onload = update;'; ?>
+function preview() {
+	var reader = new FileReader();
+	reader.onload = function (e) { document.getElementById("new_image").style.backgroundImage = "url(" + e.target.result + ")"; }
+	reader.readAsDataURL(this.files[0]);
+}
+function sub_load() { if (<?php echo ($idpage != '' ?'true' : 'false'); ?>) update(); }
 </script>

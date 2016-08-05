@@ -22,7 +22,7 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 	if ($survey['status'] > $user['status']) continue; // TODO add testing icon
 	$ndogs = count($dogs); $started = 0; $complete = 0;
 	for ($j = 0; $j < count($dogs); $j++) {
-		$surveys[$i + $j]['state'] = substr($surveys[$i + $j]['surveys'], $survey['id'] - 1, 1); // TODO does this subtraction work?
+		$surveys[$i + $j]['state'] = substr($surveys[$i + $j]['surveys'], $survey['id'] - 1, 1);
 		if ($surveys[$i + $j]['state'] == '3') { $complete++; $started++; }
 		if ($surveys[$i + $j]['state'] == '1') { $started++; }
 		if (!($survey['dgroup'] & $survey['sgroup'])) {
@@ -36,7 +36,7 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 		echo '<!--', $survey['title'], '-->', PHP_EOL; ?>
 <div class="survey_token" id="survey_token_1" onclick="survey_popup('<?php echo $i; ?>');"
 		style="background: url(http://darwinsdogs.org/<?php echo $respath . 'banner/survey' . $survey['id']; ?>.jpg); background-size: 100% 100%; background-position: -5.5em 0em;">
-	<div style="background: rgba(<?php echo $survey['color']; ?>,1);"><h5 id="survey_name"><?php echo $survey['title']; ?></h5><a href="#" id="survey_link">Resume / Begin</a></div>
+	<div style="background: rgba(<?php echo $survey['color']; ?>,1);"><h5 id="survey_name"><?php echo $survey['title']; ?></h5><a href="#"><?php echo ($started ? 'Resume' : 'Begin'); ?></a></div>
 </div>
 <div class="survey_selector" id="survey_selector_<?php echo $i; ?>" onclick="hide_popups();">
 <?php
@@ -51,13 +51,13 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 	}
 	else if ($complete == $ndogs) {
 		$complete_column .= "\t" . '<div class="survey_token" onclick="window.location=\'?pg=review&n=' . $survey['id'] . '\'" style="background: rgb(' . $survey['color'] . ');">' .
-			'<h5 id="survey_name">' . $survey['title'] . '</h5><a href="#" id="survey_link">Review</a></div>' . PHP_EOL;
+			'<h6 id="survey_name">' . $survey['title'] . '</h6><a href="#">Review</a></div>' . PHP_EOL;
 		$ndone++;
 	}
 	$nsurveys++;
 }
 if ($nshowing == 0): ?>
-	<div class="survey_token survey_token_thanks">
+	<div class="survey_token_thanks">
 	Thanks for your hard work. You have completed all currently available surveys.  Feel free to join us on the
 	<a href="http://darwinsdogs.org/?page_id=30">forums</a> and please check back here for new surveys that may be added.
 	Also please be sure your mailing address is validated and confirmed in your profile so you can receive a DNA sampling

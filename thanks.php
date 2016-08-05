@@ -5,7 +5,9 @@
 
 <?php echo $user['first'], ' and ', $dog['name']; ?><br/>
 
-<div class="avatar" id="user_avatar"></div><div class="avatar" id="dog_avatar"></div><br/>
+<div class="avatar" id="user_avatar" style="background-image: url(http://darwinsdogs.org/<?php echo $respath . 'users/' . $user['id'] . '.png' . $post_img; ?>);"></div>
+<div class="avatar" id="dog_avatar" style="background-image: url(http://darwinsdogs.org/<?php echo $respath . 'dogs/' . $dog['id'] . '.png' . $post_img; ?>);"></div>
+<br/>
 
 <span>for your contribution<br/>to genetics research!</span><br/>
 
