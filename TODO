@@ -1,8 +1,12 @@
 
-POST pages for user / dog forms
 Survey pages
-	Hide "qballs" on intro
+	Non-likert style questions ...
 	Opacity on buttons when inactive
+	Add comment functionality
 Review pages
+	Not even started ...
 Photo uploads
+	Done ... needs testing, especially size constraints
+Contact Us
+	Import email sending code from old version
 

@@ -30,9 +30,10 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 			$ndogs--;
 		}
 	}
+	if ($survey['state'] != 9) $nsurveys++;
 	if ($ndogs < 1) continue;
 	else if ($complete < $ndogs) {
-		if ($nshowing > 3) continue;
+		if ($nshowing > 2) continue;
 		echo '<!--', $survey['title'], '-->', PHP_EOL; ?>
 <div class="survey_token" id="survey_token_1" onclick="survey_popup('<?php echo $i; ?>');"
 		style="background: url(http://darwinsdogs.org/<?php echo $respath . 'banner/survey' . $survey['id']; ?>.jpg); background-size: 100% 100%; background-position: -5.5em 0em;">
@@ -54,7 +55,6 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 			'<h6 id="survey_name">' . $survey['title'] . '</h6><a href="#">Review</a></div>' . PHP_EOL;
 		$ndone++;
 	}
-	$nsurveys++;
 }
 if ($nshowing == 0): ?>
 	<div class="survey_token_thanks">

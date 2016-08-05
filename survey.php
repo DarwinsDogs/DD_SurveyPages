@@ -70,7 +70,7 @@ function show_question($question, $n, $dog) {
 <div id="survey_page" class="nav_target">
 <fieldset id="question_banner" style="background: rgba(<?php echo $survey['color']; ?>,1);">
 	<span id="title"><?php echo $survey['title']; ?></span>
-	<span id="balls">
+	<span id="balls" style="display: none;">
 <?php for ($i = 0; $i < count($questions); $i++): ?>
 		<div class="qball" id="qball_<?php echo $i; ?>" onclick="show_question(<?php echo $i; ?>);"></div>
 <?php endfor; ?>
@@ -115,6 +115,7 @@ function show_question(n) {
 	if (cur >= 0 && cur < questions.length && questions[cur].changed) submit_answer(cur);
 	cur = n;
 	/* draw qballs, hide all questions and intro */
+	document.getElementById('balls').style.display = 'block';
 	document.getElementById('survey_<?php echo $survey['id']; ?>').style.display = 'none';
 	for (i = 0; i < questions.length; i++) {
 		var q = document.getElementById('qball_' + i);
