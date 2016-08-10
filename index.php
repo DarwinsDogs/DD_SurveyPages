@@ -1,5 +1,6 @@
 <?php
 $respath = '~jmcclure/draft/res/';
+$dd_root = 'http://darwinsdogs.org/~jmcclure/draft/';
 if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
 else { header('Location: http://darwinsdogs.org'); die(); }
 if (isset($_GET['pg'])) $page = $_GET['pg'];

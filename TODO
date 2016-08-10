@@ -1,12 +1,35 @@
 
+Current task list in rough priority order:
+
 Survey pages
-	Non-likert style questions ...
+	Non-likert style questions:
+		Choices / Multichoices
+		Text / Numeric
+		Multitext / Multinumeric
+		(Image)
 	Opacity on buttons when inactive
 	Add comment functionality
 Review pages
-	Not even started ...
+	Not even started
 Photo uploads
 	Done ... needs testing, especially size constraints
 Contact Us
-	Import email sending code from old version
+	Done ... needs testing
+Dog profile
+	Mosty done ... needs testing
+	Add status (kit sent, kit received, etc)
+User profile
+	Done ... needs testing
+Sports
+	Formatting of individual pages
+	Images don't work as banners, wrong aspect ratio
+	Create columns in users table sports varchar, and sports_answer varchar
+	Uncomment post_data after table columns are created
+Home
+	Thank you page when all surveys complete:
+		Sports link
+		Data download link
+		(genome report link)
+		What else?
+
 

@@ -1,13 +1,13 @@
 <?php
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( "name" => "" ); }
+else { $dog = Array( 'id' => '0', 'name' => '' ); }
 ?>
 <div id="dog_form" class="nav_target">
 	<form id="dog_form_data" action="./submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
-			style="background-image: url(<?php echo 'http://darwinsdogs.org/' . $respath . 'dogs/' . $dog['id'] . '.png'; ?>);"
+			style="background-image: url(<?php echo $dd_root, 'res/dogs/' . $dog['id'] . '.png'; ?>);"
 			onclick="document.getElementById('images').click();"></div>
 		<div class="msg">Click to change image.</div>
 	</div>

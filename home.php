@@ -42,10 +42,15 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 <div class="survey_selector" id="survey_selector_<?php echo $i; ?>" onclick="hide_popups();">
 <?php
 		for ($j = 0; $j < count($dogs); $j++) {
-			if ($surveys[$i + $j]['state'] == 0) $val = 'value="Begin for ' . $dogs[$j]['name'] . '"';
-			else if ($surveys[$i + $j]['state'] == 1) $val = 'value="Resume for ' . $dogs[$j]['name'] . '"';
-			else $val = 'disabled value="' . $dogs[$j]['name'] . 'is done"';
-			echo "\t", '<input type=button ', $val, ' onclick="window.location=\'?pg=survey&n=', $survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">';
+			$class = 'begin';
+			if ($surveys[$i + $j]['state'] == 0)
+				echo "\t", '<div class="begin" style="background: rgba(', $survey['color'], ',1);" onclick="window.location=\'?pg=survey&n=',
+					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Begin for ', $dogs[$j]['name'], '</div>';
+			else if ($surveys[$i + $j]['state'] == 1)
+				echo "\t", '<div class="begin" style="background: rgba(', $survey['color'], ',1);" onclick="window.location=\'?pg=survey&n=',
+					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Resume for ', $dogs[$j]['name'], '</div>';
+			else
+				echo "\t", '<div class="begin disabled" style="background: rgba(', $survey['color'], ',1);">', $dogs[$j]['name'], ' is done</div>';
 		}
 		$nshowing++;
 		echo '</div>', PHP_EOL;

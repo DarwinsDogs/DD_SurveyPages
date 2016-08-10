@@ -102,6 +102,15 @@ function submit_survey() {
 	if (!$stmt->execute()) log_err('answer', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
 }
 
+function submit_sports() {
+	global $db;
+	$query = 'UPDATE dogs SET sports_answer = :answer WHERE id = :dog';
+	$stmt = $db->prepare($query);
+	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
+	$stmt->bindValue(':answer', urldecode($_POST['answer']), PDO::PARAM_STR);
+	if (!$stmt->execute()) log_err('sports', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+}
+
 $post_img = false;
 function submit_image($type, $id) {
 	global $post_img;
@@ -125,6 +134,7 @@ switch ($_POST['type']) {
 	case 'dog': submit_dog(); break;
 	case 'answer': submit_answer(); break;
 	case 'survey': submit_survey(); break;
+	case 'sports': submit_sports(); break;
 	default: log_err('submit', 'unknown submission type ' . $_POST['type']);
 }
 

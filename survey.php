@@ -57,7 +57,8 @@ function show_question($question, $n, $dog) {
 		"\t", '<fieldset id="photo_question"><div id="dog_photo" style="background-image: url(http://darwinsdogs.org/', $respath, 'dogs/', $dog['image'], '.png);"></div>',
 		'<span id="question">', $qstr, '</span></fieldset>', PHP_EOL,
 		"\t", '<fieldset id="example"><div id="example_image"></div></fieldset>', PHP_EOL;
-	likert($question, $n); // TODO other question types
+	if ($question['format'] == 'Likert')
+		likert($question, $n); // TODO other question types: Text, Choices, Numeric, MultiNumeric, MultiChoices
 	echo "\t", '<fieldset id="controls">',
 		'<div class="comment">Add a comment<br/><span style="display: ', (strlen($question['notes']) > 1 ? 'inline' : 'none'), ';">comment saved</span></div>',
 		'<div class="finish" style="display: none;">SUBMIT</div>',
