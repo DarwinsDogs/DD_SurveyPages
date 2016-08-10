@@ -1,0 +1,349 @@
+
+/* fonts */
+* { font-family: 'PT Sans', sans-serif; }
+* { font-size: 18px; }
+html * { font-size: inherit;}
+
+h1 { font-size: 1.5rem; } h2 { font-size: 1.4rem; } h3 { font-size: 1.3rem; } h4 { font-size: 1.2rem; } h5 { font-size: 1.1rem; }
+h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 * { font-family: 'Overlock', cursive; }
+.sanscap, .sanscap * { font-family: 'PT Sans', sans-serif; text-transform: uppercase; font-size: 0.75vw; }
+.smallcap, .smallcap * { font-family: 'Overlock SC', cursive;}
+.fontlink, .fontlink * { color: #777; }
+.fontlink:hover, .fontlink:hover * { color: #66A; }
+
+html, body { background: #232323; }
+a { color: inherit; }
+nav { background: #F4FFC3; }
+nav #bar #logo { float: left; background: url('dd_logo.jpg') no-repeat; background-size: 100% 100%; width: 13.75rem; height: 3.5rem; }
+nav #bar ul { float: right; margin-right: 1rem; }
+nav #bar ul li { list-style: none; display: inline-block; float: left; margin-top: 0.4rem; padding: 0 1.5rem; line-height: 0.85rem; color: #028; cursor:pointer; border-right: 2px solid #028; }
+nav #bar ul li:last-child { border-right: none; }
+nav #bar ul li:hover { color: #68E; }
+nav .banner { height: 12.5rem; background-size: 100% 100%; clear: both; }
+
+main { display: block; position: relative; }
+main, footer { background: #FAFEEE; overflow: hidden; border-radius: 8px; width: 65rem; min-width: 65rem; margin: auto; box-sizing: border-box; }
+footer { background: #545454; color: #A0A0A0; margin-top: 1.5rem; padding: 0.5rem; overflow: visible; }
+footer #copy { display: inline-block; margin: 0.18rem; font-size: 85%; height: 1.25em; }
+footer #contribute { font-size: 85%; display: none; border: 1px solid #AAA; background: black; padding: 0.25rem 0.5rem; color: white; border-radius: 4px; margin: -5rem; opacity: 0.85; }
+footer #copy:hover #contribute { display: inline-block; }
+
+#side_bar { width: 15rem; float: left; border-top-left-radius: 1rem; overflow: hidden; border-top-right-radius: 1rem; margin: -1rem 1rem 0rem 1rem; background: #DCE4BF; padding: 0.85rem; padding-bottom: 2em;}
+#side_bar h2 { color: white; background: #59A43F; font-size: 1.5rem; margin-left: -1.5rem; margin-top: -1.65rem; padding: 1.125em 1.5em 0.525em 1.5rem; width: 18rem; cursor: pointer; }
+#side_bar h2:hover { color: #FEC; }
+#side_bar #user_block, #side_bar .dog_block { overflow: hidden; display: -webkit-flex; -webkit-align-items: flex-end; display: flex; align-items: flex-end; }
+#side_bar #user_avatar { float: left; width: 4.5rem; height: 6rem; border-radius: 4px; margin-right: 1rem; background-size: cover; background-position: center center; cursor:pointer; }
+#side_bar #user_name .name, #side_bar #dog_name  .name { font-size: 110%; font-weight: bold; }
+#side_bar #pre_dog_block { margin-top: 1rem; }
+#side_bar #pre_dog_block span { font-size: 1rem; font-weight: bold; }
+#side_bar #pre_dog_block a { font-size: 0.8rem; margin-left: 3rem; }
+#side_bar .dog_block { margin-top: 1rem; }
+#side_bar #dog_avatar { cursor:pointer; float: left; width: 4.5rem; height: 6rem; margin-right: 1rem; border-radius: 4px; background-size: cover; background-position: center center; }
+#side_bar .badges img { position: relative; width: 2rem; height: 2rem; margin-bottom: 0.5rem; margin-right: 0.25rem; opacity: 0.8; z-index: 1; }
+
+.nav_target { display: inline-block; width: 45.5em; float: right; padding-bottom: 1rem; }
+.nav_target #surveys_up_next { float: left; padding-bottom: 4rem; }
+.nav_target #surveys_completed { text-align: center; float: right; width: 10.5rem;
+	background: -webkit-linear-gradient(rgba(0,0,0,0.1), transparent);
+	background: -o-linear-gradient(rgba(0,0,0,0.1), transparent);
+	background: -moz-linear-gradient(rgba(0,0,0,0.1), transparent);
+	background: linear-gradient(rgba(0,0,0,0.1), transparent);
+}
+
+/* HOME */
+.survey_token { cursor:pointer; width: 34rem; height: 6.65rem; border-radius: 1rem; overflow: hidden; margin-bottom: 1.5rem; color: #FFF; }
+.survey_token div { width: 12rem; height: 100%; text-align: center; float: right; }
+.survey_token a { font-size: 0.8rem; position: relative; }
+.survey_token:hover a { color: #BCF; }
+.survey_token .testing { opacity: 0.6; color: white; font-weight: bold; border: 1px solid #AAA; width: 5rem; padding-top: 0.25rem; height: 1.5rem; margin: 1rem; margin-right: 14.5rem; }
+#surveys_completed .survey_token { width: 85%; height: 4.5rem; margin: auto; margin-bottom: 0.5rem; border-radius: 0.5rem; color: #DDD; }
+#surveys_completed .survey_token #survey_name { font-size: 0.9rem; height: 1.8rem; margin-top: 0.4rem; }
+#surveys_completed .survey_token a { font-size: 0.8rem; position: relative; }
+.survey_selector { margin: 0em; padding: 0.75em; background: #FAFFEE; border: 1px solid #ABA; border-radius: 4px; position: fixed; display: none; z-index: 100; }
+.survey_selector input { margin: 0em !important; }
+.survey_token_thanks  { width: 34rem; margin-bottom: 1.5rem; }
+.survey_token #survey_name {
+	font-size: 1.4rem;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 1.35rem;
+	margin-top: 0.85rem;
+	margin-bottom: 0.5rem;
+	height: 3.25rem;
+}
+div.begin { border: 4px solid #FAFEEE; border-radius: 6px; padding: 4px 12px; color: #EEE; }
+div.begin:hover { border-color: #FDA; color: #FFF; }
+div.begin.disabled { color: #888; }
+div.begin.disabled:hover { border-color: #DDD; }
+
+#image_column { float: right; width: 9rem; margin-right: 3rem; margin-top: 3rem; }
+#image_column .msg { font-size: 0.8rem; text-align: center; width: 9rem; }
+
+/* SPORTS */
+.sports { padding: 0.5em; }
+#sports { text-align: center; }
+.sports #intro { width: 100%; text-align: left; margin: 0em 1em 1em 1em; }
+.sport { display: inline-block; width: 20em; height: 9.45em; margin: 0.5em; border-radius: 2px; overflow: hidden; }
+.sport .name { color: #FFF; font-family: 'Overlock SC', cursive; font-size: 1.5rem; }
+.sports .img { width: 100%; height: 7.45em; background: grey; }
+.sports .name { width: 100%; height: 2em; padding-left: 1rem; }
+#sport_survey { background: #E9EDDD; border: 1px solid #D8DCCC; border-radius: 4px; margin-top: 2em; text-align: center; }
+#sport_survey #intro { display: block; font-weight: bold; }
+#sport_survey #answers { width: 100%; }
+#sport_survey #answers span { font-weight: bold; padding: 0em 4em; background: #028; border-radius: 3px; margin: 0.5em; color: #CCC; }
+#sport_survey #answers span:not(.checked):hover { background: #35C; color: #FFF; }
+#sport_survey #answers span.checked { background: #082; color: #FFF; }
+.subsport { padding: 1em; margin-bottom: 0.5em; clear: both; }
+.subsport span { font-weight: bold; }
+.subsport span:after { content: ": "; }
+.subsport .links { float: right; padding: 0em 2em 1em 0em; }
+.subsport a { border-radius: 4px; padding: 0.1em 1em; text-decoration: none; color: #FFF; opacity: 0.65; }
+.subsport a:hover { opacity: 1.0; }
+.subsport .start { background: #1F8F09; }
+.subsport .start:before { content: "Getting Started: "; }
+.subsport .train { background: #7A3804; }
+.subsport .train:before { content: "Training: "; }
+.subsport .examp { background: #0063A7}
+.subsport .examp:before { content: "Example: "; }
+
+
+
+input[type="text"] { background: white; color: black; }
+fieldset { width: 42rem; margin-bottom: 1rem; border: 0; }
+fieldset legend { font-weight: bold; color: #026; margin-left: -0.5rem; margin-bottom: 0.5rem; }
+textarea { width: 100%; height: 14rem; background: white; color: black; }
+#reply_to { width: 50%; }
+
+#dog_form fieldset, #user_form fieldset { width: 25rem; }
+#dog_form fieldset#breed { width: 34rem; }
+#dog_form input.breed { margin-bottom: 0.25rem; }
+#dog_form #new_image, #user_form #new_image { width: 9rem; height: 12rem; border: 1px solid #AAA; background-size: cover; background-position: top center; }
+#dog_form #retire { font-size: 0.65rem; color: #444; border: 1px solid #888; border-radius: 0.2rem; padding: 0.2em 1rem; }
+input[type=button], #retire { margin-left: 2rem; }
+
+#user_form .txtfield { width: 48%; }
+#user_form .txtfield:last-child { float: right; }
+#user_form input[name='email'] { width: 100%; }
+#user_form textarea { width: 100%; height: 5rem; }
+
+#survey_page #question_banner { width: 42rem; height: 1.5rem; border-radius: 0.5rem; color: white; margin-top: 1rem; padding-top: 0.5rem; }
+#survey_page #question_banner span { font-size: 1.3rem; font-weight: bold; }
+#survey_page #question_banner #balls { margin-top: 0.5rem; float: right; }
+#survey_page #dog_photo { float: left; width: 4.5rem; height: 6rem; margin-right: 1rem; border-radius: 4px; background-size: cover; background-position: center center; }
+#survey_page #question { width: 36rem; font-size: 1.25rem; }
+#survey_page #answer, #survey_page #example { min-height: 10rem; padding: 0; }
+#survey_page #example { width: 21rem; float: left; display: none; }
+#survey_page #answer #new_image, #survey_page #example #example_image {
+	width: 20rem;
+	height: 20rem;
+	background: #888 url('answers/0000000000_0.png');
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	border: 1px solid black;
+	border-radius: 2px;
+	margin: auto;
+}
+#survey_page #controls { height: 6rem; text-align: center; }
+#survey_page #controls div { float: right; width: 4rem; height: 4rem; margin: 1rem; cursor:pointer; background-size: 100% 100%; }
+#survey_page #controls .comment {
+	margin-top: 3rem;
+	float: left;
+	background-size: 20% 50% !important;
+	padding-left: 2em;
+	width: 8rem;
+	opacity: 0.65;
+	background: url('ui/comment.png') no-repeat;
+	background-size: 100% 100%;
+}
+#survey_page #controls .comment span{ display: none; color: #028; }
+#survey_page #controls .finish {
+	border-radius: 2rem;
+	width: 6.5rem;
+	color: white;
+	background: #2763A3;
+	font-weight: bold;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#survey_page #controls .comment:hover { opacity: 1.0; }
+#survey_page #controls .back {
+	background: url('ui/back.png') no-repeat;
+	background-size: 100% 100%;
+}
+#survey_page #controls .next {
+	background: url('ui/next.png') no-repeat;
+	background-size: 100% 100%;
+}
+#survey_page #controls #start {
+	background: url('ui/start.png') no-repeat;
+	background-size: 100% 100%;
+}
+
+.popup {
+	padding: 0; margin: 0;
+	background: #CCC !important;
+	border: 1px solid black !important;
+	border-radius: 4px;
+}
+.popup .ui-dialog-titlebar { display: none !important; }
+.popup .ui-dialog-buttonpane { border: none !important; background: none !important; margin: 0 !important; padding: 0 !important; }
+textarea { resize: none; }
+.popup input { font-size: 75% !important; float: none; width: 280px; margin: 4px -8px; }
+
+
+#survey_page #balls input {
+	margin: 0.3rem;
+	margin-top: 0.25rem;
+}
+
+#survey_page #answer .intro {
+	font-size: 1.25rem;
+	padding: 1.25rem;
+}
+
+
+.answer_likert {
+	overflow: show;
+	text-align: center;
+	float: left;
+	height: 7rem;
+}
+.answer_likert #text {
+	margin-bottom: 2rem;
+	height: 3rem;
+}
+
+
+/* checked block below */
+.answer_likert .button { width: 1.5rem; height: 1.5rem; margin: auto; margin-top: 1rem; border-radius: 0.75rem; border: 1px solid #888; background: white; }
+.answer_likert .button:hover { background: #FFF8E8; border: 2px solid #AAA; }
+.answer_likert .button.checked div { width: 1rem; height: 1rem; border-radius: 0.5rem; margin: auto; margin-top: 0.25rem; background: #014; }
+.answer_likert .button.checked {
+	background: -webkit-radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+	background: -o-radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+	background: -moz-radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+	background: radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+}
+
+
+
+
+
+
+.answer_multi, .answer_choice {
+	padding-bottom: 0.25rem;
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	display: flex;
+	align-items: center;
+}
+.answer_multi input {
+	width: 5rem;
+	margin: 0 1rem;
+}
+.answer_choice .check {
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 0.05rem;
+	border: 1px solid #888;
+	background: white;
+	margin: 0 1rem;
+}
+.answer_choice .check:hover {
+	background: #FFF8E8;
+	border: 2px solid #AAA;
+	margin-left: calc(1em - 1px);
+	margin-right: calc(1em - 1px);
+}
+.answer_choice .check.checked {
+	background: #678;
+}
+.answer_text textarea {
+	width: 38rem;
+	height: 4rem;
+	margin-left: 1rem;
+}
+.answer_text input {
+	width: 8rem;
+	margin-left: 16rem;
+}
+
+
+#review_page .review_block {
+	margin-bottom: 1.5rem;
+}
+#review_page .review_block p {
+	font-weight: bold;
+	color: #026;
+}
+#review_page .review_block canvas {
+	width: 43rem;
+	height: 10rem;
+	margin-left: 1rem;
+}
+#review_page .review_block .table_results {
+	text-align: left;
+	width: 43rem;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+#review_page .review_block .table_results tr:first-child th {
+	color: #028;
+	cursor: pointer;
+}
+#review_page .review_block .table_results tr:first-child th:first-child {
+	color: black;
+	cursor: auto;
+}
+#review_page .review_block .table_results tr:first-child th {
+	border-top: 2px solid black;
+	border-bottom: 1px solid black;
+}
+#review_page .review_block .table_results tr:last-child td {
+	border-top: 1px solid black;
+	border-bottom: 2px solid black;
+}
+#review_page .review_block .table_results tr:last-child td:first-child {
+	font-weight: bold;
+}
+#review_page .review_block .table_results tr td { width: 4.5rem; }
+#review_page .review_block .table_results tr td:first-child { width: 11rem; }
+#review_page .review_block .table_footnotes { text-align: left; margin-top: 1rem; padding-left: 1rem; font-size: 0.75rem; line-height: 0.7rem; }
+#review_page .review_block .table_footnotes tr th:first-child { width: 4rem; }
+#review_page .review_block .table_footnotes tr td:first-child { color: #028; }
+
+#thanks_page #thanks { font-size: 1.5rem; width: 42rem; margin-right: 1rem; text-align: center; float: left; }
+#thanks_page #thanks h3 { color: #028; }
+#thanks_page #thanks .avatar { margin: 1rem; display: inline-block; width: 6rem; height: 8rem; background-size: cover; background-position: top center; border-radius: 4px; }
+#thanks_page #thanks #user_avatar { margin-right: 2.5rem; }
+#thanks_page #thanks #home_button { margin-top: 2rem; width: 2.7rem; height: 2.7rem; background: url('ui/home.png'); background-size: 100% 100%; display: inline-block; cursor:pointer; }
+
+.qball {
+	display: inline-block;
+	margin-right: 0.4rem;
+	width: 0.8rem;
+	height: 0.8rem;
+	border-radius: 0.4rem;
+	background: white;
+	opacity: 0.5;
+}
+.qball_filled {
+	opacity: 1.0;
+}
+.qball_selected {
+	width: 0.4rem;
+	height: 0.4rem;
+	border: 0.2em solid white;
+	background: rgba(0,0,0,0.5);
+}
+
