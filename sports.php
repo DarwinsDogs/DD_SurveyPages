@@ -1,8 +1,10 @@
-<div class="sports">
+<div class="nav_target"  id="sports">
 <div id="intro">
 <?php
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( 'name' => 'your dog', 'sports' => '123456789' ); }
+else { $dog = $dogs[0]; }
+if (!isset($dog['sports'])) $dog['sports'] = '123456789';
+if (!isset($dog['sports_answers'])) $dog['sports_answers'] = '111111111';
 $name = Array(
 	'0' => 'Sports',
 	'1' => 'Course Sports',
@@ -38,16 +40,15 @@ $color = Array(
 	'6' => '5,122,106',
 	'7' => '220,122,15',
 	'8' => '144,24,10',
-	'9' => '90,58,121',
+	'9' => '90,58,121'
 );
-if ($npage == '') $sn = 0;
-else $sn = $npage;
+if ($argpage == '') $sn = 0;
+else $sn = $argpage;
 echo '<h3>', $name[$sn], '</h3>', PHP_EOL, $title[$sn], PHP_EOL, '</div>', PHP_EOL;
-include './sports/sports' . $npage . '.php';
+include './sports/sports' . $argpage . '.php';
 if ($sn != '0'): ?>
-</div>
-<form id="sport_survey">
-<p><b>Have you tried any <?php echo strtolower($name[$sn]); ?> activities with <?php echo $dog['name']; ?>?</b></p>
+<form id="survey">
+<p><b>Have you tried any <?php echo $name[$sn]; ?> activities with <?php echo $dog['name']; ?>?</b></p>
 <p>If you have, please let us know whether you think these activities would be good for dogs
 with similar temperaments to <?php echo $dog['name']; ?>.</p>
 <fieldset id="answers">
@@ -61,7 +62,7 @@ with similar temperaments to <?php echo $dog['name']; ?>.</p>
 var answers = '<?php echo $dog['sports_answers']; ?>';
 var sn = <?php echo $sn; ?>;
 function sport_feedback(n) {
-	for (i = -1; i < 3; i++) document.getElementById('answer_' + i).className = '';
+	for (i = 0; i < 4; i++) document.getElementById('answer_' + i).className = '';
 	document.getElementById('answer_' + n).className = 'checked';
 	answers = answers.substr(0,sn) + n + answers.substr(sn+1);
 	var params = 'type=sports&id=<?php echo $dog['id']; ?>&answers=' + answers;
@@ -73,4 +74,5 @@ function sub_load() {
 }
 </script>
 <?php endif; ?>
+</div>
 </div>

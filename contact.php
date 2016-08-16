@@ -34,9 +34,11 @@ if (isset($_POST) && isset($_POST['name']) && isset($_POST['email']) && isset($_
 		<legend>Where would you like us to reply?</legend>
 		<input type="email" id="reply_to" name="email" value="<?php echo $user['email']; ?>">
 	</fieldset>
+	<fieldset>
 	<input id="user_info" name="name" value="<?php echo $user['first'] . ' ' . $user['last'] . '(id=' . $user['id'] .')'; ?>" hidden>
 	<input style="width: 10em;" type="button" value="Cancel" class="button nav_button" id="home">
 	<input style="width: 10em;" type="button" value="Submit" class="button" id="submit">
+	</fieldset>
 	</form>
 <?php endif; ?>
 </div>

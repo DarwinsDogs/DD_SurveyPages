@@ -1,26 +1,25 @@
 
 Current task list in rough priority order:
 
-Survey pages
-	Non-likert style questions:
-		Choices / Multichoices
-		Text / Numeric
-		Multitext / Multinumeric
-		(Image)
-	Opacity on buttons when inactive
-	Add comment functionality
+Style.css
+	Clean up needed
+-- alpha testing here --
 Review pages
-	Not even started
+	Likert format needs testing
+	Other formats not started
+-- intitial beta testing here --
+Dog profile
+	Mosty done ... needs testing
+	Add status (kit sent, kit received, etc)
 Photo uploads
 	Done ... needs testing, especially size constraints
 Contact Us
 	Done ... needs testing
-Dog profile
-	Mosty done ... needs testing
-	Add status (kit sent, kit received, etc)
 User profile
 	Done ... needs testing
+-- beta release here --
 Sports
+	Check for dog ... just like surveys
 	Formatting of individual pages
 	Images don't work as banners, wrong aspect ratio
 	Create columns in users table sports varchar, and sports_answer varchar
@@ -31,5 +30,6 @@ Home
 		Data download link
 		(genome report link)
 		What else?
+-- full release ---
 
 

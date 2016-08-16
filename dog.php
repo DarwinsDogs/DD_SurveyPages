@@ -1,9 +1,9 @@
 <?php
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( 'id' => '0', 'name' => '' ); }
+else { $dog = Array( 'id' => '0', 'name' => '' 'sex' => '', 'neutered' => '', 'age' => '', 'birthday' => '', 'breed1' => '', 'breed2' => '', 'breed3' => '', 'purebred' => '', 'image' => '0',); }
 ?>
-<div id="dog_form" class="nav_target">
-	<form id="dog_form_data" action="./submit.php" method="POST" enctype="multipart/form-data">
+<div id="dog" class="nav_target profile">
+	<form id="dog_data" action="./submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
@@ -50,6 +50,7 @@ else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3
 		<input type="checkbox" name="purebred" value="<?php echo $dog['purebred']; ?>"> Check here if <span class="dog_name">the dog</span> is a registered purebred.
 	</fieldset>
 	<div id="consent">
+	<fieldset id="buttons">
 <?php if ($idpage == ''): ?>
 	<p style="margin-right: 1em;">I, <b><?php echo $user['first'] . ' ' . $user['last']; ?></b>, have
 	read the <a href="http://members.darwinsdogs.org/consent.pdf" target="_blank">Consent Form</a>
@@ -75,9 +76,9 @@ else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3
 	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
 	<input style="width: 10em;" type="submit" value="Save Updates">
 	<a href="?pg=contact&arg=retire&id=<?php echo $dog['id']; ?>" id="retire"
-		title="Please use the Contact Us form to let us know if you would like to remove a dog">Retire <span class="dog_name"><?php echo $dog['name']; ?></span>
-	</a>
+		title="Please use the Contact Us form to let us know if you would like to remove a dog">Retire <?php echo $dog['name']; ?></a>
 <?php endif; ?>
+	</fieldset>
 	</div>
 	</form>
 </div>

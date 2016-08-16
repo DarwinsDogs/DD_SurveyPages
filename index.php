@@ -13,8 +13,9 @@ if (isset($_GET['arg'])) $argpage = $_GET['arg'];
 else $argpage = '';
 if (isset($_GET['post_img'])) $post_img = '?' . time();
 else $post_img = '';
+$sidebar = true;
+if (isset($_GET['no_sidebar'])) $sidebar = false;
 if ($page == 'sports') $sidebar = false;
-else $sidebar = true;
 
 $banner = $page;
 if ($page == 'review' || $page == 'thanks') $banner = 'survey';
@@ -28,6 +29,17 @@ $stmt->bindValue(':id', $uid, PDO::PARAM_INT);
 if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$user) { header('Location: http://darwinsdogs.org'); }
+
+function toggle_sidebar() {
+	global $sidebar, $page;
+	if (in_array($page,Array('home','sports','user','dog'))) return;
+	if ($sidebar === false) unset($_GET['no_sidebar']);
+	else $_GET['no_sidebar'] = '';
+	$param = '?';
+	foreach ($_GET as $key => $val)
+		$param .= $key . (strlen($val) ? '=' . $val : '' ) . '&';
+	return '<a href="' . $param . '">' . ($sidebar ? 'HIDE' : 'SHOW') . ' SIDEBAR</a>';
+}
 
 /* submit login */
 ////UNCOMMENT when not readonly
@@ -96,12 +108,16 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 		<a class="sanscap fontlink" href="?pg=dog&amp;id=<?php echo $dog['id']; ?>">Update Profile</a>
 	</div>
 </div>
-<?php endforeach; ?>
 </div>
+<?php endforeach; ?>
+<div id="container" style="width: 47.5rem;">
+<?php else: ?>
+<div id="container" style="width: 65rem;">
 <?php endif; /* Sidebar */ ?>
 
 <!-- BODY -->
 <?php include $page . '.php'; ?>
+</div>
 
 </main>
 <!-- FOOTER -->
@@ -110,6 +126,9 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 	<div id="contribute">Graphic design by Brian Prendergast<br/>
 	Database design by Chris Hancock<br/>
 	Website and database implementation by Jesse McClure</div>
+</div>
+<div id="toggles">
+	<?php echo toggle_sidebar(); ?>
 </div>
 </footer>
 
@@ -134,7 +153,7 @@ function post_data(params, success) {
 function update_height() {
 	var sidebar = document.getElementById('side_bar');
 	var complete = document.getElementById('surveys_completed');
-	if (sidebar) sidebar.style.minHeight = document.getElementsByClassName('nav_target')[0].clientHeight + "px";
+	if (sidebar) sidebar.style.minHeight = document.getElementById('container').clientHeight + "px";
 	if (complete) complete.style.minHeight = (document.getElementById('side_bar').clientHeight - 100) + "px";
 }
 window.onload = function() { update_height(); sub_load(); }

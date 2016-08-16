@@ -9,6 +9,7 @@ if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
 $surveys = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div id="home" class="nav_target">
+<?php if (!$sidebar) echo '<div id="pad"></div>'; ?>
 <div id="surveys_up_next">
 <h3>Questionnaires</h3>
 <h5>Up next for <?php echo $user['first']; ?></span></h5>
@@ -23,16 +24,13 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 	$ndogs = count($dogs); $started = 0; $complete = 0;
 	for ($j = 0; $j < count($dogs); $j++) {
 		$surveys[$i + $j]['state'] = substr($surveys[$i + $j]['surveys'], $survey['id'] - 1, 1);
-		if ($surveys[$i + $j]['state'] == '3') { $complete++; $started++; }
-		if ($surveys[$i + $j]['state'] == '1') { $started++; }
-		if (!($survey['dgroup'] & $survey['sgroup'])) {
-			$survey['state'] = '9';
-			$ndogs--;
-		}
+		if (!($surveys[$i + $j]['dgroup'] & $surveys[$i + $j]['sgroup'])) { $ndogs--; }
+		else if ($surveys[$i + $j]['state'] == '3') { $complete++; $started++; }
+		else if ($surveys[$i + $j]['state'] == '1') { $started++; }
 	}
-	if ($survey['state'] != 9) $nsurveys++;
 	if ($ndogs < 1) continue;
-	else if ($complete < $ndogs) {
+	$nsurveys++;
+	if ($complete < $ndogs) {
 		if ($nshowing > 2) continue;
 		echo '<!--', $survey['title'], '-->', PHP_EOL; ?>
 <div class="survey_token" id="survey_token_1" onclick="survey_popup('<?php echo $i; ?>');"
@@ -49,7 +47,7 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 			else if ($surveys[$i + $j]['state'] == 1)
 				echo "\t", '<div class="begin" style="background: rgba(', $survey['color'], ',1);" onclick="window.location=\'?pg=survey&n=',
 					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Resume for ', $dogs[$j]['name'], '</div>';
-			else
+			else if ($surveys[$i + $j]['state'] == 3)
 				echo "\t", '<div class="begin disabled" style="background: rgba(', $survey['color'], ',1);">', $dogs[$j]['name'], ' is done</div>';
 		}
 		$nshowing++;

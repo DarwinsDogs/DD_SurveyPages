@@ -1,5 +1,5 @@
-<div id="user_form" class="nav_target">
-	<form id="user_form_data" action="./submit.php" method="POST" enctype="multipart/form-data">
+<div id="user" class="nav_target profile">
+	<form id="user_data" action="./submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
@@ -38,8 +38,10 @@
 		<div id="validating" style="width: 100%; display: none;" align="right">Validating.  Please Wait ...</div>
 		<div id="validation_container"></div>
 	</fieldset>
-	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
-	<input style="width: 8em;" type="submit" value="Update Profile" id="submit">
+	<fieldset id="buttons">
+		<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
+		<input style="width: 8em;" type="submit" value="Update Profile" id="submit">
+	</fieldset>
 	</form>
 </div>
 <script type="text/javascript">

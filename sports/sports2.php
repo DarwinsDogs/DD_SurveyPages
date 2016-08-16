@@ -1,21 +1,36 @@
-Doggie R&amp;R
-	Watching Netflix with your dog
-	Puzzle Toys
-		https://www.amazon.com/s/ref=as_li_ss_tl?url=search-alias%3Daps&field-keywords=dog+puzzle+toys&linkCode=sl2&tag=puplea-20&linkId=6517765ce4b35bdd3ebea11f4cf86659
-		https://www.amazon.com/gp/product/B003ALMW0M/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B003ALMW0M&linkCode=as2&tag=puplea-20&linkId=KORC6VSB2MJM4JEY
-	Chew toys
-		https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=Bully+sticks
-	KONG
-		https://www.kongcompany.com/en-uk/
-		Recipes: http://www.caninemind.co.uk/kong.html
-	Muffin Tin Game
-		http://www.sheknows.com/pets-and-animals/articles/1044723/muffin-tin-dog-game
-	Trick Training
-		Jumping Rope: https://www.youtube.com/watch?v=T8qFgIKljng
-		Bang! You’re Dead: https://www.youtube.com/watch?v=PX6fWx8ckag
-		Go get a beer: https://www.youtube.com/watch?v=LqUkX4QBjfA
-		Fetch my Tissue: https://www.youtube.com/watch?v=lFrTOzpskC4 (Part 1)
-					https://www.youtube.com/watch?v=eXklJqhFx8E (Part 2)
+<div class="subsport"><span>Resting by the TV</span>
+<p>The Perfect way to spend your lazy days or even an evening after a long day
+of work. Sit back, relax, and enjoy spending quality time with your dog getting
+lost in your favorite TV series or movies.</p>
+<div class="links">
+<a class="examp" href="http://www.animalplanet.com/">Animal Planet</a>
+<a class="examp" href="http://video.nationalgeographic.com/">National Geographics</a>
+</div>
+</div>
 
-Trick Training
-	There are always new and fun tricks to train your dog. Why not start today? Have your dog practice some fun entertaining tricks for you and your family to enjoy.
+<div class="subsport"><span>Puzzle Games</span>
+<p>Make food more interesting and challenging! Leaving for work or just want to occupy your antsy dog for a while? Try these engaging toys to keep your dog interested.</p>
+<div class="links">
+<a class="start" href="https://www.amazon.com/s/ref=as_li_ss_tl?url=search-alias%3Daps&field-keywords=dog+puzzle+toys&linkCode=sl2&tag=puplea-20&linkId=6517765ce4b35bdd3ebea11f4cf86659">Amazon</a>
+<a class="examp" href="http://www.sheknows.com/pets-and-animals/articles/1044723/muffin-tin-dog-game">Muffin Tin Game</a>
+</div>
+</div>
+
+<div class="subsport"><span>Long Lasting Treats</span>
+<p>Give your dog a reward that will last them a while! </p>
+<div class="links">
+<a class="start" href="https://www.kongcompany.com/products/for-dogs/rubber-toys/">Kong Toys</a>
+<a class="examp" href="https://www.kongcompany.com/recipes/">Kong Recipes</a>
+<a class="examp" href="https://www.homesalive.ca/blog/long-lasting-dog-chews-to-keep-your-dog-busy/">Dog Chews</a>
+</div>
+</div>
+
+<div class="subsport"><span> Trick Training</span>
+<p>There are always new and fun tricks to train your dog. Why not start today? Have your dog practice some fun entertaining tricks for you and your family to enjoy.</p>
+<div class="links">
+<a class="train" href="https://www.youtube.com/watch?v=T8qFgIKljng">Jump Rope</a>
+<a class="train" href="https://www.youtube.com/watch?v=PX6fWx8ckag">Bang! You're Dead</a>
+<a class="train" href="https://www.youtube.com/watch?v=LqUkX4QBjfA">Go Get A Drink</a>
+<a class="train" href="https://www.youtube.com/watch?v=lFrTOzpskC4">Fetch My Tissue</a>
+</div>
+</div>
