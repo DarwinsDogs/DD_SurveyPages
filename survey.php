@@ -1,5 +1,5 @@
 <?php
-if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } } // TODO check that dog exists
+if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
 else { header('Location: ' . $dd_root); }
 
 if ($dog['sex'] == 'male') { $pnoun = 'he'; $ppnoun = 'his'; }
@@ -42,7 +42,7 @@ function likert($question, $n) {
 	$w = 100 / count($opts);
 	$a = ($question['answer'] != '' ? $question['answer'] : -1);
 	for ($i = 0; $i < count($opts); $i++) echo
-		"\t\t", '<div class="answer_likert" style="width: ', $w, '%;"><div id="text">', $opts[$i], '</div>',
+		"\t\t", '<div class="answer_likert" style="width: ', $w, '%;"><div class="text">', $opts[$i], '</div>',
 		'<div id="button_', $n, '_', $i ,'" class="button', ($a == $i ? ' checked"' : '"'), ' onclick="answer_likert(', $n, ',', $i, ');"></div></div>', PHP_EOL;
 }
 
@@ -64,7 +64,7 @@ function multi($question, $n, $text) {
 	$a = explode('|', $question['answer']);
 	for ($i = 0; $i < count($opts); $i++) echo
 		"\t\t", '<div class="answer_multi"><input type="', ($text ? 'text' : 'number'), '" class="tinput" id="tinput_', $n, '_', $i,
-		'" onchange="answer_multi(', $n, ',', ($text ? 'true': 'false'), ');" ', 'value="', $a[$i], '"/><span>', $opts[$i], '</span></div>', PHP_EOL;
+		'" onchange="answer_multi(', $n, ',', ($text ? 'true': 'false'), ');" ', 'value="', $a[$i], '"/><span>', $opts[$i], '</span></div>', PHP_EOL; // TODO $a[$i] may not be defined
 }
 
 function text_numeric($question, $n, $text) {
@@ -73,17 +73,16 @@ function text_numeric($question, $n, $text) {
 }
 
 function show_question($question, $n, $count) {
-	global $respath, $dog,$pnoun, $ppnoun, $dd_root;
+	global $dog, $pnoun, $ppnoun, $dd_root;
 	$qstr = str_replace('DOG', $dog['name'], $question['question']);
 	$qstr = str_replace('HE', $pnoun, $qstr); $qstr = str_replace('HIS', $ppnoun, $qstr);
 	echo '<!-- ', $question['id'], '. ', $question['question'], ' -->', PHP_EOL,
 		'<form class="question" id="question_', $n, '" style="display: none;">', PHP_EOL,
-		"\t", '<fieldset class="qstring"><div class="photo" style="background-image: url(http://darwinsdogs.org/', $respath, 'dogs/', $dog['image'], '.png);"></div>',
+		"\t", '<fieldset class="qstring"><div class="photo" style="background-image: url(', $dd_root, 'res/dogs/', $dog['image'], '.png);"></div>',
 		'<span class="text">', $qstr, '</span></fieldset>', PHP_EOL;
 	if ($question['image'] == $question['id']) echo
 		"\t", '<fieldset class="example"><img class="image" src="', $dd_root, 'res/examples/', $question['id'], '.png"></fieldset>', PHP_EOL,
 		"\t", '<fieldset class="answer">', PHP_EOL;
-	#	"\t", '<fieldset id="answer" style="width: 55%;">', PHP_EOL;
 	else echo
 		"\t", '<fieldset class="answer">', PHP_EOL;
 	switch ($question['format']) {
@@ -92,8 +91,8 @@ function show_question($question, $n, $count) {
 		case 'Numeric': text_numeric($question, $n, false); break;
 		case 'MultiNumeric': multi($question, $n, false); break;
 		case 'Choices': choices($question, $n, false); break;
-		case 'MultiChoices': choices($question, $n, true); break; // TODO check this
-		// case 'MutliText': multi($question, $n, true); break;
+		case 'MultiChoices': choices($question, $n, true); break; // TODO needs testing
+		// case 'MutliText': multi($question, $n, true); break; // MultiText isn't used yet
 		default:
 	}
 	echo "\t", '</fieldset>', PHP_EOL,
@@ -122,7 +121,7 @@ function show_question($question, $n, $count) {
 </fieldset>
 <!-- Intro -->
 <form class="question" id="survey_<?php echo $survey['id']; ?>">
-	<fieldset class="qstring"><div class="photo" style="background-image: url(http://darwinsdogs.org/<?php echo $respath, 'dogs/', $dog['image']; ?>.png);"></div></fieldset>
+	<fieldset class="qstring"><div class="photo" style="background-image: url(<?php echo $dd_root, 'res/dogs/', $dog['image']; ?>.png);"></div></fieldset>
 	<fieldset class="answer"><div class="intro"><?php echo $survey['intro']; ?></div></fieldset>
 	<fieldset class="controls"><div class="start" onclick="show_question(0);"></div></fieldset>
 </form>

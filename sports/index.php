@@ -1,1 +1,1 @@
-<?php header('Location: http://darwinsdogs.org/~jmcclure/draft/?pg=sports'); ?>
+<?php header('Location: ' . $dd_root . '?pg=sports'); ?>

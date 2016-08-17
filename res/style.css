@@ -4,7 +4,7 @@
 html { font-size: 18px; } html * { font-size: inherit;}
 h1 { font-size: 1.5rem; } h2 { font-size: 1.4rem; } h3 { font-size: 1.3rem; } h4 { font-size: 1.2rem; } h5 { font-size: 1.1rem; } h6 { font-size: 1rem; }
 h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 * { font-family: 'Overlock', cursive; }
-.sanscap, .sanscap * { font-family: 'PT Sans', sans-serif; text-transform: uppercase; font-size: 0.75vw; }
+.sanscap, .sanscap * { font-family: 'PT Sans', sans-serif; text-transform: uppercase; font-size: 0.75rem; }
 .smallcap, .smallcap * { font-family: 'Overlock SC', cursive; }
 .fontlink, .fontlink * { color: #777; }
 .fontlink:hover, .fontlink:hover * { color: #66A; }
@@ -59,7 +59,7 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #home .survey_token a { font-size: 0.8rem; position: relative; }
 #home .survey_token:hover a { color: #BCF; }
 #home .survey_token .testing { opacity: 0.6; color: white; font-weight: bold; border: 1px solid #AAA; width: 5rem; padding-top: 0.25rem; height: 1.5rem; margin: 1rem; margin-right: 14.5rem; }
-#home #surveys_completed { text-align: center; float: right; width: 12rem;
+#home #surveys_completed { text-align: center; float: right; width: 12rem; margin-right: -0.5rem; padding-right: 0.5rem;
 	background: -webkit-linear-gradient(rgba(0,0,0,0.1), transparent);
 	background: -o-linear-gradient(rgba(0,0,0,0.1), transparent);
 	background: -moz-linear-gradient(rgba(0,0,0,0.1), transparent);
@@ -75,9 +75,9 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 	display: -webkit-flex; -webkit-align-items: center; -webkit-justify-content: center;
 	display: flex; align-items: center; justify-content: center;
 }
-#home .begin { border: 4px solid #FAFEEE; border-radius: 6px; padding: 4px 12px; color: #EEE; }
+#home .begin { border: 4px solid #FAFEEE; border-radius: 6px; padding: 4px 12px; color: #EEE; text-align: center; }
 #home .begin:hover { border-color: #FDA; color: #FFF; }
-#home .begin.disabled { color: #888; }
+#home .begin.disabled { opacity: 0.8; color: #000; }
 #home .begin.disabled:hover { border-color: #DDD; }
 
 /* DOG / USER */
@@ -125,8 +125,6 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 
 /* SURVEY */
 /* TODO cleanup needed from here down */
-#survey .question .comment { padding: 0rem 1rem 1rem 0.5rem; }
-#survey .question .comment.hidden { display: none; }
 #survey #question_banner { width: 100%; height: 2.5rem; border-radius: 0.5rem; color: white; margin: 1rem 0.25rem 0.5rem 0rem; vertical-align: center; }
 #survey #question_banner span { font-size: 1.3rem; font-weight: bold; }
 #survey #question_banner #balls { float: right; }
@@ -134,11 +132,15 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #survey .qball { display: inline-block; margin-right: 0.4rem; width: 0.8rem; height: 0.8rem; border-radius: 0.4rem; background: white; opacity: 0.5; }
 #survey .qball_filled { opacity: 1.0; }
 #survey .qball_selected { width: 0.4rem; height: 0.4rem; border: 0.2em solid white; background: rgba(0,0,0,0.5); }
+
+#survey .intro { font-size: 1.25rem; padding: 1.5rem; }
 #survey .qstring .photo { float: left; width: 4.5rem; height: 6rem; margin-right: 1rem; border-radius: 4px; background-size: cover; background-position: center center; }
 #survey .qstring .text { font-size: 1.25em; }
 #survey .example { width: 40%; display: inline-block; vertical-align: top; }
 #survey .example .image { width: 100%; border: 1px solid black; border-radius: 4px; }
-#survey .answer { display: inline-block; }
+#survey .question .comment { padding: 0rem 1rem 1rem 0.5rem; }
+#survey .question .comment.hidden { display: none; }
+#survey .comment textarea { height: 5rem; border: 1px solid #CCC; margin-top: 1rem; margin-bottom: -1rem; }
 #survey .controls { height: 6rem; text-align: center; }
 #survey .controls div { float: right; width: 4rem; height: 4rem; margin: 1rem; cursor:pointer; }
 #survey .controls .comment_button { float: left; background-size: 20% 50% !important; padding-left: 2rem; width: 10rem; opacity: 0.65; background: url('ui/comment.png') no-repeat; background-size: 100% 100%; }
@@ -148,11 +150,32 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #survey .controls .next { background: url('ui/next.png') no-repeat; background-size: 100% 100%; }
 #survey .controls .start { background: url('ui/start.png') no-repeat; background-size: 100% 100%; }
 #survey .controls .finish { border-radius: 2rem; width: 6.5rem; color: white; background: #2763A3; font-weight: bold; }
-#survey .comment textarea { height: 5rem; border: 1px solid #CCC; margin-top: 1rem; margin-bottom: -1rem; }
+
+#survey .answer { display: inline-block; width: 100%; }
 #survey .answer_multi, #survey .answer_choice { padding-bottom: 0.25rem; }
 #survey .answer_choice .check { display: inline-block; width: 1rem; height: 1rem; border-radius: 0.05rem; border: 1px solid #888; background: white; margin: 0 1rem; }
 #survey .answer_choice .check:hover { background: #FFF8E8; border: 3px solid #AAA; }
 #survey .answer_choice .check.checked { background: #678; }
+#survey .answer_likert { overflow: show; text-align: center; float: left; height: 7rem; }
+#survey .answer_likert .text { margin: 1rem 0.25rem; height: 3rem; }
+#survey .answer_likert .button { width: 1.5rem; height: 1.5rem; margin: auto; border-radius: 0.75rem; border: 1px solid #888; background: white; }
+#survey .answer_likert .button:hover { background: #FFF8E8; border: 2px solid #AAA; }
+#survey .answer_likert .button.checked {
+	background: -webkit-radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+	background: -o-radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+	background: -moz-radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+	background: radial-gradient(rgba(0,10,80,1) 40%, rgba(0,10,80,0) 65%);
+}
+
+/*
+.answer_multi, .answer_choice { padding-bottom: 0.25rem; display: -webkit-flex; -webkit-align-items: center; display: flex; align-items: center; }
+.answer_multi input { width: 5rem; margin: 0 1rem; }
+.answer_choice .check { display: inline-block; width: 1rem; height: 1rem; border-radius: 0.05rem; border: 1px solid #888; background: white; margin: 0 1rem; }
+.answer_choice .check:hover { background: #FFF8E8; border: 2px solid #AAA; margin-left: calc(1em - 1px); margin-right: calc(1em - 1px); }
+.answer_choice .check.checked { background: #678; }
+.answer_text textarea { width: 38rem; height: 4rem; margin-left: 1rem; }
+.answer_text input { width: 8rem; margin-left: 16rem; }
+*/
 
 /* REVIEW */
 #review .review_block { padding-bottom: 2em; }
@@ -162,3 +185,20 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #review .likert .bar.first { border-radius: 14px 0px 0px 14px; }
 #review .likert .bar.last { border-radius: 0px 14px 14px 0px; }
 #review .no_such { color: red; }
+
+/*
+#review_page .review_block { margin-bottom: 1.5rem; }
+#review_page .review_block p { font-weight: bold; color: #026; }
+#review_page .review_block canvas { width: 43rem; height: 10rem; margin-left: 1rem; }
+#review_page .review_block .table_results { text-align: left; width: 43rem; border-spacing: 0; border-collapse: collapse; }
+#review_page .review_block .table_results tr:first-child th { color: #028; cursor: pointer; }
+#review_page .review_block .table_results tr:first-child th:first-child { color: black; cursor: auto; }
+#review_page .review_block .table_results tr:first-child th { border-top: 2px solid black; border-bottom: 1px solid black; }
+#review_page .review_block .table_results tr:last-child td { border-top: 1px solid black; border-bottom: 2px solid black; }
+#review_page .review_block .table_results tr:last-child td:first-child { font-weight: bold; }
+#review_page .review_block .table_results tr td { width: 4.5rem; }
+#review_page .review_block .table_results tr td:first-child { width: 11rem; }
+#review_page .review_block .table_footnotes { text-align: left; margin-top: 1rem; padding-left: 1rem; font-size: 0.75rem; line-height: 0.7rem; }
+#review_page .review_block .table_footnotes tr th:first-child { width: 4rem; }
+#review_page .review_block .table_footnotes tr td:first-child { color: #028; }
+*/

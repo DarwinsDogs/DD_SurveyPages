@@ -1,13 +1,14 @@
 <?php
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( 'id' => '0', 'name' => '' 'sex' => '', 'neutered' => '', 'age' => '', 'birthday' => '', 'breed1' => '', 'breed2' => '', 'breed3' => '', 'purebred' => '', 'image' => '0',); }
+else { $dog = Array( 'id' => '0', 'name' => '', 'sex' => '', 'neutered' => '', 'age' => '', 'birthday' => '', 'breed1' => '', 'breed2' => '', 'breed3' => '', 'purebred' => '', 'image' => '0'); }
+if (strlen($dog['image']) == 0) $dog['image'] = '0';
 ?>
 <div id="dog" class="nav_target profile">
 	<form id="dog_data" action="./submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
-			style="background-image: url(<?php echo $dd_root, 'res/dogs/' . $dog['id'] . '.png'; ?>);"
+			style="background-image: url(<?php echo $dd_root, 'res/dogs/' . $dog['image'] . '.png'; ?>);"
 			onclick="document.getElementById('images').click();"></div>
 		<div class="msg">Click to change image.</div>
 	</div>
@@ -15,7 +16,8 @@ else { $dog = Array( 'id' => '0', 'name' => '' 'sex' => '', 'neutered' => '', 'a
 	<input type="hidden" name="image" value="<?php echo $dog['image']; ?>">
 	<input type="hidden" name="owner" value="<?php echo $user['id']; ?>">
 	<input type="hidden" name="on_success" value="home">
-	<input type="hidden" purebred="on_fail" value="dog&id=<?php echo $idpage; ?>">
+	<input type="hidden" name="on_fail" value="dog&id=<?php echo $idpage; ?>">
+	<input type="hidden" name="id" value="<?php echo $dog['id']; ?>">
 <?php
 if ($idpage == '') echo '<h3>Oh Boy, a New Dog!</h3>';
 else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3>';
@@ -47,7 +49,7 @@ else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3
 		<input class="breed" type="text" name="breed1" value="<?php echo $dog['breed1']; ?>"><br/>
 		<input class="breed" type="text" name="breed2" value="<?php echo $dog['breed2']; ?>"><br/>
 		<input class="breed" type="text" name="breed3" value="<?php echo $dog['breed3']; ?>"><br/>
-		<input type="checkbox" name="purebred" value="<?php echo $dog['purebred']; ?>"> Check here if <span class="dog_name">the dog</span> is a registered purebred.
+		<input type="checkbox" name="purebred" value="yes"<?php if ($dog['purebred'] == 'yes') echo ' checked'; ?>> Check here if <span class="dog_name">the dog</span> is a registered purebred.
 	</fieldset>
 	<div id="consent">
 	<fieldset id="buttons">
@@ -72,7 +74,6 @@ else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3
 	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
 	<input style="width: 10em;" type="submit" value="Add Dog" id="submit">
 <?php else: ?>
-	<input type="hidden" name="id" value="<?php echo $dog['id']; ?>">
 	<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
 	<input style="width: 10em;" type="submit" value="Save Updates">
 	<a href="?pg=contact&arg=retire&id=<?php echo $dog['id']; ?>" id="retire"

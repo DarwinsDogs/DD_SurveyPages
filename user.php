@@ -3,7 +3,7 @@
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
-			style="background-image: url(<?php echo 'http://darwinsdogs.org/' . $respath . 'users/' . $user['id'] . '.png'; ?>);"
+			style="background-image: url(<?php echo $dd_root . 'res/users/' . $user['id'] . '.png'; ?>);"
 			onclick="document.getElementById('images').click();"></div>
 		<div class="msg">Click to change image.</div>
 	</div>
@@ -47,32 +47,32 @@
 <script type="text/javascript">
 function address_change() {
 	document.getElementById('validation_container').innerHTML = '';
-	document.getElementById('validate_button').style.display = "block";
-	document.getElementById('confirmed').style.display = "none";
-	document.getElementById('validated').value = "0";
+	document.getElementById('validate_button').style.display = 'block';
+	document.getElementById('confirmed').style.display = 'none';
+	document.getElementById('validated').value = '0';
 	update_height();
 }
 function address_validate() {
-	document.getElementById('validate_button').style.display = "none";
-	document.getElementById('validating').style.display = "block";
-	var url = "http://darwinsdogs.org/~jmcclure/draft/validate_address.php?" + encodeURIComponent(document.getElementById('input_address').value);
+	document.getElementById('validate_button').style.display = 'none';
+	document.getElementById('validating').style.display = 'block';
+	var url = dd_root + 'validate_address.php?' + encodeURIComponent(document.getElementById('input_address').value);
 	xmlhttp=new XMLHttpRequest();
-	xmlhttp.open("GET", url, false);
+	xmlhttp.open('GET', url, false);
 	xmlhttp.send();
-	document.getElementById('validating').style.display = "none";
+	document.getElementById('validating').style.display = 'none';
 	document.getElementById('validation_container').innerHTML = xmlhttp.responseText;
 	update_height();
 }
 function update_address(sel) {
 	document.getElementById('input_address').value = sel.value.replace(', ', "\n");
 	document.getElementById('validation_container').innerHTML = '';
-	document.getElementById('confirmed').style.display = "block";
-	document.getElementById('validated').value = "1";
+	document.getElementById('confirmed').style.display = 'block';
+	document.getElementById('validated').value = '1';
 	update_height();
 }
 function preview() {
 	var reader = new FileReader();
-	reader.onload = function (e) { document.getElementById("new_image").style.backgroundImage = "url(" + e.target.result + ")"; }
+	reader.onload = function (e) { document.getElementById('new_image').style.backgroundImage = 'url(' + e.target.result + ')'; }
 	reader.readAsDataURL(this.files[0]);
 }
 function sub_load() { if (<?php echo ($user['flags'] & 2 ? 'false' : 'true'); ?>) address_change(); }

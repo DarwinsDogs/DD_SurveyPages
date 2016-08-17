@@ -1,6 +1,6 @@
 <?php
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( "name" => "" ); }
+else { $dog = Array( 'id' => '0', 'name' => '' ); }
 if (isset($_POST) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])) {
 	$to      = 'jmcclure@darwinsdogs.org'; # TODO: change to info address when done testing
 	$subject = '[Contact Us] Message from ' . $_POST['name'];
@@ -24,11 +24,11 @@ if (isset($_POST) && isset($_POST['name']) && isset($_POST['email']) && isset($_
 <?php else: ?>
 	<form id="compose" method="POST" action="./contact.php">
 	<h3>Leave us feedback or ask a question</h3>
-	<p style="width: 44rem;">Please first check our <a href="http://darwinsdogs.org/?page_id=604" target="_blank">frequently asked questions</a> to see if your question has already been addressed there.
-	Additionally, you may find further information in our <a href="http://darwinsdogs.org/?page_id=30" target="_blank">discussion forums</a>.</p>
 	<fieldset>
 		<legend>What's on your mind?</legend>
-		<textarea id="message" name="message"><?php if ($argpage == 'retire') echo 'Please retire my dog ', $dog['name'], ' (id=', $dog['id'], ').', PHP_EOL, PHP_EOL; ?></textarea>
+		<p>Please first check our <a href="http://darwinsdogs.org/?page_id=604" target="_blank">frequently asked questions</a> to see if your question has already been addressed there.
+		Additionally, you may find further information in our <a href="http://darwinsdogs.org/?page_id=30" target="_blank">discussion forums</a>.</p>
+		<textarea id="message" name="message" placeholder="Type your message here"><?php if ($argpage == 'retire') echo 'Please retire my dog ', $dog['name'], ' (id=', $dog['id'], ').', PHP_EOL, PHP_EOL; ?></textarea>
 	</fieldset>
 	<fieldset>
 		<legend>Where would you like us to reply?</legend>

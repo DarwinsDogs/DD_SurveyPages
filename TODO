@@ -21,7 +21,7 @@ User profile
 Sports
 	Check for dog ... just like surveys
 	Formatting of individual pages
-	Images don't work as banners, wrong aspect ratio
+	Replace banner images
 	Create columns in users table sports varchar, and sports_answer varchar
 	Uncomment post_data after table columns are created
 Home

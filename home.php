@@ -34,7 +34,7 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 		if ($nshowing > 2) continue;
 		echo '<!--', $survey['title'], '-->', PHP_EOL; ?>
 <div class="survey_token" id="survey_token_1" onclick="survey_popup('<?php echo $i; ?>');"
-		style="background: url(http://darwinsdogs.org/<?php echo $respath . 'banner/survey' . $survey['id']; ?>.jpg); background-size: 100% 100%; background-position: -5.5em 0em;">
+		style="background: url(<?php echo $dd_root . 'res/banners/survey' . $survey['id']; ?>.jpg); background-size: 100% 100%; background-position: -5.5em 0em;">
 	<div style="background: rgba(<?php echo $survey['color']; ?>,1);"><h5 id="survey_name"><?php echo $survey['title']; ?></h5><a href="#"><?php echo ($started ? 'Resume' : 'Begin'); ?></a></div>
 </div>
 <div class="survey_selector" id="survey_selector_<?php echo $i; ?>" onclick="hide_popups();">
@@ -43,12 +43,12 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 			$class = 'begin';
 			if ($surveys[$i + $j]['state'] == 0)
 				echo "\t", '<div class="begin" style="background: rgba(', $survey['color'], ',1);" onclick="window.location=\'?pg=survey&n=',
-					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Begin for ', $dogs[$j]['name'], '</div>';
+					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Start for ', $dogs[$j]['name'], '</div>';
 			else if ($surveys[$i + $j]['state'] == 1)
 				echo "\t", '<div class="begin" style="background: rgba(', $survey['color'], ',1);" onclick="window.location=\'?pg=survey&n=',
 					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Resume for ', $dogs[$j]['name'], '</div>';
 			else if ($surveys[$i + $j]['state'] == 3)
-				echo "\t", '<div class="begin disabled" style="background: rgba(', $survey['color'], ',1);">', $dogs[$j]['name'], ' is done</div>';
+				echo "\t", '<div class="begin disabled" style="background: rgba(', $survey['color'], ',1);">', $dogs[$j]['name'], ' is done!</div>';
 		}
 		$nshowing++;
 		echo '</div>', PHP_EOL;

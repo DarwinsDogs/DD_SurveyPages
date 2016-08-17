@@ -4,7 +4,7 @@ else { die('{"success":false,"msg":"login error"}'); }
 
 function log_err($type, $msg) {
 	file_put_contents('post.err', '[' . time() . '] TYPE=' . $type . ' POST=' . print_r($_POST, true) . ' ERROR=' . $msg . PHP_EOL, FILE_APPEND);
-	if (isset($_POST['on_fail'])) header('Location: http://darwinsdogs.org/~jmcclure/draft/?pg=' . $_POST['on_fail']);
+	if (isset($_POST['on_fail'])) header('Location: ' . $dd_root . '?pg=' . $_POST['on_fail']);
 	else die('{"success":false,' . '"type":"' . $type . '", "msg":"' . $msg . '"}');
 }
 
@@ -46,7 +46,6 @@ function submit_dog() {
 		);
 		$stmt->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
 		if (submit_image('dogs', $_POST['id'])) $stmt->bindValue(':image', $_POST['id'], PDO::PARAM_INT);
-		else $stmt->bindValue(':image', $_POST['image'], PDO::PARAM_INT);
 	}
 	else {
 		$stmt = $db->prepare('
@@ -64,7 +63,8 @@ function submit_dog() {
 	$stmt->bindValue(':breed1', $_POST['breed1'], PDO::PARAM_STR);
 	$stmt->bindValue(':breed2', $_POST['breed2'], PDO::PARAM_STR);
 	$stmt->bindValue(':breed3', $_POST['breed3'], PDO::PARAM_STR);
-	$stmt->bindValue(':purebred', $_POST['purebred'], PDO::PARAM_STR);
+	if (isset($_POST['purebred'])) $stmt->bindValue(':purebred', $_POST['purebred'], PDO::PARAM_STR);
+	else $stmt->bindValue(':purebred', NULL, PDO::PARAM_NULL);
 	if (!$stmt->execute()) log_err('dog', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
 	if (! ($_POST['id'] > 0) && isset($_FILES)) {
 		$id = $db->lastInsertId();
@@ -114,11 +114,11 @@ function submit_sports() {
 $post_img = false;
 function submit_image($type, $id) {
 	global $post_img;
-	if (!isset($_FILES) || !isset($_FILES['images'])) return false;
+	if (!isset($_FILES) || !isset($_FILES['images'] || !isset($_FILES['images']['tmp_name'])) return false;
 	$check = getimagesize($_FILES['images']['tmp_name']);
 	if ($check == false  || $_FILES['images']['size'] > 8388608) return false;
-	$p1 = '/home/jmcclure/public_html/draft/res/' . $type . '/' . $id . '.tmp';
-	$p2 = '/home/jmcclure/public_html/draft/res/' . $type . '/' . $id . '.png';
+	$p1 = $dd_root . 'res/' . $type . '/' . $id . '.tmp';
+	$p2 = $dd_root . 'res/' . $type . '/' . $id . '.png';
 	if (move_uploaded_file($_FILES['images']['tmp_name'], $p1)) {
 		exec('convert ' . $p1 . ' -auto-orient -resize 150x200\> ' . $p2 . ' && rm ' . $p1);
 		$post_img = true;
@@ -138,6 +138,6 @@ switch ($_POST['type']) {
 	default: log_err('submit', 'unknown submission type ' . $_POST['type']);
 }
 
-if (isset($_POST['on_success'])) header('Location: http://darwinsdogs.org/~jmcclure/draft/?pg=' . $_POST['on_success'] . ($post_img ? '&post_img' : ''));
+if (isset($_POST['on_success'])) header('Location: ' . $dd_root . '?pg=' . $_POST['on_success'] . ($post_img ? '&post_img' : ''));
 else echo '{"success":true,"msg":"', $_POST['type'], '"}';
 ?>
