@@ -114,7 +114,7 @@ function submit_sports() {
 $post_img = false;
 function submit_image($type, $id) {
 	global $post_img;
-	if (!isset($_FILES) || !isset($_FILES['images'] || !isset($_FILES['images']['tmp_name'])) return false;
+	if (!isset($_FILES) || !isset($_FILES['images']) || !isset($_FILES['images']['tmp_name'])) return false;
 	$check = getimagesize($_FILES['images']['tmp_name']);
 	if ($check == false  || $_FILES['images']['size'] > 8388608) return false;
 	$p1 = $dd_root . 'res/' . $type . '/' . $id . '.tmp';
