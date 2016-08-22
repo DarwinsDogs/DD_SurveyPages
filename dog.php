@@ -1,4 +1,5 @@
 <?php
+if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die();
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
 else { $dog = Array( 'id' => '0', 'name' => '', 'sex' => '', 'neutered' => '', 'age' => '', 'birthday' => '', 'breed1' => '', 'breed2' => '', 'breed3' => '', 'purebred' => '', 'image' => '0'); }
 if (strlen($dog['image']) == 0) $dog['image'] = '0';

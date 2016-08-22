@@ -1,4 +1,5 @@
 <?php
+if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die();
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
 else { $dog = Array( 'id' => '0', 'name' => '' ); }
 if (isset($_POST) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message'])) {

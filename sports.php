@@ -1,3 +1,4 @@
+<?php if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die(); ?>
 <div class="nav_target"  id="sports">
 <div id="intro">
 <?php

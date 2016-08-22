@@ -1,4 +1,5 @@
 <?php
+if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die();
 /* get surveys */
 $stmt = $db->prepare('SELECT dogs.id AS dog, dogs.surveys AS surveys, surveys.id AS id, title,
 		intro, color, surveys.image AS image, status, dogs.groups AS dgroup, surveys.groups AS sgroup

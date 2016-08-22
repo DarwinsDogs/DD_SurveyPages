@@ -1,3 +1,4 @@
+<?php if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die(); ?>
 <div id="user" class="nav_target profile">
 	<form id="user_data" action="./submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">

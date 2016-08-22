@@ -1,7 +1,8 @@
 <?php
 $dd_root = 'http://darwinsdogs.org/~jmcclure/draft/';
 if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
-else { header('Location: http://darwinsdogs.org'); die(); }
+//else { header('Location: http://darwinsdogs.org/wp-login.php?redirect_to=?page_id=164'); die(); }
+else { header('Location: http://darwinsdogs.org/wp-login.php'); die(); }
 if (isset($_GET['pg'])) $page = $_GET['pg'];
 else $page = 'home';
 if (isset($_GET['n'])) $npage = $_GET['n'];

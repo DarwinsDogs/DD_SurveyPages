@@ -1,3 +1,4 @@
+<?php if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die(); ?>
 <div id="review" class="nav_target">
 <?php
 $colors = Array(
