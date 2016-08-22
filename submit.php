@@ -1,4 +1,5 @@
 <?php
+$dd_root = 'http://darwinsdogs.org/~jmcclure/draft/';
 if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
 else { die('{"success":false,"msg":"login error"}'); }
 

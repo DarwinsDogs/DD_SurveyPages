@@ -107,7 +107,9 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 	<div id="dog_name">
 		<div class="badges"></div>
 		<span class="name"><?php echo $dog['name']; ?></span><br/>
-		<a class="sanscap fontlink" href="?pg=dog&amp;id=<?php echo $dog['id']; ?>">Update Profile</a>
+		<a class="sanscap fontlink" href="?pg=dog&amp;id=<?php echo $dog['id']; ?>">Update Profile</a><br/>
+		<a class="sanscap fontlink" href="?pg=health&amp;id=<?php echo $dog['id']; ?>">Health Information</a><br/>
+		<a class="sanscap fontlink" href="?pg=feedback&amp;id=<?php echo $dog['id']; ?>">Personalized Feedback</a><br/>
 	</div>
 </div>
 <?php endforeach; ?>

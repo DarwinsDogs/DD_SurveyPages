@@ -4,13 +4,9 @@
 html { font-size: 18px; } html * { font-size: inherit;}
 h1 { font-size: 1.5rem; } h2 { font-size: 1.4rem; } h3 { font-size: 1.3rem; } h4 { font-size: 1.2rem; } h5 { font-size: 1.1rem; } h6 { font-size: 1rem; }
 h1, h2, h3, h4, h5, h6, h1 *, h2 *, h3 *, h4 *, h5 *, h6 * { font-family: 'Overlock', cursive; }
-.sanscap, .sanscap * { font-family: 'PT Sans', sans-serif; text-transform: uppercase; font-size: 0.75rem; }
-.smallcap, .smallcap * { font-family: 'Overlock SC', cursive; }
-.fontlink, .fontlink * { color: #777; }
-.fontlink:hover, .fontlink:hover * { color: #66A; }
-
-html, body { background: #232323; }
 a { color: inherit; }
+a:hover { color: #66A; }
+html, body { background: #232323; }
 nav { background: #F4FFC3; }
 nav #bar #logo { float: left; background: url('dd_logo.jpg') no-repeat; background-size: 100% 100%; width: 13.75rem; height: 3.5rem; }
 nav #bar ul { float: right; margin-right: 1rem; }
@@ -18,7 +14,6 @@ nav #bar ul li { list-style: none; display: inline-block; float: left; margin-to
 nav #bar ul li:last-child { border-right: none; }
 nav #bar ul li:hover { color: #68E; }
 nav .banner { height: 12.5rem; background-size: 100% 100%; clear: both; }
-
 main { display: block; position: relative; }
 main, footer { background: #FAFEEE; overflow: hidden; border-radius: 8px; width: 65rem; margin: auto; }
 footer { background: #545454; color: #A0A0A0; margin-top: 1.5rem; padding: 0.5rem; overflow: visible; }
@@ -28,6 +23,11 @@ footer #copy:hover #contribute { display: inline-block; }
 fieldset { border: 0px; }
 input[type="text"] { color: black; background: white; }
 textarea { width: 100%; height: 14rem; background: white; color: black; resize: none; }
+.sanscap, .sanscap * { font-family: 'PT Sans', sans-serif; text-transform: uppercase; font-size: 0.7rem; }
+.smallcap, .smallcap * { font-family: 'Overlock SC', cursive; }
+.fontlink, .fontlink * { color: #777; }
+.fontlink:hover, .fontlink:hover * { color: #66A; }
+
 
 #container { margin: 0px; padding: 0px; display: inline-block; box-sizing: border-box; }
 #container * { box-sizing: border-box; }
