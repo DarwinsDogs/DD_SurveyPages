@@ -16,7 +16,8 @@ nav #bar ul li:hover { color: #68E; }
 nav .banner { height: 12.5rem; background-size: 100% 100%; clear: both; }
 main { display: block; position: relative; }
 main, footer { background: #FAFEEE; overflow: hidden; border-radius: 8px; width: 65rem; margin: auto; }
-footer { background: #545454; color: #A0A0A0; margin-top: 1.5rem; padding: 0.5rem; overflow: visible; }
+footer { background: #545454; color: #A0A0A0; margin-top: 1.5rem; padding: 0rem; overflow: visible; }
+footer * { padding: 0.5rem; }
 footer #copy { display: inline-block; margin: 0.18rem; font-size: 85%; height: 1.25em; }
 footer #contribute { font-size: 85%; display: none; border: 1px solid #AAA; background: black; padding: 0.25rem 0.5rem; color: white; border-radius: 4px; margin: -5rem; opacity: 0.85; }
 footer #copy:hover #contribute { display: inline-block; }
@@ -123,6 +124,14 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 /* CONTACT */
 #reply_to { width: 65%; }
 
+
+/* THANKS (post survey) */
+#thanks { font-size: 1.5rem; width: 42rem; margin-right: 1rem; text-align: center; float: left; }
+#thanks h3 { color: #028; }
+#thanks .avatar { margin: 1rem; display: inline-block; width: 6rem; height: 8rem; background-size: cover; background-position: top center; border-radius: 4px; }
+#thanks #user_avatar { margin-right: 2.5rem; }
+#thanks #home_button { margin-top: 2rem; width: 2.7rem; height: 2.7rem; background: url('ui/home.png'); background-size: 100% 100%; display: inline-block; cursor:pointer; }
+
 /* SURVEY */
 /* TODO cleanup needed from here down */
 #survey #question_banner { width: 100%; height: 2.5rem; border-radius: 0.5rem; color: white; margin: 1rem 0.25rem 0.5rem 0rem; vertical-align: center; }
@@ -148,7 +157,7 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #survey .controls .back { background: url('ui/back.png') no-repeat; background-size: 100% 100%; }
 #survey .controls .next { background: url('ui/next.png') no-repeat; background-size: 100% 100%; }
 #survey .controls .start { background: url('ui/start.png') no-repeat; background-size: 100% 100%; }
-#survey .controls .finish { border-radius: 2rem; width: 6.5rem; color: white; background: #2763A3; font-weight: bold; }
+#survey .controls #finish { border-radius: 2rem; width: 6.5rem; color: white; background: #2763A3; font-weight: bold; }
 
 #survey .answer { display: inline-block; width: 100%; }
 #survey .answer_multi, #survey .answer_choice { padding-bottom: 0.25rem; }
