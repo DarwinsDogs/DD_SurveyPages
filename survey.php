@@ -249,7 +249,8 @@ function toggle_comment(n) {
 }
 function save_comment(n) {
 	questions[n].notes = document.getElementById('comment_text_' + n).value;
-	document.getElementById('comment_label_' + n).style.display = 'inline';
+	if (questions[n].notes.length > 1) document.getElementById('comment_label_' + n).style.display = 'inline';
+	else document.getElementById('comment_label_' + n).style.display = 'none';
 	questions[n].changed = true;
 }
 function sub_load() { show_question(cur); }
