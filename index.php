@@ -133,8 +133,9 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 	Website and database implementation by Jesse McClure</div>
 </div>
 <div id="toggles">
+<?php if ($page == 'review'): ?>
 	<a href="#">TOP</a>
-	<?php echo toggle_sidebar(); ?>
+<?php endif; echo toggle_sidebar(); ?>
 </div>
 </footer>
 

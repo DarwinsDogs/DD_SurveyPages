@@ -1,6 +1,9 @@
 
 **Current task list in rough priority order:**
 
+1. Survey pages
+	* Complete, but may be buggy.
+	* Submit button styling needs fixing.
 1. Review pages
 	* Non-likert formats needed
 1. Dog profile
