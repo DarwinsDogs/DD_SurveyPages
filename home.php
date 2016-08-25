@@ -41,7 +41,6 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 <div class="survey_selector" id="survey_selector_<?php echo $i; ?>" onclick="hide_popups();">
 <?php
 		for ($j = 0; $j < count($dogs); $j++) {
-			$class = 'begin';
 			if ($surveys[$i + $j]['state'] == 0)
 				echo "\t", '<div class="begin" style="background: rgba(', $survey['color'], ',1);" onclick="window.location=\'?pg=survey&n=',
 					$survey['id'], '&id=',  $surveys[$i + $j]['dog'], '\'">Start for ', $dogs[$j]['name'], '</div>';

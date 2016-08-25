@@ -76,9 +76,9 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 	display: -webkit-flex; -webkit-align-items: center; -webkit-justify-content: center;
 	display: flex; align-items: center; justify-content: center;
 }
-#home .begin { border: 4px solid #FAFEEE; border-radius: 6px; padding: 4px 12px; color: #EEE; text-align: center; }
+#home .begin { border: 4px solid #FAFEEE; border-radius: 6px; padding: 4px 12px; color: #EEE; text-align: center; cursor: pointer; }
 #home .begin:hover { border-color: #FDA; color: #FFF; }
-#home .begin.disabled { opacity: 0.8; color: #000; }
+#home .begin.disabled { opacity: 0.8; color: #000; cursor: default; }
 #home .begin.disabled:hover { border-color: #DDD; }
 
 /* DOG / USER */
@@ -130,7 +130,7 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #thanks h3 { color: #028; }
 #thanks .avatar { margin: 1rem; display: inline-block; width: 6rem; height: 8rem; background-size: cover; background-position: top center; border-radius: 4px; }
 #thanks #user_avatar { margin-right: 2.5rem; }
-#thanks #home_button { margin-top: 2rem; width: 2.7rem; height: 2.7rem; background: url('ui/home.png'); background-size: 100% 100%; display: inline-block; cursor:pointer; }
+#thanks #home_button { margin-top: 2rem; width: 2.7rem; height: 2.7rem; background: url('ui/home.png'); background-size: 100% 100%; display: inline-block; cursor: pointer; }
 
 /* SURVEY */
 /* TODO cleanup needed from here down */
