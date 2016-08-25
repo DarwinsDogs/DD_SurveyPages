@@ -21,7 +21,7 @@ if (strlen($dog['image']) == 0) $dog['image'] = '0';
 	<input type="hidden" name="id" value="<?php echo $dog['id']; ?>">
 <?php
 if ($idpage == '') echo '<h3>Oh Boy, a New Dog!</h3>';
-else echo '<h3><span class="dog_name">' . $dog['name'] . '</span>\'s Profile</h3>';
+else echo '<h3>' . $dog['name'] . '\'s Profile</h3>';
 ?>
 	<fieldset>
 		<legend>Please tell us this dog's name</legend>

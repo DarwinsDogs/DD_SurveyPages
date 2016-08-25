@@ -13,5 +13,6 @@ Coming soon ...
 <ul>
 <li><?php echo ($nsurvey > 1 ? $nsurvey . ' surveys' : ($nsurvey == 1 ? '1 survey' : 'no surveys')); ?> complete</li>
 <li><?php echo ($dog['barcode'] > 1 ? 'Kit Sent: ' . $dog['barcode'] : 'No Kit Sent' ) ?></li>
+<li><a href="?pg=sports&amp;id=<?php echo $dog['id']; ?>">Activity Recommendations (Work In Progress)</a></li>
 </ul>
 </div>

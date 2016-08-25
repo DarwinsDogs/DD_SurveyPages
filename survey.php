@@ -100,9 +100,8 @@ function show_question($question, $n, $count) {
 		"\t", '<fieldset class="controls">',
 		"\t\t", '<div class="comment_button" id="comment_button_', $n, '" onclick="toggle_comment(', $n, ');">Add a comment<br/>',
 			'<span id="comment_label_', $n, '" style="display: ', (strlen($question['notes']) > 1 ? 'inline' : 'none'), ';">comment saved</span></div>', PHP_EOL,
-		"\t\t", ($n < $count - 1 ?
-			'<div class="next" id="next_' . $n . '" onclick="show_question(' . ($n + 1) . ');"></div>' :
-			'<div class="finish" style="display: none;">SUBMIT</div>' ),
+		"\t\t", ($n == $count - 1 ? '<div id="finish" style="display: none;" onclick="finish_survey()">SUBMIT</div>' : ''),
+			'<div class="next" id="next_' . $n . '" ', ($n < $count - 1 ? 'onclick="show_question(' . ($n + 1) . ');"></div>' : 'style="display: none;"></div>'),
 			($n > 0 ? '<div class="back" onclick="show_question(' . ($n - 1) . ');"></div>' : '' ), PHP_EOL,
 		"\t", '</fieldset>', PHP_EOL,
 		"\t", '<div class="comment hidden" id="comment_', $n, '"><textarea placeholder="Enter comments here" id="comment_text_', $n, '" onchange="save_comment(', $n, ');">',
@@ -141,17 +140,20 @@ var started = <?php echo ($nextq > 0 ? 'true' : 'false'); ?>;
 var sn = <?php echo $npage - 1; ?>;
 var dn = <?php echo $dog['id']; ?>;
 var surveys = '<?php echo $dog['surveys']; ?>';
+function finish_survey() {
+	var i;
+	for (i = 0; i < questions.length && !(questions[i].answer === null || questions[i].answer === ''); i++);
+	/* ensure all questions are complete, otherwise show incomplete question */
+	if (i < questions.length) return show_question(i);
+	/* submit survey and go to thanks page */
+	surveys = surveys.substr(0, sn) + '3' + surveys.substr(sn + 1);
+	params = 'type=survey&id=' + dn + '&surveys=' + surveys;
+	post_data(params, function() { window.location = '?pg=thanks&n=' + (sn + 1); });
+}
 function show_question(n) {
 	/* check if we are allowed to see this question yet */
 	var i;
 	for (i = 0; i < questions.length && !(questions[i].answer === null || questions[i].answer === ''); i++);
-	/* if we finished the last question, submit survey, and go to thanks page */
-	if (n == questions.length && i == n) {
-		surveys = surveys.substr(0, sn) + '3' + surveys.substr(sn + 1);
-		params = 'type=survey&id=' + dn + '&surveys=' + surveys;
-		post_data(params, function() { window.location = '?pg=thanks&n=' + (sn + 1); });
-		return;
-	}
 	if (n < 0 || n > i) return;
 	if (i > n) document.getElementById('next_' + n).style.opacity = 1.0;
 	else document.getElementById('next_' + n).style.opacity = 0.65;
@@ -178,6 +180,7 @@ function answer_generic(n, a) {
 	questions[n].answer = a;
 	questions[n].changed = true;
 	document.getElementById('qball_' + n).className += ' qball_filled';
+	if (n == questions.length - 1) document.getElementById('finish').style.display = 'block';
 }
 function answer_likert(n, a) {
 	for (var i = 0; i < questions[n].nopts; i++)
