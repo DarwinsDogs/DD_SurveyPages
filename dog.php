@@ -56,7 +56,7 @@ else echo '<h3>' . $dog['name'] . '\'s Profile</h3>';
 	<fieldset id="buttons">
 <?php if ($idpage == ''): ?>
 	<p style="margin-right: 1em;">I, <b><?php echo $user['first'] . ' ' . $user['last']; ?></b>, have
-	read the <a href="http://members.darwinsdogs.org/consent.pdf" target="_blank">Consent Form</a>
+	read the <a href="<?php echo $dd_root; ?>/consent.pdf" target="_blank">Consent Form</a>
 	and the nature of the research has been made clear to me. I have been given a copy of this form.
 	I have had an opportunity to ask questions about the project and understand that I can ask
 	questions at any time.  I agree to allow my dog, <b><span class="dog_name">________</span></b>,

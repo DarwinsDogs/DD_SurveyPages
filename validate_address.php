@@ -53,7 +53,7 @@ class AddressOption {
 class AddressBox {
 	private $out = '';
 	function __construct($addrStr) {
-		$ch = curl_init('https://maps-api-ssl.google.com/maps/api/geocode/xml?address=' . $addrStr . '&sensor=false');
+		$ch = curl_init('http://maps-api-ssl.google.com/maps/api/geocode/xml?address=' . $addrStr . '&sensor=false');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$xmlAddr = new SimpleXMLElement(curl_exec($ch));
 		curl_close($ch);

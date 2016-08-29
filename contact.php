@@ -27,8 +27,8 @@ if (isset($_POST) && isset($_POST['name']) && isset($_POST['email']) && isset($_
 	<h3>Leave us feedback or ask a question</h3>
 	<fieldset>
 		<legend>What's on your mind?</legend>
-		<p>Please first check our <a href="http://darwinsdogs.org/?page_id=604" target="_blank">frequently asked questions</a> to see if your question has already been addressed there.
-		Additionally, you may find further information in our <a href="http://darwinsdogs.org/?page_id=30" target="_blank">discussion forums</a>.</p>
+		<p>Please first check our <a href="<?php echo $dd_home; ?>?page_id=604" target="_blank">frequently asked questions</a> to see if your question has already been addressed there.
+		Additionally, you may find further information in our <a href="<?php echo $dd_home; ?>?page_id=30" target="_blank">discussion forums</a>.</p>
 		<textarea id="message" name="message" placeholder="Type your message here"><?php if ($argpage == 'retire') echo 'Please retire my dog ', $dog['name'], ' (id=', $dog['id'], ').', PHP_EOL, PHP_EOL; ?></textarea>
 	</fieldset>
 	<fieldset>

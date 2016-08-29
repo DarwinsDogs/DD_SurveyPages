@@ -147,8 +147,8 @@ function finish_survey() {
 	if (i < questions.length) return show_question(i);
 	/* submit survey and go to thanks page */
 	surveys = surveys.substr(0, sn) + '3' + surveys.substr(sn + 1);
-	params = 'type=survey&id=' + dn + '&surveys=' + surveys;
-	post_data(params, function() { window.location = '?pg=thanks&n=' + (sn + 1); });
+	params = 'type=survey&id=' + dn + '&surveys=' + surveys + '&n=' + (sn + 1);
+	post_data(params, function() { window.location = '?pg=thanks&n=' + (sn + 1) + '&id=' + dn; });
 }
 function show_question(n) {
 	/* check if we are allowed to see this question yet */

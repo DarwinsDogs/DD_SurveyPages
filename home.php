@@ -62,11 +62,11 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 if ($nshowing == 0): ?>
 	<div class="survey_token_thanks">
 	Thanks for your hard work. You have completed all currently available surveys.  Feel free to join us on the
-	<a href="http://darwinsdogs.org/?page_id=30">forums</a> and please check back here for new surveys that may be added.
+	<a href="<?php echo $dd_home; ?>?page_id=30">forums</a> and please check back here for new surveys that may be added.
 	Also please be sure your mailing address is validated and confirmed in your profile so you can receive a DNA sampling
-	kit (<a href="http://darwinsdogs.org/?topic=confirm-your-mailing-addresss-step-by-step">instructions</a>).<br/><br/>
+	kit (<a href="<?php echo $dd_home; ?>?topic=confirm-your-mailing-addresss-step-by-step">instructions</a>).<br/><br/>
 	You can review your answers and see how other owners are answering by clicking on the survey tokens on the right.
-	You can also download a copy of the raw data for your answers <a href="http://members.darwinsdogs.org/spreadsheet.php">here</a>.
+	You can also download a copy of the raw data for your answers <a href="<?php echo $dd_root; ?>spreadsheet.php">here</a>.
 	</div>
 <?php else: ?>
 	<div class="ncompleted" style="color: #666; font-size: 0.8em;"

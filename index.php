@@ -1,8 +1,10 @@
 <?php
-$dd_root = 'http://darwinsdogs.org/~jmcclure/draft/';
+$dd_root = 'https://darwinsdogs.org/~jmcclure/draft/';
+$dd_home = 'https://darwinsdogs.org/';
+
 if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
-//else { header('Location: http://darwinsdogs.org/wp-login.php?redirect_to=?page_id=164'); die(); }
-else { header('Location: http://darwinsdogs.org/wp-login.php'); die(); }
+else { header('Location: ' . $dd_home . 'wp-login.php'); die(); }
+
 if (isset($_GET['pg'])) $page = $_GET['pg'];
 else $page = 'home';
 if (isset($_GET['n'])) $npage = $_GET['n'];
@@ -28,7 +30,7 @@ $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
 $stmt->bindValue(':id', $uid, PDO::PARAM_INT);
 if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$user) { header('Location: http://darwinsdogs.org'); }
+if (!$user) { header('Location: ' . $dd_home); }
 
 function toggle_sidebar() {
 	global $sidebar, $page;
@@ -61,10 +63,7 @@ if (strlen($user['image']) == 0) $user['image'] = '0';
 <html>
 <head>
 <title>Darwin's Dogs | Survey Site</title>
-<!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<link rel="icon" type="image/x-icon" href="http://darwinsdogs.org/wp-content/themes/dogtheme/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="<?php echo $dd_home; ?>/wp-content/themes/dogtheme/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="res/style.css">
 <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700|Overlock|Overlock+SC' rel='stylesheet' type='text/css'>
 </head>
@@ -77,7 +76,7 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 <!-- MAIN NAVIGATION -->
 <nav>
 <div id="bar">
-	<a href="http://darwinsdogs.org" title="return to the public site"><div id="logo"></div></a>
+	<a href="<?php echo $dd_home; ?>" title="return to the public site"><div id="logo"></div></a>
 	<ul>
 		<li class="nav_button"><a href="?pg=home">HOME</a></li>
 		<li class="nav_button"><a href="?pg=user">MEMBER PROFILE</a></li>
