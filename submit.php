@@ -1,5 +1,5 @@
 <?php
-$dd_root = 'http://darwinsdogs.org/~jmcclure/draft/';
+$dd_root = 'https://darwinsdogs.org/~jmcclure/draft/';
 if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
 else { die('{"success":false,"msg":"login error"}'); }
 
@@ -96,10 +96,14 @@ function submit_answer() {
 
 function submit_survey() {
 	global $db;
-	$query = 'UPDATE dogs SET surveys = :surveys WHERE id = :dog';
-	$stmt = $db->prepare($query);
+	$stmt = $db->prepare('UPDATE dogs SET surveys = :surveys WHERE id = :dog');
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':surveys', urldecode($_POST['surveys']), PDO::PARAM_STR);
+	if (!$stmt->execute()) log_err('answer', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	$stmt = $db->prepare('INSERT INTO fillouts ( dog, survey, timestamp ) VALUES ( :dog, :survey, :time )');
+	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
+	$stmt->bindValue(':survey', $_POST['n'], PDO::PARAM_INT);
+	$stmt->bindValue(':survey', time(), PDO::PARAM_INT);
 	if (!$stmt->execute()) log_err('answer', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
 }
 
