@@ -19,7 +19,9 @@ $name = Array(
 	'9' => 'Water Activities'
 );
 $title = Array(
-	'0' => 'Intro needed here',
+	'0' => 'In the near future we will be able to provide personalized recommendations ' .
+			'of activities that are likely to be best for your dog based on your survey answers.  In the mean time, ' .
+			'feel free to check out all the activities below which are all generally good for most dogs.' ,
 	'1' => 'Have a passion for competition and maybe want to showcase your talent? ' .
 		'Try these well known sports! Great for all levels: those just looking for something fun to pass the time or those who are in it to win it!',
 	'2' => 'Looking for a low key day? Just lay back and relax with these fun activities and toys to keep your dog occupied and entertained.',
