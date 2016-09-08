@@ -35,7 +35,7 @@ function submit_user() {
 	}
 	$stmt->bindValue(':phoneDay', $_POST['phoneDay'], PDO::PARAM_STR);
 	$stmt->bindValue(':phoneEve', $_POST['phoneEve'], PDO::PARAM_STR);
-	if (!$stmt->execute()) log_err('user', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('user', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
 function submit_dog() {
@@ -66,7 +66,7 @@ function submit_dog() {
 	$stmt->bindValue(':breed3', $_POST['breed3'], PDO::PARAM_STR);
 	if (isset($_POST['purebred'])) $stmt->bindValue(':purebred', $_POST['purebred'], PDO::PARAM_STR);
 	else $stmt->bindValue(':purebred', NULL, PDO::PARAM_NULL);
-	if (!$stmt->execute()) log_err('dog', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('dog', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 	if (! ($_POST['id'] > 0) && isset($_FILES)) {
 		$id = $db->lastInsertId();
 		if (!submit_image('dogs', $id)) return;
@@ -91,7 +91,7 @@ function submit_answer() {
 	$stmt->bindValue(':notes2', urldecode($_POST['notes']), PDO::PARAM_STR);
 	$stmt->bindValue(':time', time(), PDO::PARAM_INT);
 	$stmt->bindValue(':time2', time(), PDO::PARAM_INT);
-	if (!$stmt->execute()) log_err('answer', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('answer', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
 function submit_survey() {
@@ -99,12 +99,12 @@ function submit_survey() {
 	$stmt = $db->prepare('UPDATE dogs SET surveys = :surveys WHERE id = :dog');
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':surveys', urldecode($_POST['surveys']), PDO::PARAM_STR);
-	if (!$stmt->execute()) log_err('answer', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('answer', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 	$stmt = $db->prepare('INSERT INTO fillouts ( dog, survey, timestamp ) VALUES ( :dog, :survey, :time )');
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':survey', $_POST['n'], PDO::PARAM_INT);
 	$stmt->bindValue(':survey', time(), PDO::PARAM_INT);
-	if (!$stmt->execute()) log_err('answer', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('answer', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
 function submit_sports() {
@@ -113,7 +113,7 @@ function submit_sports() {
 	$stmt = $db->prepare($query);
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':answer', urldecode($_POST['answer']), PDO::PARAM_STR);
-	if (!$stmt->execute()) log_err('sports', $stmt->errorInfo() . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('sports', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
 $post_img = false;
