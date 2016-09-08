@@ -81,7 +81,7 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 		<li class="nav_button"><a href="?pg=home">HOME</a></li>
 		<li class="nav_button"><a href="?pg=user">MEMBER PROFILE</a></li>
 		<li class="nav_button"><a href="?pg=dog">ADD A DOG</a></li>
-		<li class="nav_button"><a href="?pg=contact">CONTACT</a></li>
+		<li class="nav_button"><a href="?pg=contact">CONTACT US</a></li>
 	</ul>
 </div>
 <div class="banner" style="background-image: url(<?php echo $dd_root . 'res/banners/' . $banner . $npage . '.jpg'; ?>);"></div>
@@ -132,9 +132,12 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 	Website and database implementation by Jesse McClure</div>
 </div>
 <div id="toggles">
-<?php if ($page == 'review'): ?>
+<?php if ($page == 'home'): ?>
+	<a href="<?php echo $dd_home; ?>">BACK TO PUBLIC PAGE</a>
+<?php elseif ($page == 'review'): ?>
 	<a href="#">TOP</a>
 <?php endif; echo toggle_sidebar(); ?>
+	<a href="?pg=contact&arg=bug_<?php echo $page; ?>">REPORT A BUG</a>
 </div>
 </footer>
 
@@ -146,8 +149,8 @@ function post_data(params, success) {
 	http = new XMLHttpRequest();
 	http.open('POST', dd_root + 'submit.php' , true);
 	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	http.setRequestHeader('Content-length', params.length);
-	http.setRequestHeader('Connection', 'close');
+//	http.setRequestHeader('Content-length', params.length);
+//	http.setRequestHeader('Connection', 'close');
 	http.onreadystatechange = function () {
 		if (http.readyState == 4 && http.status == 200) {
 			var ret = JSON.parse(this.responseText);
