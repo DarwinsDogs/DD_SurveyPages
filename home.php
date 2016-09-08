@@ -16,6 +16,7 @@ $surveys = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <h5>Up next for <?php echo $user['first']; ?></span></h5>
 <?php
 $complete_column = '';
+$redos = '';
 $nsurveys = 0;
 $nshowing = 0;
 $ndone = 0;
@@ -56,6 +57,9 @@ for ($i = 0; $i < count($surveys); $i += count($dogs)) {
 	else if ($complete == $ndogs) {
 		$complete_column .= "\t" . '<div class="survey_token" onclick="window.location=\'?pg=review&n=' . $survey['id'] . '\'" style="background: rgb(' . $survey['color'] . ');">' .
 			'<h6 id="survey_name">' . $survey['title'] . '</h6><a href="#">Review</a></div>' . PHP_EOL;
+		for ($j = 0; $j < count($dogs); $j++)
+			$redos .= '<div class="begin" onclick="window.location=\'?pg=contact&arg=redo_' . urlencode($survey['title']) . '_' . $survey['id'] . '&id=' . $dogs[$j]['id'] . '\'" ' .
+					'style="background: rgba(' . $survey['color'] . ',1);">Redo "' . $survey['title'] . '" for ' . $dogs[$j]['name'] . '</div>' . PHP_EOL;
 		$ndone++;
 	}
 }
@@ -78,11 +82,14 @@ if ($nshowing == 0): ?>
 <div id="surveys_completed">
 	<h5 title="See how your dogs compare to our population data">Completed</h5>
 <?php echo $complete_column; ?>
+	<a class="fontlink" id="request_redo" onclick="redo_popup();">REQUEST A REDO</a>
+	<div class="survey_selector" id="redo_list" style="display: none; font-size: 80%;"><?php echo $redos; ?></div>
 </div>
 </div>
 <script type="text/javascript">
 function m() { alert("hello"); }
 function hide_popups() { var pops = document.getElementsByClassName('survey_selector'); for (i = 0; i < pops.length; i++) { pops[i].style.display = 'none'; } }
 function survey_popup(n) { hide_popups(); var pop = document.getElementById('survey_selector_' + n); pop.style.left = event.clientX + 'px'; pop.style.top = event.clientY + 'px'; pop.style.display = 'block'; }
+function redo_popup() { hide_popups(); var pop = document.getElementById('redo_list'); pop.style.display = 'block'; pop.style.top = (event.clientY - pop.clientHeight) + 'px'; pop.style.left = (event.clientX - pop.clientWidth) + 'px'; }
 window.document.onmouseup = function () { hide_popups(); }
 </script>
