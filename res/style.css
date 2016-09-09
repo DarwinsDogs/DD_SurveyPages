@@ -187,26 +187,24 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 
 /* REVIEW */
 #review .review_block { padding-bottom: 2em; }
-#review .likert { display: inline-block;}
+#review .qstring { font-weight: bold; color: #026; }
+#review .no_such { color: red; }
+
+#review .likert { display: inline-block; }
 #review .likert .label, #review .likert .dogs { width: 100%; text-align: center; padding: 0.5em 0.25em; }
 #review .likert .bar { width: 100%; height: 2em; }
 #review .likert .bar.first { border-radius: 14px 0px 0px 14px; }
 #review .likert .bar.last { border-radius: 0px 14px 14px 0px; }
-#review .no_such { color: red; }
+
+#review .numeric { text-align: left; width: 98%; border-spacing: 0; border-collapse: collapse; }
+#review .numeric tr:first-child th { color: #028; cursor: pointer; }
+#review .numeric tr:first-child th:first-child { color: black; cursor: auto; }
+#review .numeric tr:first-child th { border-top: 2px solid black; border-bottom: 1px solid black; }
+#review .numeric tr:last-child td { border-top: 1px solid black; border-bottom: 2px solid black; }
+#review .numeric tr:last-child td:first-child { font-weight: bold; }
+#review .footnotes { text-align: left; margin-top: 1rem; padding-left: 1rem; font-size: 0.75rem; line-height: 0.7rem; }
+#review .footnotes tr th:first-child { width: 4rem; }
+#review .footnotes tr td:first-child { color: #028; }
 
 /*
-#review_page .review_block { margin-bottom: 1.5rem; }
-#review_page .review_block p { font-weight: bold; color: #026; }
-#review_page .review_block canvas { width: 43rem; height: 10rem; margin-left: 1rem; }
-#review_page .review_block .table_results { text-align: left; width: 43rem; border-spacing: 0; border-collapse: collapse; }
-#review_page .review_block .table_results tr:first-child th { color: #028; cursor: pointer; }
-#review_page .review_block .table_results tr:first-child th:first-child { color: black; cursor: auto; }
-#review_page .review_block .table_results tr:first-child th { border-top: 2px solid black; border-bottom: 1px solid black; }
-#review_page .review_block .table_results tr:last-child td { border-top: 1px solid black; border-bottom: 2px solid black; }
-#review_page .review_block .table_results tr:last-child td:first-child { font-weight: bold; }
-#review_page .review_block .table_results tr td { width: 4.5rem; }
-#review_page .review_block .table_results tr td:first-child { width: 11rem; }
-#review_page .review_block .table_footnotes { text-align: left; margin-top: 1rem; padding-left: 1rem; font-size: 0.75rem; line-height: 0.7rem; }
-#review_page .review_block .table_footnotes tr th:first-child { width: 4rem; }
-#review_page .review_block .table_footnotes tr td:first-child { color: #028; }
 */

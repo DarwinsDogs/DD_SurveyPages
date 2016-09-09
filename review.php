@@ -50,14 +50,53 @@ function review_likert($q) {
 	}
 }
 
+function review_multinumeric($q) {
+	global $db, $user, $colors, $dogs;
+	$opts = explode('|', preg_replace('/ ?\([^)]*\)/', '', $q['options']));
+	$qstr = 'SELECT AVG(SUBSTRING_INDEX(SUBSTRING_INDEX(answer,"|",1),"|",-1)) AS opt0';
+	for ($i = 1; $i < count($opts); $i++)
+		$qstr .= ', AVG(SUBSTRING_INDEX(SUBSTRING_INDEX(answer,"|",' . ($i + 1) . '),"|",-1)) AS opt' . $i;
+	$qstr .= ' FROM answers WHERE question = :qn';
+	$stmt = $db->prepare($qstr);
+	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
+	if (!$stmt->execute()) die('Query error: ' . print_r($stmt->errorInfo(),true));
+	$means = $stmt->fetch(PDO::FETCH_ASSOC);
+	$stmt = $db->prepare('SELECT name, answer FROM answers, dogs WHERE dog = dogs.id AND question = :qn AND owner = :uid AND NOT dogs.flags & 1');
+	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
+	$stmt->bindValue(':uid', $user['id'], PDO::PARAM_INT);
+	if (!$stmt->execute()) die('Query error: ' . print_r($stmt->errorInfo(),true));
+	$review = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	echo '<table class="numeric"><tbody>', PHP_EOL, "\t", '<tr><th>Dog</th>';
+	for ($i = 0; $i < count($opts); $i++)
+		echo '<th title="', $opts[$i], '">', ($i+1), '</th>';
+	echo '</tr>', PHP_EOL;
+	foreach ($review as $r) {
+		$ans = explode('|', $r['answer']);
+		echo "\t", '<tr><td>', $r['name'], '</td>';
+		foreach ($ans as $a) echo '<td>', $a, '</td>';
+		echo '</tr>', PHP_EOL;
+	}
+	echo "\t", '<tr><td>Darwin\'s Dogs Average</td>';
+		foreach ($means as $mean) echo '<td>', round($mean, 2), '</td>';
+	echo '</tr>', PHP_EOL;
+	echo '</tbody></table>', PHP_EOL;
+	echo '<table class="footnotes"><tbody>', PHP_EOL,
+		"\t", '<tr><th>Category</th><th>Description</th></tr>', PHP_EOL;
+	for ($i = 0; $i < count($opts); $i++)
+		echo '<tr><td>', ($i + 1), '</td><td>', $opts[$i], '</td></tr>', PHP_EOL;
+	echo '</tbody></table>', PHP_EOL;
+}
+
+
 echo '<h3>Review for "', $title, '"</h3>', PHP_EOL,
 	'<b>See how your ', (count($dogs) > 1 ? 'dogs compare' : 'dog compares'), ' to other dogs in the project:</b>', PHP_EOL;
 foreach ($review as $q) {
 	// TODO DOG -> your dog; HE -> he/she; HIS -> his/her
 	echo '<!-- Question ', $q['id'], ' -->', PHP_EOL,
-		'<div class="review_block"><p>', $q['string'], '</p>';
+		'<div class="review_block"><p class="qstring">', $q['string'], '</p>', PHP_EOL;
 	switch ($q['format']) {
 		case 'Likert': review_likert($q); break;
+		case 'MultiNumeric': review_multinumeric($q); break;
 		default: echo '<p class="no_such">No review available for this format yet</p>', PHP_EOL;
 	}
 	echo '</div>', PHP_EOL;
