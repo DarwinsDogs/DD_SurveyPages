@@ -50,11 +50,35 @@ else echo '<h3>' . $dog['name'] . '\'s Profile</h3>';
 		<input class="breed" type="text" name="breed1" value="<?php echo $dog['breed1']; ?>"><br/>
 		<input class="breed" type="text" name="breed2" value="<?php echo $dog['breed2']; ?>"><br/>
 		<input class="breed" type="text" name="breed3" value="<?php echo $dog['breed3']; ?>"><br/>
-		<input type="checkbox" name="purebred" value="yes"<?php if ($dog['purebred'] == 'yes') echo ' checked'; ?>> Check here if <span class="dog_name">the dog</span> is a registered purebred.
+		<input type="checkbox" name="purebred" value="yes"<?php if ($dog['purebred'] == 'yes') echo ' checked'; ?>> Check here if <span class="dog_name">the dog</span> is a registered purebred.<br/>
+<?php if ($dog['id'] > 0 && $dog['dom_entry'] == 'yes'): ?>
+		<input type="checkbox" name="dom_entry" value="yes" onclick="dog_month();" checked> Check here to enter <span class="dog_name">your dog</span> into the Dog of The Month.
+<?php elseif ($dog['id'] > 0): ?>
+		<input type="checkbox" name="dom_entry" value="yes" onclick="dog_month();"> Check here to enter <span class="dog_name">your dog</span> into the Dog of The Month.
+<?php endif; ?>
+	</fieldset>
+<div id="dog_month" <?php if ($dog['dom_entry'] != 'yes') echo ' class="hidden"'; ?>>
+	<h3>Enter <span class="dog_name">your dog</span> into "Dog of the Month"</h3>
+	<p class="warn">Entering your dog in "Dog of the Month" implies consent for
+	us to share your dog's name, photo, and the information provided below
+	publicly on our website, social media sites, and in print.</p>
+	<fieldset>
+		<legend>One sentence introduction for <span class="dog_name">your dog</span>:</legend>
+		<input type="text" name="summary" value="<?php echo $dog['summary']; ?>"
+			placeholder="e.g., <?php echo ($dog['age'] ? $dog['age'] : '4'); ?> year old <?php echo ($dog['breed1'] ? $dog['breed1'] : 'chocolate lab'); ?> who loves to swim in the water and play all day!"
+			maxlength="100"><br/>
+		<legend>Share a fun story about <span class="dog_name">your dog</span>:</legend>
+		<textarea name="fun_story" maxlength="2048"><?php echo $dog['fun_story']; ?></textarea>
+		<legend>One interesting quirk about <span class="dog_name">your dog</span>:</legend>
+		<input type="text" name="quirk" value="<?php echo $dog['quirk']; ?>" maxlength="250"><br/>
+		<legend>Something that <span class="dog_name">your dog</span> does best:</legend>
+		<input type="text" name="does_best" value="<?php echo $dog['does_best']; ?>" maxlength="250"><br/>
+	</fieldset>
+</div>
 	</fieldset>
 	<div id="consent">
 	<fieldset id="buttons">
-<?php if ($idpage == ''): ?>
+<?php if ($dog['id'] == 0): ?>
 	<p style="margin-right: 1em;">I, <b><?php echo $user['first'] . ' ' . $user['last']; ?></b>, have
 	read the <a href="<?php echo $dd_root; ?>/consent.pdf" target="_blank">Consent Form</a>
 	and the nature of the research has been made clear to me. I have been given a copy of this form.
@@ -95,5 +119,9 @@ function preview() {
 	reader.onload = function (e) { document.getElementById("new_image").style.backgroundImage = "url(" + e.target.result + ")"; }
 	reader.readAsDataURL(this.files[0]);
 }
-function sub_load() { if (<?php echo ($idpage != '' ?'true' : 'false'); ?>) update(); }
+function dog_month() {
+	document.getElementById('dog_month').classList.toggle('hidden');
+	update_height();
+}
+function sub_load() { if (<?php echo ($idpage != '' ? 'true' : 'false'); ?>) update(); }
 </script>

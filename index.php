@@ -128,7 +128,6 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 <footer>
 <div id="copy">&copy; Copyright 2015 Darwin's Dogs
 	<div id="contribute">Graphic design by Brian Prendergast<br/>
-	Database design by Chris Hancock<br/>
 	Website and database implementation by Jesse McClure</div>
 </div>
 <div id="toggles">
