@@ -41,18 +41,13 @@ function submit_user() {
 function submit_dog() {
 	global $db;
 	if ($_POST['id'] > 0) {
-		$stmt = $db->prepare('
-			UPDATE dogs SET name = :name, sex = :sex, neutered = :neutered, age = :age, birthday = :birthday,
-			image = :image, breed1 = :breed1, breed2 = :breed2, breed3 = :breed3, purebred = :purebred  WHERE id = :id'
-		);
+		$stmt = $db->prepare('UPDATE dogs SET name = :name, sex = :sex, neutered = :neutered, age = :age, birthday = :birthday, breed1 = :breed1, breed2 = :breed2, breed3 = :breed3, purebred = :purebred,
+				summary = :summary, quirk = :quirk, does_best = :does_best, fun_story = :fun_story, dom_entry = :dom_entry WHERE id = :id');
 		$stmt->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
-		if (submit_image('dogs', $_POST['id'])) $stmt->bindValue(':image', $_POST['id'], PDO::PARAM_INT);
 	}
 	else {
-		$stmt = $db->prepare('
-			INSERT INTO dogs ( name, sex, neutered, age, birthday, breed1, breed2, breed3, purebred, owner, consent_date, flags )
-			VALUES ( :name, :sex, :neutered, :age, :birthday, :breed1, :breed2, :breed3, :purebred, :owner, :consent_date, 0 )'
-		);
+		$stmt = $db->prepare('INSERT INTO dogs ( name, sex, neutered, age, birthday, breed1, breed2, breed3, purebred, owner, consent_date, flags )
+			VALUES ( :name, :sex, :neutered, :age, :birthday, :breed1, :breed2, :breed3, :purebred, :owner, :consent_date, 0 )');
 		$stmt->bindValue(':owner', $_POST['owner'], PDO::PARAM_INT);
 		$stmt->bindValue(':consent_date', time(), PDO::PARAM_INT);
 	}
@@ -64,11 +59,19 @@ function submit_dog() {
 	$stmt->bindValue(':breed1', $_POST['breed1'], PDO::PARAM_STR);
 	$stmt->bindValue(':breed2', $_POST['breed2'], PDO::PARAM_STR);
 	$stmt->bindValue(':breed3', $_POST['breed3'], PDO::PARAM_STR);
+	if ($_POST['id'] > 0) {
+		$stmt->bindValue(':summary', $_POST['summary'], PDO::PARAM_STR);
+		$stmt->bindValue(':quirk', $_POST['quirk'], PDO::PARAM_STR);
+		$stmt->bindValue(':does_best', $_POST['does_best'], PDO::PARAM_STR);
+		$stmt->bindValue(':fun_story', $_POST['fun_story'], PDO::PARAM_STR);
+		if (isset($_POST['dom_entry'])) $stmt->bindValue(':dom_entry', $_POST['dom_entry'], PDO::PARAM_STR);
+		else $stmt->bindValue(':dom_entry', NULL, PDO::PARAM_NULL);
+	}
 	if (isset($_POST['purebred'])) $stmt->bindValue(':purebred', $_POST['purebred'], PDO::PARAM_STR);
 	else $stmt->bindValue(':purebred', NULL, PDO::PARAM_NULL);
 	if (!$stmt->execute()) log_err('dog', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
-	if (! ($_POST['id'] > 0) && isset($_FILES)) {
-		$id = $db->lastInsertId();
+	if (isset($_FILES)) {
+		$id = ($_POST['id'] > 0 ? $_POST['id'] : $id = $db->lastInsertId());
 		if (!submit_image('dogs', $id)) return;
 		$stmt = $db->prepare('UPDATE dogs SET image = :image WHERE id = :id');
 		$stmt->bindValue(':image', $id, PDO::PARAM_INT);
@@ -119,13 +122,13 @@ function submit_sports() {
 $post_img = false;
 function submit_image($type, $id) {
 	global $post_img;
-	if (!isset($_FILES) || !isset($_FILES['images']) || !isset($_FILES['images']['tmp_name'])) return false;
+	if (!isset($_FILES) || !isset($_FILES['images']) || empty($_FILES['images']['tmp_name']) ) return false;
 	$check = getimagesize($_FILES['images']['tmp_name']);
 	if ($check == false  || $_FILES['images']['size'] > 8388608) return false;
 	$p1 = $dd_root . 'res/' . $type . '/' . $id . '.tmp';
 	$p2 = $dd_root . 'res/' . $type . '/' . $id . '.png';
 	if (move_uploaded_file($_FILES['images']['tmp_name'], $p1)) {
-		exec('convert ' . $p1 . ' -auto-orient -resize 150x200\> ' . $p2 . ' && rm ' . $p1);
+		exec('convert ' . $p1 . ' -auto-orient -resize 600x800\> ' . $p2 . ' && rm ' . $p1);
 		$post_img = true;
 		return true;
 	}
