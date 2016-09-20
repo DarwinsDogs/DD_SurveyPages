@@ -1,5 +1,6 @@
 <?php
 $dd_root = 'https://darwinsdogs.org/~jmcclure/draft/';
+$dd_path = '/home/jmcclure/public_html/draft/';
 if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
 else { die('{"success":false,"msg":"login error"}'); }
 
@@ -76,6 +77,7 @@ function submit_dog() {
 		$stmt = $db->prepare('UPDATE dogs SET image = :image WHERE id = :id');
 		$stmt->bindValue(':image', $id, PDO::PARAM_INT);
 		$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+		if (!$stmt->execute()) log_err('dog', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 	}
 }
 
@@ -106,7 +108,7 @@ function submit_survey() {
 	$stmt = $db->prepare('INSERT INTO fillouts ( dog, survey, timestamp ) VALUES ( :dog, :survey, :time )');
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':survey', $_POST['n'], PDO::PARAM_INT);
-	$stmt->bindValue(':survey', time(), PDO::PARAM_INT);
+	$stmt->bindValue(':time', time(), PDO::PARAM_INT);
 	if (!$stmt->execute()) log_err('answer', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
@@ -121,12 +123,12 @@ function submit_sports() {
 
 $post_img = false;
 function submit_image($type, $id) {
-	global $post_img;
+	global $post_img, $dd_path;
 	if (!isset($_FILES) || !isset($_FILES['images']) || empty($_FILES['images']['tmp_name']) ) return false;
 	$check = getimagesize($_FILES['images']['tmp_name']);
 	if ($check == false  || $_FILES['images']['size'] > 8388608) return false;
-	$p1 = $dd_root . 'res/' . $type . '/' . $id . '.tmp';
-	$p2 = $dd_root . 'res/' . $type . '/' . $id . '.png';
+	$p1 = $dd_path . 'res/' . $type . '/' . $id . '.tmp';
+	$p2 = $dd_path . 'res/' . $type . '/' . $id . '.png';
 	if (move_uploaded_file($_FILES['images']['tmp_name'], $p1)) {
 		exec('convert ' . $p1 . ' -auto-orient -resize 600x800\> ' . $p2 . ' && rm ' . $p1);
 		$post_img = true;
