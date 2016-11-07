@@ -1,15 +1,15 @@
 <?php
 if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die();
-if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( 'id' => '0', 'name' => '', 'sex' => '', 'neutered' => '', 'age' => '', 'birthday' => '', 'breed1' => '', 'breed2' => '', 'breed3' => '', 'purebred' => '', 'image' => '0'); }
+if ($idpage != '') { $dog = $dogs[0]; foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
+else { $dog = Array( 'id' => '0', 'name' => '', 'sex' => '', 'neutered' => '', 'age' => '', 'birthday' => '', 'breed1' => '', 'breed2' => '', 'breed3' => '', 'purebred' => '', 'image' => '0', 'dom_entry' => '', 'quirk' => '', 'fun_story' => '', 'does_best' => '', 'summary' => ''); }
 if (strlen($dog['image']) == 0) $dog['image'] = '0';
 ?>
 <div id="dog" class="nav_target profile">
-	<form id="dog_data" action="./submit.php" method="POST" enctype="multipart/form-data">
+	<form id="dog_data" action="lib/submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
-			style="background-image: url(<?php echo $dd_root, 'res/dogs/' . $dog['image'] . '.png'; ?>);"
+			style="background-image: url(<?php echo $dd_surveys, 'res/dogs/' . $dog['image'] . '.png'; ?>);"
 			onclick="document.getElementById('images').click();"></div>
 		<div class="msg">Click to change image.</div>
 	</div>
@@ -51,26 +51,37 @@ else echo '<h3>' . $dog['name'] . '\'s Profile</h3>';
 		<input class="breed" type="text" name="breed2" value="<?php echo $dog['breed2']; ?>"><br/>
 		<input class="breed" type="text" name="breed3" value="<?php echo $dog['breed3']; ?>"><br/>
 		<input type="checkbox" name="purebred" value="yes"<?php if ($dog['purebred'] == 'yes') echo ' checked'; ?>> Check here if <span class="dog_name">the dog</span> is a registered purebred.<br/>
-<?php if ($dog['id'] > 0 && $dog['dom_entry'] == 'yes'): ?>
-		<input type="checkbox" name="dom_entry" value="yes" onclick="dog_month();" checked> Check here to enter <span class="dog_name">your dog</span> into the Dog of The Month.
-<?php elseif ($dog['id'] > 0): ?>
-		<input type="checkbox" name="dom_entry" value="yes" onclick="dog_month();"> Check here to enter <span class="dog_name">your dog</span> into the Dog of The Month.
+		<a name="dom_entry"></a>
+<?php if ($dog['id'] > 0): ?>
+		<input type="checkbox" name="dom_entry" value="yes" onclick="dog_month();" <?php if ($dog['dom_entry'] == 'yes') echo 'checked'; ?>>
+		<span <?php if (isset($_GET['dom_entry'])) echo 'style="color: #028; font-weight: 700;" '; ?>>
+		Check here to enter <span class="dog_name">your dog</span> into the Dog of The Month.
+		</span>
 <?php endif; ?>
 	</fieldset>
 <div id="dog_month" <?php if ($dog['dom_entry'] != 'yes') echo ' class="hidden"'; ?>>
 	<h3>Enter <span class="dog_name">your dog</span> into "Dog of the Month"</h3>
 	<p class="warn">Entering your dog in "Dog of the Month" implies consent for
-	us to share your dog's name, photo, and the information provided below
-	publicly on our website, social media sites, and in print.</p>
+	us to share your dog's name, photo, breed, age, and the information provided
+	below publicly on our website, social media sites, and in print.  Note that
+	you must have a validated postal mailing address in your own profile in order
+	to be selected for dog of the month (We need to know where to send the
+	prize!)</p>
 	<fieldset>
 		<legend>One sentence introduction for <span class="dog_name">your dog</span>:</legend>
 		<input type="text" name="summary" value="<?php echo $dog['summary']; ?>"
 			placeholder="e.g., <?php echo ($dog['age'] ? $dog['age'] : '4'); ?> year old <?php echo ($dog['breed1'] ? $dog['breed1'] : 'chocolate lab'); ?> who loves to swim in the water and play all day!"
-			maxlength="100"><br/>
+			maxlength="100">
+	</fieldset>
+	<fieldset>
 		<legend>Share a fun story about <span class="dog_name">your dog</span>:</legend>
 		<textarea name="fun_story" maxlength="2048"><?php echo $dog['fun_story']; ?></textarea>
+	</fieldset>
+	<fieldset>
 		<legend>One interesting quirk about <span class="dog_name">your dog</span>:</legend>
 		<input type="text" name="quirk" value="<?php echo $dog['quirk']; ?>" maxlength="250"><br/>
+	</fieldset>
+	<fieldset>
 		<legend>Something that <span class="dog_name">your dog</span> does best:</legend>
 		<input type="text" name="does_best" value="<?php echo $dog['does_best']; ?>" maxlength="250"><br/>
 	</fieldset>
@@ -80,7 +91,7 @@ else echo '<h3>' . $dog['name'] . '\'s Profile</h3>';
 	<fieldset id="buttons">
 <?php if ($dog['id'] == 0): ?>
 	<p style="margin-right: 1em;">I, <b><?php echo $user['first'] . ' ' . $user['last']; ?></b>, have
-	read the <a href="<?php echo $dd_root; ?>/consent.pdf" target="_blank">Consent Form</a>
+	read the <a href="<?php echo $dd_surveys; ?>/consent.pdf" target="_blank">Consent Form</a>
 	and the nature of the research has been made clear to me. I have been given a copy of this form.
 	I have had an opportunity to ask questions about the project and understand that I can ask
 	questions at any time.  I agree to allow my dog, <b><span class="dog_name">________</span></b>,

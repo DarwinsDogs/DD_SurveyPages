@@ -15,7 +15,7 @@
 <a class="start" href="http://www.dogparkour.org/dog-parkour-training">Dog Parkour</a>
 <a class="train" href="https://www.youtube.com/watch?v=1w23KWpMCg8">Rebound off Walls</a>
 <a class="train" href="https://www.youtube.com/watch?v=Ok91VkD4H2w">Back Stall</a>
-<a class="examp" https://www.youtube.com/watch?v=39oGCTAJ9Vw">Parkour</a>
+<a class="examp" href="https://www.youtube.com/watch?v=39oGCTAJ9Vw">Parkour</a>
 </div>
 </div>
 
@@ -23,7 +23,7 @@
 <p>Are you a runner? Like to find new trails and challenge yourself? Why not take your dog with you! Canicross is cross country running with your dogs. All it takes is to teach your dog a few directional commands and strap on a harness and off you go on your next adventure!</p>
 <div class="links">
 <a class="start" href="http://www.poochto5k.com/wp-content/uploads/2012/01/PoochTo5kTimed.pdf">Pooch to 5k</a>
-<a class="start" href="http://www.canicrossusa.com/category/about-canicross/">Canicross USA</a>
+<a class="start" href="http://canicrossus.com/blog/what-is-canicross-and-how-do-i-get-started">Canicross US</a>
 <a class="train" href="https://www.youtube.com/watch?v=h6PWX9oRuQY">Tips & Tricks</a>
 <a class="examp" href="https://www.youtube.com/watch?v=vq5Z21-TF2M">Canicross Championship</a>
 </div>

@@ -1,1 +1,1 @@
-<?php header('Location: ' . $dd_root . '?pg=sports'); ?>
+<?php header('Location: ' . $dd_surveys . '?pg=sports'); ?>

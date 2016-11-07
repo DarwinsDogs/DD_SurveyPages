@@ -8,7 +8,7 @@
 </div>
 
 <div class="subsport"><span>Mondioring</span>
-<p>This intense sport will truly challenge your dog. The sport consisting of seventeen exercises total and approximately lasts forty-five min is a full course of obedience and training.</p>
+<p>This intense sport will truly challenge your dog. Mondioring consisting of seventeen exercises lasting aproximately forty-five minutes and is a full course of obedience and training.</p>
 <div class="links">
 <a class="start" href="http://www.usmondioring.org/mondioring/">US Mondioring</a>
 <a class="start" href="https://dogvacay.com/blog/mondioring-the-dog-sport/">What is Mondioring</a>

@@ -1,7 +1,8 @@
 <?php
 if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die();
 if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { header('Location: ' . $dd_root); }
+else if ($dogs) { $dog = $dogs[0]; }
+else { header('Location: https://members.darwinsdogs.org'); }
 
 if ($dog['sex'] == 'male') { $pnoun = 'he'; $ppnoun = 'his'; }
 else if ($dog['sex'] == 'female') { $pnoun = 'she'; $ppnoun = 'her'; }
@@ -63,9 +64,11 @@ function choices($question, $n, $multi) {
 function multi($question, $n, $text) {
 	$opts = explode('|', $question['options']);
 	$a = explode('|', $question['answer']);
-	for ($i = 0; $i < count($opts); $i++) echo
-		"\t\t", '<div class="answer_multi"><input type="', ($text ? 'text' : 'number'), '" class="tinput" id="tinput_', $n, '_', $i,
-		'" onchange="answer_multi(', $n, ',', ($text ? 'true': 'false'), ');" ', 'value="', $a[$i], '"/><span>', $opts[$i], '</span></div>', PHP_EOL; // TODO $a[$i] may not be defined
+	for ($i = 0; $i < count($opts); $i++) {
+		$ai = (isset($a[$i]) ? $a[$i] : '');
+		echo "\t\t", '<div class="answer_multi"><input type="', ($text ? 'text' : 'number'), '" class="tinput" id="tinput_', $n, '_', $i,
+		'" onchange="answer_multi(', $n, ',', ($text ? 'true': 'false'), ');" ', 'value="', $ai, '"/><span>', $opts[$i], '</span></div>', PHP_EOL;
+	}
 }
 
 function text_numeric($question, $n, $text) {
@@ -74,18 +77,18 @@ function text_numeric($question, $n, $text) {
 }
 
 function show_question($question, $n, $count) {
-	global $dog, $pnoun, $ppnoun, $dd_root;
+	global $dog, $pnoun, $ppnoun, $dd_surveys;
 	$qstr = str_replace('DOG', $dog['name'], $question['question']);
 	$qstr = str_replace('HE', $pnoun, $qstr); $qstr = str_replace('HIS', $ppnoun, $qstr);
 	echo '<!-- ', $question['id'], '. ', $question['question'], ' -->', PHP_EOL,
 		'<form class="question" id="question_', $n, '" style="display: none;">', PHP_EOL,
-		"\t", '<fieldset class="qstring"><div class="photo" style="background-image: url(', $dd_root, 'res/dogs/', $dog['image'], '.png);"></div>',
+		"\t", '<fieldset class="qstring"><div class="photo" style="background-image: url(', $dd_surveys, 'res/dogs/', $dog['image'], '.png);"></div>',
 		'<span class="text">', $qstr, '</span></fieldset>', PHP_EOL;
 	if ($question['image'] == $question['id']) echo
-		"\t", '<fieldset class="example"><img class="image" src="', $dd_root, 'res/examples/', $question['id'], '.png"></fieldset>', PHP_EOL,
+		"\t", '<fieldset class="example"><img class="image" src="', $dd_surveys, 'res/examples/', $question['id'], '.png"></fieldset>', PHP_EOL,
 		"\t", '<fieldset class="answer">', PHP_EOL;
 	else echo
-		"\t", '<fieldset class="answer">', PHP_EOL;
+		"\t", '<fieldset class="answer" style="width: 100%;">', PHP_EOL;
 	switch ($question['format']) {
 		case 'Likert': likert($question, $n); break;
 		case 'Text': text_numeric($question, $n, true); break;
@@ -121,7 +124,7 @@ function show_question($question, $n, $count) {
 </fieldset>
 <!-- Intro -->
 <form class="question" id="survey_<?php echo $survey['id']; ?>">
-	<fieldset class="qstring"><div class="photo" style="background-image: url(<?php echo $dd_root, 'res/dogs/', $dog['image']; ?>.png);"></div></fieldset>
+	<fieldset class="qstring"><div class="photo" style="background-image: url(<?php echo $dd_surveys, 'res/dogs/', $dog['image']; ?>.png);"></div></fieldset>
 	<fieldset class="answer"><div class="intro"><?php echo $survey['intro']; ?></div></fieldset>
 	<fieldset class="controls"><div class="start" onclick="show_question(0);"></div></fieldset>
 </form>
@@ -142,6 +145,7 @@ var dn = <?php echo $dog['id']; ?>;
 var surveys = '<?php echo $dog['surveys']; ?>';
 function finish_survey() {
 	var i;
+	if (cur >= 0 && cur < questions.length && questions[cur].changed) submit_answer(cur);
 	for (i = 0; i < questions.length && !(questions[i].answer === null || questions[i].answer === ''); i++);
 	/* ensure all questions are complete, otherwise show incomplete question */
 	if (i < questions.length) return show_question(i);
@@ -155,7 +159,11 @@ function show_question(n) {
 	var i;
 	for (i = 0; i < questions.length && !(questions[i].answer === null || questions[i].answer === ''); i++);
 	if (n < 0 || n > i) return;
-	if (i > n) document.getElementById('next_' + n).style.opacity = 1.0;
+	if (n >= questions.length) {
+		n = questions.length - 1;
+		document.getElementById('finish').style.display = 'block';
+	}
+	else if (i > n) document.getElementById('next_' + n).style.opacity = 1.0;
 	else document.getElementById('next_' + n).style.opacity = 0.65;
 	/* submit current question if needed */
 	if (cur >= 0 && cur < questions.length && questions[cur].changed) submit_answer(cur);
@@ -239,7 +247,7 @@ function submit_answer(n) {
 	post_data(params, function() { questions[n].changed = false; });
 	if (!started) {
 		surveys = surveys.substr(0, sn) + '1' + surveys.substr(sn + 1);
-		params = 'type=survey&id=' + dn + '&surveys=' + surveys;
+		params = 'type=survey&id=' + dn + '&surveys=' + surveys + '&n=' + (sn + 1);
 		post_data(params, function() { started = true; });
 	}
 }

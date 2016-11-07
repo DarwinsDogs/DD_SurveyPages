@@ -1,5 +1,5 @@
 <div class="subsport"><span>Barn Hunt</span>
-<p>It’s known that dogs have a great sense of smell. Now there’s a sport for all types of dogs to get involved in and really utilize their gift. Using their powerful noses, the dogs are familiarized with the scent of the rat and then track it down in a barn</p>
+<p>Dogs have a great sense of smell. Now there's a sport for all types of dogs to get involved in and really utilize their gift. Using their powerful noses, the dogs are familiarized with the scent of the rat and then track it down in a barn.</p>
 <div class="links">
 <a class="start" href="http://barnhunt.com/index.html">Barnhunt</a>
 <a class="train" href="http://dogthusiast.com/2014/07/08/introduction-barn-hunt-training-tips-tuesday/">Dogthusiast</a>
@@ -32,8 +32,7 @@
 <div class="links">
 <a class="start" href="http://www.nacsw.net">NACSW</a>
 <a class="train" href="http://www.clickertraining.com/harnessing-the-power-of-your-dogs-nose">Clicker Training</a>
-<a class="train" href="https://www.youtube.com/watch?v=otPCbMG_ElQ">Teaching the Basics</a>
-<a class="examp" href="https://www.youtube.com/watch?v=otPCbMG_ElQ">Level 1 Class</a>
+<a class="examp" href="https://www.youtube.com/watch?v=otPCbMG_ElQ">Teaching the Basics</a>
 </div>
 </div>
 

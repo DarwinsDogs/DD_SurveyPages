@@ -1,10 +1,10 @@
 <?php if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die(); ?>
 <div id="user" class="nav_target profile">
-	<form id="user_data" action="./submit.php" method="POST" enctype="multipart/form-data">
+	<form id="user_data" action="lib/submit.php" method="POST" enctype="multipart/form-data">
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
-			style="background-image: url(<?php echo $dd_root . 'res/users/' . $user['id'] . '.png'; ?>);"
+			style="background-image: url(<?php echo $dd_surveys . 'res/users/' . $user['id'] . '.png'; ?>);"
 			onclick="document.getElementById('images').click();"></div>
 		<div class="msg">Click to change image.</div>
 	</div>
@@ -25,10 +25,6 @@
 		<input type="tel" class="txtfield" name="phoneDay" placeholder="Day" required value="<?php echo $user['phoneDay']; ?>">
 		<input type="tel" class="txtfield" name="phoneEve" placeholder="Evening (optional)" value="<?php echo $user['phoneEve']; ?>">
 	</fieldset>
-	<fieldset>
-		<legend>Email Address</legend>
-		<input type="email" name="email" required value="<?php echo $user['email']; ?>">
-	</fieldset>
 	<fieldset id="mailing_address">
 		<legend>Mailing Address</legend>
 		<textarea id="input_address" name="address" required style="width: 100%;" onkeydown='address_change();'><?php echo $user['address']; ?></textarea><br/>
@@ -39,9 +35,25 @@
 		<div id="validating" style="width: 100%; display: none;" align="right">Validating.  Please Wait ...</div>
 		<div id="validation_container"></div>
 	</fieldset>
+		<input type="checkbox" name="opt_out" value="yes"<?php if ($user['flags'] & 8) echo ' checked'; ?>> Check here to opt out of monthly newsletter emails.
+	<fieldset id="opt_out">
+	</fieldset>
+	<h3>Social profile (Public)</h3>
+	<fieldset class="social">
+		<legend>Display Name</legend>
+		<input type="text" name="nick" maxlength="12" placeholder="Shown on your forum posts" value="<?php echo $user['nick']; ?>">
+	</fieldset>
+	<fieldset class="social">
+		<legend>Profile Title</legend>
+		<input type="text" name="tagline" maxlength="100" placeholder="One sentence personal intro" value="<?php echo $user['tagline']; ?>">
+	</fieldset>
+	<fieldset class="social">
+		<legend>Profile Content / Biography</legend>
+		<textarea name="bio" maxlength="4096" placeholder="Tell the community about yourself and your dogs"><?php echo $user['bio']; ?></textarea>
+	</fieldset class="social">
 	<fieldset id="buttons">
+		<input style="width: 10em;" type="submit" value="Update Profile" id="submit">
 		<input style="width: 10em;" type="button" value="Cancel" id="cancel" onclick="window.location='?pg=home';">
-		<input style="width: 8em;" type="submit" value="Update Profile" id="submit">
 	</fieldset>
 	</form>
 </div>
@@ -56,7 +68,7 @@ function address_change() {
 function address_validate() {
 	document.getElementById('validate_button').style.display = 'none';
 	document.getElementById('validating').style.display = 'block';
-	var url = dd_root + 'validate_address.php?' + encodeURIComponent(document.getElementById('input_address').value);
+	var url = dd_root + 'lib/validate_address.php?' + encodeURIComponent(document.getElementById('input_address').value);
 	xmlhttp=new XMLHttpRequest();
 	xmlhttp.open('GET', url, false);
 	xmlhttp.send();

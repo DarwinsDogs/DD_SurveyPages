@@ -1,15 +1,15 @@
 <?php
-if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die();
-if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
-else { $dog = Array( 'id' => '0', 'name' => '' ); }
 if (isset($_POST) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['message']) && isset($_POST['to'])) {
 	$to = $_POST['to'];
 	$subject = '[Contact Us] Message from ' . $_POST['name'];
 	$message = wordwrap($_POST['message'], 70, "\r\n");
 	$headers = 'From: ' . $_POST['email'] . "\r\n" . 'Reply-To: ' . $_POST['email'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 	mail($to, $subject, $message, $headers);
-	header('Location: ' . $dd_root . '?pg=contact&arg=posted');
+	header('Location: https://members.darwinsdogs.org/?pg=contact&arg=posted');
+	die();
 }
+if ($idpage != '') { foreach ($dogs as $d) { if ($idpage == $d['id']) $dog = $d; } }
+else { $dog = Array( 'id' => '0', 'name' => '' ); }
 $top = '<legend>What\'s on your mind?</legend>
 <p>Please first check our <a href="' . $dd_home . '?page_id=604" target="_blank">frequently asked questions</a> to see if your question has already been addressed there.
 Additionally, you may find further information in our <a href="' . $dd_home . '?page_id=30" target="_blank">discussion forums</a>.</p>';
@@ -26,7 +26,7 @@ if (strlen($argpage) > 1) {
 	}
 	else if ($argspage[0] == 'redo') {
 	$top = '<legend>Uh oh, need a redo?</legend>
-<p>As noted <a href="http://darwinsdogs.org/?topic=edit-answers" target="_blank">here</a> we generally prefer to not have participants go back to edit answers.  We want your first answers.  But if there has been a clear mistake that needs to be revised, we can let you redo a survey for a dog.  Please let us know why you think you need to redo a survey and we <b>may</b> reset it for you.</p>';
+<p>As noted <a href="http://archive.darwinsdogs.org/?topic=edit-answers" target="_blank">here</a> we generally prefer to not have participants go back to edit answers.  We want your first answers.  But if there has been a clear mistake that needs to be revised, we can let you redo a survey for a dog.  Please let us know why you think you need to redo a survey and we <b>may</b> reset it for you.</p>';
 		$text = '
 > Please let me redo the "' . urldecode($argspage[1]) . '" survey (id=' . $argspage[2] . ') for ' . $dog['name'] . ' (id=' . $dog['id'] . ')
 > Why do you need to redo the survey? (required):
@@ -42,11 +42,20 @@ if (strlen($argpage) > 1) {
 
 ';
 	}
+	else if ($argspage[0] == 'address') {
+		$addressee = 'jmcclure@darwinsdogs.org';
+		$top = '<legend>Mailing Address:</legend><p>Sorry we were unable to validate your proper address.  Please provide your mailing address below and we will enter it directly.  The address provided must be able to accept small parcels via USPS.</p>';
+		$text = '
+> My address will not validate.
+> I can accept USPS mail at the following address:
+
+';
+	}
 }
 ?>
 <div id="contact" class="nav_target">
 <?php if ($argpage == 'posted'): ?>
-	<form id="sent" style="display: none;">
+	<form id="sent">
 	<h3>Thank you for your comments</h3>
 	<fieldset>
 	<legend>Your message has been sent</legend>
@@ -69,8 +78,8 @@ if (strlen($argpage) > 1) {
 	<fieldset>
 	<input id="user_info" name="name" value="<?php echo $user['first'] . ' ' . $user['last'] . '(id=' . $user['id'] .')'; ?>" hidden>
 	<input id="addressee" name="to" value="<?php echo $addressee; ?>" hidden>
-	<input style="width: 10em;" type="button" value="Cancel" class="button nav_button" id="home">
-	<input style="width: 10em;" type="button" value="Submit" class="button" id="submit">
+	<input style="width: 10em;" type="button" value="Cancel" class="button nav_button" id="home" onclick="window.location='?pg=home'">
+	<input style="width: 10em;" type="submit" value="Submit" class="button" id="submit">
 	</fieldset>
 	</form>
 <?php endif; ?>

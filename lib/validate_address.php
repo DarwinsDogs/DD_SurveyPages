@@ -69,14 +69,12 @@ class AddressBox {
 				'<option disabled selected>Select a validated address ...</option>',  PHP_EOL,
 				$this->out, '</select>',  PHP_EOL, '<br/>',
 				'If your address is not in this list, pleast double check your entry.  ',
-				'If your address cannot be validated and you are sure it is correct, please contact us', PHP_EOL;
+				'If your address cannot be validated and you are sure it is correct, please <a href="?pg=contact&arg=address">contact us</a>', PHP_EOL;
 	}
 }
 
 
 if (!isset($_SERVER["QUERY_STRING"])) die('Please enter an address to validate.');
-
 $abox = new AddressBox($_SERVER["QUERY_STRING"]);
 $abox->optBox();
-
 ?>

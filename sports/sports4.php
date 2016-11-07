@@ -1,6 +1,6 @@
 
 <div class="subsport"><span>Canine Freestyle</span>
-<p>Dance with your dog! Combine your love for music and rhythm with obedience training in Canine Freestyle. Also know as Musical Freestyle, this sport allows for creativity to flourish as handler and dog team up together to dance their way to the top.!</p>
+<p>Dance with your dog! Combine your love for music and rhythm with obedience training in Canine Freestyle. Also know as Musical Freestyle, this sport allows for creativity to flourish as handler and dog team up together to dance their way to the top!</p>
 <div class="links">
 <a class="start" href="http://www.worldcaninefreestyle.org">WCFO</a>
 <a class="train" href="https://www.youtube.com/watch?v=cMFuSgCm6vk">Spin Back</a>

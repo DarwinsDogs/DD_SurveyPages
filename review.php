@@ -31,7 +31,7 @@ $review = $stmt->fetchAll(PDO::FETCH_ASSOC);
 function review_likert($q) {
 	global $db, $user, $colors;
 	$stmt = $db->prepare('SELECT answer, COUNT(answer) AS count, GROUP_CONCAT( CASE WHEN dog IN ( SELECT id FROM dogs WHERE owner = :uid )
-		THEN ( SELECT name FROM dogs WHERE id = dog ) ELSE NULL END SEPARATOR ", " ) AS dogs FROM answers WHERE question = :qn GROUP BY answer ORDER BY answer');
+		THEN ( SELECT name FROM dogs WHERE id = dog ) ELSE NULL END SEPARATOR ", " ) AS dogs FROM answers WHERE question = :qn AND answer != "" GROUP BY answer ORDER BY answer');
 	$stmt->bindValue(':uid', $user['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
 	if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
@@ -89,6 +89,11 @@ function review_multinumeric($q) {
 
 
 echo '<h3>Review for "', $title, '"</h3>', PHP_EOL,
+	'<p style="color: red">The review pages here are not yet complete and in many
+	cases will not display properly.  Please bear with us through the upgrades.
+	You can always log in to the old survey pages through <a
+	href="http://archive.darwinsdogs.org">archive.darwinsdogs.org</a> to see the
+	properly formatted review pages there.</p>',
 	'<b>See how your ', (count($dogs) > 1 ? 'dogs compare' : 'dog compares'), ' to other dogs in the project:</b>', PHP_EOL;
 foreach ($review as $q) {
 	// TODO DOG -> your dog; HE -> he/she; HIS -> his/her

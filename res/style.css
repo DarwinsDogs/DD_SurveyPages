@@ -28,6 +28,7 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 .smallcap, .smallcap * { font-family: 'Overlock SC', cursive; }
 .fontlink, .fontlink * { color: #777; }
 .fontlink:hover, .fontlink:hover * { color: #66A; }
+#nojava { width: 80rem; font-size: 1.2rem; font-weight: bold; text-align: center; color: #FFF; background: #A00; border-radius: 0.5rem; margin: 1rem auto; padding: 0.5rem; }
 
 .hidden { display: none; }
 
@@ -50,8 +51,21 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #side_bar #pre_dog_block span { font-size: 1rem; font-weight: bold; }
 #side_bar #pre_dog_block a { font-size: 0.8rem; margin-left: 3rem; }
 #side_bar .dog_block { margin-top: 1rem; }
+#side_bar .dog_block a { font-size: 0.65rem; }
 #side_bar #dog_avatar { cursor:pointer; float: left; width: 4.5rem; height: 6rem; margin-right: 1rem; border-radius: 4px; background-size: cover; background-position: center center; }
-#side_bar .badges img { position: relative; width: 2rem; height: 2rem; margin-bottom: 0.5rem; margin-right: 0.25rem; opacity: 0.8; z-index: 1; }
+
+
+#login { width: 30rem; margin: auto; }
+#login p { border-top: 1px solid #C20; border-bottom: 1px solid #C20; border-left: 1rem solid #C20; border-right: 2rem solid #FAFEEE; border-radius: 0.5rem; padding: 1rem; }
+#login form { border-top: 1px solid #082; border-bottom: 1px solid #082; border-left: 1rem solid #082; border-right: 2rem solid #FAFEEE; border-radius: 0.5rem; padding: 1rem; }
+#login form { width: 100%; margin-bottom: 3rem; }
+#login form .txt { width: 100%; margin-bottom: 2rem; margin-top: 0.25rem; }
+#login form .btn { width: 49%; }
+#login form .btn:last-child { float: right; }
+
+#reset .err { color: red; }
+#reset form { width: 50%; }
+#reset input { width: 90%; }
 
 /* HOME */
 #home #pad { float: left; width: 9rem; height: 1em; }
@@ -88,12 +102,14 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 .profile #image_column { float: right; width: 9rem; margin-right: 3rem; margin-top: 3rem; }
 .profile .msg { font-size: 0.8rem; text-align: center; width: 9rem; }
 .profile fieldset { width: 25rem; }
+.profile fieldset.social { width: 40rem; }
 .profile #new_image { width: 9rem; height: 12rem; border: 1px solid #AAA; background-size: cover; background-position: top center; }
 .profile #buttons { width: 100%; }
 #user .txtfield { width: 48%; }
 #user .txtfield:last-child { float: right; }
-#user input[name='email'] { width: 100%; }
-#user textarea { height: 5rem; }
+#user input[name='email'], #user input[name='tagline'] { width: 100%; }
+#user input[name='nick'] { width: 50%; }
+#user textarea { height: 7rem; }
 #dog fieldset#breed { width: 34rem; }
 #dog input.breed { margin-bottom: 0.25rem; }
 #dog #retire { font-size: 0.65rem; color: #444; border: 1px solid #888; border-radius: 0.2rem; padding: 0.2em 1rem; margin-left: 2rem; }
@@ -106,10 +122,14 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 
 /* SPORTS */
 #sports { padding-bottom: 0.5em; }
-#sports #intro { width: 100%; text-align: left; margin: 1em; }
+#sports #intro { text-align: center; margin: 1em; margin: 1rem; }
 #sports .sport { display: inline-block; width: 20em; height: 9.45em; margin: 0.5em; border-radius: 2px; overflow: hidden; }
 #sports .sport .img { width: 100%; height: 7.45em; background: grey; }
 #sports .sport .name { color: #FFF; font-family: 'Overlock SC', cursive; font-size: 1.5rem; width: 100%; height: 2em; padding-left: 1rem; }
+#sports .sport .stars { display: inline-block; width: 0rem;  height: 1rem; overflow: hidden; float: right; }
+#sports .sport .paws { display: inline-block; position: relative; width: 6rem; height: 1.2rem; margin: 0.4rem 1rem 0.4rem 0rem; float: right; }
+#sports .sport .paws .pawback { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background-image: url('5paws_back.png'); background-size: cover; z-index: 1; }
+#sports .sport .paws .pawfront { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background-image: url('5paws.png'); background-size: cover; z-index: 10; }
 #sports #survey { background: #E9EDDD; border: 1px solid #D8DCCC; border-radius: 4px; margin-top: 2em; text-align: center; }
 #sports #survey #intro { display: block; font-weight: bold; }
 #sports #survey #answers { width: 100%; }
@@ -166,7 +186,7 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 #survey .controls .next { background: url('ui/next.png') no-repeat; background-size: 100% 100%; }
 #survey .controls .start { background: url('ui/start.png') no-repeat; background-size: 100% 100%; }
 #survey .controls #finish { border-radius: 2rem; width: 6.5rem; color: white; background: #2763A3; font-weight: bold; padding: 1.25rem; }
-#survey .answer { display: inline-block; width: 100%; }
+#survey .answer { display: inline-block; }
 #survey .answer_multi, #survey .answer_choice { padding-bottom: 0.25rem; }
 #survey .answer_choice .check { display: inline-block; width: 1rem; height: 1rem; border-radius: 0.05rem; border: 1px solid #888; background: white; margin: 0 1rem; }
 #survey .answer_choice .check:hover { background: #FFF8E8; border: 3px solid #AAA; }

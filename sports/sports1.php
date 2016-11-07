@@ -1,9 +1,10 @@
 
 <div class="subsport"><span>Agility</span>
 <p>Looking for a fast-paced activity that involves running and navigating around
-an obstacle course with your dog? Agility could be the sport for you, it
-requires training, patience, concentration and most of all teamwork. Together
-you and the dog will navigate the course in a race against the clock!</p>
+an obstacle course with your dog? Agility could be the sport for you and your
+dog, it requires training, patience, concentration and most of all teamwork.
+Together you and the dog will navigate the course in a race against the
+clock!</p>
 <div class="links">
 <a class="start" href="http://www.akc.org/events/agility/">AKC</a>
 <a class="train" href="https://www.affordableagility.com/learning/trainingtips.htm">Affordable Agility</a>

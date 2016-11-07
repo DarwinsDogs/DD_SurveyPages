@@ -1,48 +1,46 @@
-<?php
-$dd_root = 'https://darwinsdogs.org/~jmcclure/draft/';
-$dd_path = '/home/jmcclure/public_html/draft/';
-if (isset($_COOKIE['dd_logged_in'])) { $uid = $_COOKIE['dd_logged_in']; setcookie('dd_logged_in', $uid, time() + 3600, '/', '.darwinsdogs.org'); }
-else { die('{"success":false,"msg":"login error"}'); }
+<?php require '/srv/http/lib/functions.php';
+$user = get_cur_user();
+if (!$user) die('{"success":false,"msg":"login error"}');
 
 function log_err($type, $msg) {
-	file_put_contents('post.err', '[' . time() . '] TYPE=' . $type . ' POST=' . print_r($_POST, true) . ' ERROR=' . $msg . PHP_EOL, FILE_APPEND);
-	if (isset($_POST['on_fail'])) header('Location: ' . $dd_root . '?pg=' . $_POST['on_fail']);
+	global $dd_surveys;
+	file_put_contents('post.err', '[' . time() . '] TYPE=' . $type . ' POST=' . print_r($_POST, TRUE) . ' ERROR=' . $msg . PHP_EOL, FILE_APPEND);
+	if (isset($_POST['on_fail'])) header('Location: ' . $dd_surveys . '?pg=' . $_POST['on_fail']); # why doesn't this work?
 	else die('{"success":false,' . '"type":"' . $type . '", "msg":"' . $msg . '"}');
 }
 
-/* $dsn, $user, and $password values for database are set in dogdb.conf */
-require '/srv/secure/dogdb.conf';
-try { $db = new PDO($dsn, $user, $password); }
-catch (PDOException $e) { log_err('db', $e->getMessage()); }
+$db = get_db();
+if (!$db) log_err('db', 'Connection Failed');
 
 function submit_user() {
 	global $db;
-	$query ='UPDATE users SET first = :first, last = :last, email = :email, address = :address,
-		image = :image, phoneDay = :phoneDay, phoneEve = :phoneEve, flags = :flags WHERE id = :id';
-	$stmt = $db->prepare($query);
-	$stmt->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
-	if (submit_image('users', $_POST['id'])) $stmt->bindValue(':image', $_POST['id'], PDO::PARAM_INT);
-	else $stmt->bindValue(':image', $_POST['image'], PDO::PARAM_INT);
+	$stmt = $db->prepare('UPDATE users SET first = :first, last = :last, address = :address, flags = :flags,
+		image = :image, phoneDay = :phoneDay, phoneEve = :phoneEve, nick = :nick, tagline = :tagline, bio = :bio WHERE id = :id');
 	$stmt->bindValue(':first', $_POST['first'], PDO::PARAM_STR);
 	$stmt->bindValue(':last', $_POST['last'], PDO::PARAM_STR);
-	$stmt->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
-	if ($_POST['validated'] == 1) {
-		$stmt->bindValue(':address', $_POST['address'], PDO::PARAM_STR);
-		$stmt->bindValue(':flags', $_POST['flags'] | 2, PDO::PARAM_INT);
-	}
-	else {
-		$stmt->bindValue(':address', $_POST['address_orig'], PDO::PARAM_STR);
-		$stmt->bindValue(':flags', $_POST['flags'], PDO::PARAM_INT);
-	}
+	$flags = $_POST['flags'] & ~ 8;
+	if (isset($_POST['opt_out']) && $_POST['opt_out'] == 'yes') $flags = $flags | 8;
+	if ($_POST['validated'] == 1) { $stmt->bindValue(':address', $_POST['address'], PDO::PARAM_STR); $flags = $flags | 2; }
+	else { $stmt->bindValue(':address', $_POST['address_orig'], PDO::PARAM_STR); }
+	$stmt->bindValue(':flags', $flags, PDO::PARAM_INT);
+	if (submit_image('users', $_POST['id'])) $stmt->bindValue(':image', $_POST['id'], PDO::PARAM_INT);
+	else $stmt->bindValue(':image', $_POST['image'], PDO::PARAM_INT);
 	$stmt->bindValue(':phoneDay', $_POST['phoneDay'], PDO::PARAM_STR);
 	$stmt->bindValue(':phoneEve', $_POST['phoneEve'], PDO::PARAM_STR);
-	if (!$stmt->execute()) log_err('user', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
+	$stmt->bindValue(':nick', $_POST['nick'], PDO::PARAM_STR);
+	$stmt->bindValue(':tagline', $_POST['tagline'], PDO::PARAM_STR);
+	$txt = strip_tags($_POST['bio']);
+	$txt = str_replace("\n",'<br>',$txt);
+	$stmt->bindValue(':bio', $txt, PDO::PARAM_STR);
+	$stmt->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
+	if (!$stmt->execute()) log_err('user', print_r($stmt->errorInfo(), TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
 function submit_dog() {
 	global $db;
 	if ($_POST['id'] > 0) {
-		$stmt = $db->prepare('UPDATE dogs SET name = :name, sex = :sex, neutered = :neutered, age = :age, birthday = :birthday, breed1 = :breed1, breed2 = :breed2, breed3 = :breed3, purebred = :purebred,
+		$stmt = $db->prepare('UPDATE dogs SET name = :name, sex = :sex, neutered = :neutered, age = :age, birthday = :birthday,
+				breed1 = :breed1, breed2 = :breed2, breed3 = :breed3, purebred = :purebred,
 				summary = :summary, quirk = :quirk, does_best = :does_best, fun_story = :fun_story, dom_entry = :dom_entry WHERE id = :id');
 		$stmt->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
 	}
@@ -64,7 +62,9 @@ function submit_dog() {
 		$stmt->bindValue(':summary', $_POST['summary'], PDO::PARAM_STR);
 		$stmt->bindValue(':quirk', $_POST['quirk'], PDO::PARAM_STR);
 		$stmt->bindValue(':does_best', $_POST['does_best'], PDO::PARAM_STR);
-		$stmt->bindValue(':fun_story', $_POST['fun_story'], PDO::PARAM_STR);
+		$txt = strip_tags($_POST['fun_story']);
+		$txt = str_replace("\n",'<br>',$txt);
+		$stmt->bindValue(':fun_story', $txt, PDO::PARAM_STR);
 		if (isset($_POST['dom_entry'])) $stmt->bindValue(':dom_entry', $_POST['dom_entry'], PDO::PARAM_STR);
 		else $stmt->bindValue(':dom_entry', NULL, PDO::PARAM_NULL);
 	}
@@ -104,12 +104,12 @@ function submit_survey() {
 	$stmt = $db->prepare('UPDATE dogs SET surveys = :surveys WHERE id = :dog');
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':surveys', urldecode($_POST['surveys']), PDO::PARAM_STR);
-	if (!$stmt->execute()) log_err('answer', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('survey', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 	$stmt = $db->prepare('INSERT INTO fillouts ( dog, survey, timestamp ) VALUES ( :dog, :survey, :time )');
 	$stmt->bindValue(':dog', $_POST['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':survey', $_POST['n'], PDO::PARAM_INT);
 	$stmt->bindValue(':time', time(), PDO::PARAM_INT);
-	if (!$stmt->execute()) log_err('answer', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
+	if (!$stmt->execute()) log_err('survey2', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
 function submit_sports() {
@@ -148,6 +148,6 @@ switch ($_POST['type']) {
 	default: log_err('submit', 'unknown submission type ' . $_POST['type']);
 }
 
-if (isset($_POST['on_success'])) header('Location: ' . $dd_root . '?pg=' . $_POST['on_success'] . ($post_img ? '&post_img' : ''));
+if (isset($_POST['on_success'])) header('Location: ' . $dd_surveys . '?pg=' . $_POST['on_success'] . ($post_img ? '&post_img' : ''));
 else echo '{"success":true,"msg":"', $_POST['type'], '"}';
 ?>
