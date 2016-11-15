@@ -3,24 +3,27 @@
 class AddressOption {
 	protected $streetNumber = '', $route = '', $subpremise = '', $locality = '',
 			$adminArea1 = '', $adminArea2 = '', $postCode = '', $postCodeExt ='',
-			$country = '', $type = '', $boxLine ='';
+			$country = '', $type = '', $boxLine ='', $hood = '';
 	function __construct($xmlAddr, $str) {
 		$this->type = $xmlAddr->type;
 		if (count($this->type) == 0) $this->type = Array('street_address');
 		if (preg_match('/^P\.?O\.?\s*BOX\s+([0-9-]+)/i', $str, $matches) === 1 &&
 				count($matches) === 2 && is_numeric($matches[1]))
 				$this->boxLine = 'PO Box ' . $matches[1];
+		$this->streetNumber = explode(' ', $str)[0];
 		foreach($xmlAddr->address_component as $a) {
 			if ('street_number' == $a->type) $this->streetNumber = $a->short_name;
 			if ('route' == $a->type) $this->route = $a->short_name;
 			if ('subpremise' == $a->type) $this->subpremise = $a->short_name;
 			if ('locality' == $a->type[0]) $this->locality = $a->short_name;
+			if ('neighborhood' == $a->type[0]) $this->hood = $a->short_name;
 			if ('administrative_area_level_1' == $a->type[0]) $this->adminArea1 = $a->short_name;
 			if ('administrative_area_level_2' == $a->type[0]) $this->adminArea2 = $a->short_name;
 			if ('postal_code' == $a->type) $this->postCode = $a->short_name;
 			if ('postal_code_suffix' == $a->type) $this->postCodeExt = $a->short_name;
 			if ('country' == $a->type[0]) $this->country = $a->short_name;
 		}
+		if ($this->locality == '' && $this->hood != '') $this->locality = $this->hood;
 	}
 	public function optString() {
 		if ($this->country != 'US') return '';
@@ -29,6 +32,7 @@ class AddressOption {
 		else if ($this->_MatchType('subpremise')) return $this->_StreetAddress();
 		else if ($this->_MatchType('postal_code')) return $this->_PoBox();
 		else if ($this->_MatchType('locality')) return $this->_PoBox();
+		else if ($this->_MatchType('route')) return $this->_StreetAddress();
 		else return '';
 	}
 	private function _MatchType($str) {
