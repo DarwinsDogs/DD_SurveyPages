@@ -28,6 +28,13 @@ $stmt->bindValue(':sn', $npage, PDO::PARAM_INT);
 if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
 $review = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+function pronouns($str) {
+	$str = str_replace('DOG', 'your dog', $str);
+	$str = str_replace('HIS', 'his/her', $str);
+	$str = str_replace('HE', 'he/she', $str);
+	return $str;
+}
+
 function review_likert($q) {
 	global $db, $user, $colors;
 	$stmt = $db->prepare('SELECT answer, COUNT(answer) AS count, GROUP_CONCAT( CASE WHEN dog IN ( SELECT id FROM dogs WHERE owner = :uid )
@@ -38,15 +45,36 @@ function review_likert($q) {
 	$review = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	$sum = 0;
 	foreach ($review as $r) $sum += $r['count'];
-	$opts = explode('|',$q['options']);
+	$opts = explode('|', pronouns($q['options']));
 	for ($i = 0; $i < count($review); $i++) {
 		$r = $review[$i];
 		$w = 100 * $r['count'] / $sum;
 		$class = ($i == '0' ? ' first' : ($i == count($review) - 1 ? ' last' : '' ));
+		$out = $opts[$r['answer']];
 		echo '<div class="likert" style="width:', $w, '%;">',
-			'<div class="label">', $opts[$r['answer']], ' (', $r['count'], ')</div>',
-			'<div class="bar', $class, '" style="background: rgba(', $colors[4][$r['answer']], ',1);">&nbsp;</div>',
+			'<div class="label">', ($w > 10 ? $out : ''), '</div>',
+			'<div class="bar', $class, '" style="background: rgba(', $colors[4][$r['answer']], ',1);" title="', $out, ' (', $r['count'], ')">', ($w > 3 ? $r['count'] : ''), '</div>',
 			'<div class="dogs">', ($r['dogs'] ? $r['dogs'] : '&nbsp;'), '</div></div>';
+	}
+}
+
+function review_choices($q) {
+	global $db, $user, $colors, $dogs;
+	$stmt = $db->prepare('SELECT answer, COUNT(answer) AS count, GROUP_CONCAT( CASE WHEN dog IN ( SELECT id FROM dogs WHERE owner = :uid )
+		THEN ( SELECT name FROM dogs WHERE id = dog ) ELSE NULL END SEPARATOR ", " ) AS dogs FROM answers WHERE question = :qn AND answer != "" GROUP BY answer ORDER BY answer');
+	$stmt->bindValue(':uid', $user['id'], PDO::PARAM_INT);
+	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
+	if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
+	$review = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$sum = 0;
+	foreach ($review as $r) $sum += $r['count'];
+	$opts = explode('|', pronouns($q['options']));
+	for ($i = 0; $i < count($review); $i++) {
+		$r = $review[$i];
+		$w = 100 * $r['count'] / $sum;
+		echo '<div style="width: 100%; position: relative; margin-bottom: 0.25rem;">&nbsp;', $opts[$r['answer']], ' (', $r['count'], ')',
+			'<div style="border: 1px solid black; position: absolute; top: 0px; left: 0px; width: ', $w, '%; background: rgba(', $colors[count($opts)][$r['answer']], ',1); color: white; overflow: hidden; white-space: nowrap;">&nbsp;',
+			$opts[$r['answer']], ' (', $r['count'], ')</div></div>';
 	}
 }
 
@@ -90,19 +118,17 @@ function review_multinumeric($q) {
 
 echo '<h3>Review for "', $title, '"</h3>', PHP_EOL,
 	'<p style="color: red">The review pages here are not yet complete and in many
-	cases will not display properly.  Please bear with us through the upgrades.
-	You can always log in to the old survey pages through <a
-	href="http://archive.darwinsdogs.org">archive.darwinsdogs.org</a> to see the
-	properly formatted review pages there.</p>',
-	'<b>See how your ', (count($dogs) > 1 ? 'dogs compare' : 'dog compares'), ' to other dogs in the project:</b>', PHP_EOL;
+	cases will not display properly.  Please bear with us through the
+	upgrades.</p>',
+	'<b>See how your ', (count($dogs) > 2 ? 'dogs compare' : 'dog compares'), ' to other dogs in the project:</b>', PHP_EOL;
 foreach ($review as $q) {
-	// TODO DOG -> your dog; HE -> he/she; HIS -> his/her
 	echo '<!-- Question ', $q['id'], ' -->', PHP_EOL,
-		'<div class="review_block"><p class="qstring">', $q['string'], '</p>', PHP_EOL;
+		'<div class="review_block"><p class="qstring">', pronouns($q['string']), '</p>', PHP_EOL;
 	switch ($q['format']) {
 		case 'Likert': review_likert($q); break;
 		case 'MultiNumeric': review_multinumeric($q); break;
-		default: echo '<p class="no_such">No review available for this format yet</p>', PHP_EOL;
+		case 'Choices': review_choices($q); break;
+		default: echo '<p class="no_such" title="',$q['format'],'">No review available for this format yet</p>', PHP_EOL;
 	}
 	echo '</div>', PHP_EOL;
 }
