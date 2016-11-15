@@ -219,7 +219,7 @@ textarea { width: 100%; height: 14rem; background: white; color: black; resize: 
 
 #review .likert { display: inline-block; }
 #review .likert .label, #review .likert .dogs { width: 100%; text-align: center; padding: 0.5em 0.25em; }
-#review .likert .bar { width: 100%; height: 2em; }
+#review .likert .bar { width: 100%; height: 2em; color: #FFF; text-align: center; padding-top: 0.25rem; font-weight: bold; }
 #review .likert .bar.first { border-radius: 14px 0px 0px 14px; }
 #review .likert .bar.last { border-radius: 0px 14px 14px 0px; }
 
