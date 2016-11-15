@@ -13,10 +13,12 @@ $nsurvey = (isset($counts[51]) ? $counts[51] : 0);
 be adding content here as it becomes available.  For now feel free to check out
 our dog-sport pages:</span>
 <ul>
-<!--
-<li><?php echo ($nsurvey > 1 ? $nsurvey . ' surveys' : ($nsurvey == 1 ? '1 survey' : 'no surveys')); ?> complete</li>
-<li><?php echo (isset($dog['barcode']) ? 'Kit Sent: ' . $dog['barcode'] : 'No Kit Sent' ); ?></li>
--->
+<li>DNA sample status:
+<?php echo
+	(isset($dog['barcode']) ? 'barcode=' . $dog['barcode'] : ($dog['flags'] & 2 ? 'in queue for mailing' : 'no kit sent' )),
+	($dog['flags'] & 16 ? '; kit received ' . date('M jS Y', $dog['kit_date']) . '; not genotyped' : '');
+?>
+</li>
 <li><a href="?pg=sports&amp;id=<?php echo $dog['id']; ?>">Activity / Dog Sport Recommendations</a></li>
 </ul>
 </div>
