@@ -123,7 +123,7 @@ echo '<h3>Review for "', $title, '"</h3>', PHP_EOL,
 	'<b>See how your ', (count($dogs) > 2 ? 'dogs compare' : 'dog compares'), ' to other dogs in the project:</b>', PHP_EOL;
 foreach ($review as $q) {
 	echo '<!-- Question ', $q['id'], ' -->', PHP_EOL,
-		'<div class="review_block"><p class="qstring">', pronouns($q['string']), '</p>', PHP_EOL;
+		'<div class="review_block"><p class="qstring">', ucfirst(pronouns($q['string'])), '</p>', PHP_EOL;
 	switch ($q['format']) {
 		case 'Likert': review_likert($q); break;
 		case 'MultiNumeric': review_multinumeric($q); break;
