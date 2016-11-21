@@ -35,7 +35,7 @@ else echo '<h3>' . $dog['name'] . '\'s Profile</h3>';
 	<fieldset>
 		<legend>Has <span class="dog_name">the dog</span> been <span id="spay_neuter">spayed or neutered</span>?</legend>
 		<input type="radio" name="neutered" value="yes" <?php echo ($dog['neutered'] == 'yes' ? 'checked' : ''); ?>> Yes
-		<input type="radio" name="neutered" value="yes" <?php echo ($dog['neutered'] == 'no' ? 'checked' : ''); ?>> No
+		<input type="radio" name="neutered" value="no" <?php echo ($dog['neutered'] == 'no' ? 'checked' : ''); ?>> No
 	</fieldset>
 	<fieldset>
 		<legend>What is <span class="dog_name">the dog</span>'s approximate age?</legend>
