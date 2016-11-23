@@ -121,7 +121,6 @@ function submit_sports() {
 	if (!$stmt->execute()) log_err('sports', print_r($stmt->errorInfo(),TRUE) . ' (' . $stmt->errorCode() . ')');
 }
 
-$post_img = false;
 function submit_image($type, $id) {
 	global $post_img, $dd_path;
 	if (!isset($_FILES) || !isset($_FILES['images']) || empty($_FILES['images']['tmp_name']) ) return false;
@@ -131,7 +130,6 @@ function submit_image($type, $id) {
 	$p2 = $dd_path . 'res/' . $type . '/' . $id . '.png';
 	if (move_uploaded_file($_FILES['images']['tmp_name'], $p1)) {
 		exec('convert ' . $p1 . ' -auto-orient -resize 600x800\> ' . $p2 . ' && rm ' . $p1);
-		$post_img = true;
 		return true;
 	}
 	return false;
@@ -148,6 +146,6 @@ switch ($_POST['type']) {
 	default: log_err('submit', 'unknown submission type ' . $_POST['type']);
 }
 
-if (isset($_POST['on_success'])) header('Location: ' . $dd_surveys . '?pg=' . $_POST['on_success'] . ($post_img ? '&post_img' : ''));
+if (isset($_POST['on_success'])) header('Location: ' . $dd_surveys . '?pg=' . $_POST['on_success']);
 else echo '{"success":true,"msg":"', $_POST['type'], '"}';
 ?>

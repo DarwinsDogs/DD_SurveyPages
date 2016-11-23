@@ -13,8 +13,6 @@ if (isset($_GET['id'])) $idpage = $_GET['id'];
 else $idpage = '';
 if (isset($_GET['arg'])) $argpage = $_GET['arg'];
 else $argpage = '';
-if (isset($_GET['post_img'])) $post_img = '?' . time();
-else $post_img = '';
 $sidebar = true;
 if (isset($_GET['no_sidebar'])) $sidebar = false;
 if ($page == 'sports' || $page == 'login') $sidebar = false;
@@ -34,6 +32,8 @@ function toggle_sidebar() {
 		$param .= $key . (strlen($val) ? '=' . $val : '' ) . '&';
 	return '<a href="' . $param . '">' . ($sidebar ? 'HIDE' : 'SHOW') . ' SIDEBAR</a>';
 }
+
+function cache_check($path) { echo $path . '?mtime=' . filemtime($path); }
 
 /* get dogs */
 if ($user) {
@@ -84,7 +84,7 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 <div id="side_bar">
 <h2 class="smallcap">Welcome, <?php echo $user['first'];?></h2>
 <div id="user_block">
-	<div id="user_avatar" style="background-image: url(<?php echo $dd_surveys . 'res/users/' . $user['image'] . '.png' . $post_img; ?>);"></div>
+	<div id="dog_avatar" style="background-image: url(<?php cache_check('res/users/' . $user['image'] . '.png'); ?>);"></div>
 	<div id="user_name">
 		<?php echo $user['first'] . ' ' . $user['last'] . '<br/>' .
 		'<span class="sanscap">Member since ' . date('M Y', $user['start_date']) . '</span><br/>' . PHP_EOL; ?>
@@ -94,7 +94,7 @@ function sub_load() { /* do nothing, overriden by included pages */ }
 <div id="pre_dog_block"><span class="sanscap"><?php echo $user['first']; ?>'s Dogs</span><a class="sanscap fontlink" href="?pg=dog">Add Dog</a></div>
 <?php foreach ($dogs as $dog) : if (strlen($dog['image']) == 0) $dog['image'] = '0'; ?>
 <div class="dog_block" id="dog_block">
-	<div id="dog_avatar" style="background-image: url(<?php echo $dd_surveys . 'res/dogs/' . $dog['image'] . '.png' . $post_img; ?>);"></div>
+	<div id="dog_avatar" style="background-image: url(<?php cache_check('res/dogs/' . $dog['image'] . '.png'); ?>);"></div>
 	<div id="dog_name">
 		<div class="badges"></div>
 		<span class="name"><?php echo $dog['name']; ?></span><br/>
