@@ -16,7 +16,7 @@ our dog-sport pages:</span>
 <li>DNA sample status:
 <?php echo
 	(isset($dog['barcode']) ? 'barcode=' . $dog['barcode'] : ($dog['flags'] & 2 ? 'in queue for mailing' : 'no kit sent' )),
-	($dog['flags'] & 16 ? '; kit received ' . date('M jS Y', $dog['kit_date']) . '; not genotyped' : '');
+	($dog['flags'] & 16 ? '; kit received ' . date('M jS Y', $dog['kit_date']) . '; not yet genotyped' : '');
 ?>
 </li>
 <li><a href="?pg=sports&amp;id=<?php echo $dog['id']; ?>">Activity / Dog Sport Recommendations</a></li>
