@@ -32,11 +32,14 @@ $weight = Array(
 	Array(-1, 1,-1, 0, 0,-1, 1, 1,-1,-1, 1, 1, 1, 1, 0, 0, 0, 0,-1,-1,-1, 1,-1, 1, 1, 0, 0,-1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1,-1, 1,-1,-1, 1, 1),
 	Array(-1, 1,-1, 0, 0,-1, 0,-1,-1,-1,-1, 1, 0, 1,-1, 1, 1, 1,-1,-1,-1, 1,-1, 1, 0, 0, 1, 0, 0, 1, 0,-1, 1, 0, 0, 1, 0, 1, 1,-1, 1,-1,-1,-1, 1),
 	Array(-1, 1,-1, 1, 0,-1, 1, 0,-1,-1,-1, 1, 1, 1,-1, 0, 0, 0,-1, 1, 0,-1,-1, 1,-1, 0, 1,-1, 1, 0, 0,-1, 0, 1, 0, 1, 0, 0, 1,-1, 1,-1,-1, 1, 1),
+
 );
 foreach ($ans as $a) {
 	$qn = array_search($a['question'],$qlist);
 	for ($i = 0; $i < 9; $i++)
-		$rec[$i] += ($a['answer'] - $mean[$i][$qn]) * $weight[$i][$qn];
+		$rec[$i] += ($a['answer']
+			- $mean[$i][$qn])
+			* $weight[$i][$qn];
 }
 arsort($rec);
 $stmt = $db->prepare('SELECT id, question, answer FROM answers where dog = :id AND question in ( 156, 157, 158, 159, 160, 161, 162, 163, 164 )');
@@ -121,15 +124,15 @@ function sport_feedback(n) {
 	for (i = 0; i < 4; i++) document.getElementById('answer_' + i).className = '';
 	document.getElementById('answer_' + n).className = 'checked';
 	var params = 'type=answer';
-	params += '&id=' + ids[sn];
-	params += '&question=' + (sn + 156);
+	params += '&id=' + ids[sn - 1];
+	params += '&question=' + (sn + 155);
 	params += '&dog=' + <?php echo $dog['id']; ?>;
 	params += '&answer=' + n;
 	params += '&notes=';
 	post_data(params, function() { });
 }
 function sub_load() {
-	document.getElementById('answer_' + answers[sn]).className = 'checked';
+	document.getElementById('answer_' + answers[sn - 1]).className = 'checked';
 }
 </script>
 <?php endif; ?>
