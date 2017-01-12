@@ -2,7 +2,7 @@
 
 class AddressOption {
 	protected $streetNumber = '', $route = '', $subpremise = '', $locality = '',
-			$adminArea1 = '', $adminArea2 = '', $postCode = '', $postCodeExt ='',
+			$adminArea1 = '', $adminArea3, $postCode = '', $postCodeExt ='',
 			$country = '', $type = '', $boxLine ='', $hood = '';
 	function __construct($xmlAddr, $str) {
 		$this->type = $xmlAddr->type;
@@ -18,12 +18,13 @@ class AddressOption {
 			if ('locality' == $a->type[0]) $this->locality = $a->short_name;
 			if ('neighborhood' == $a->type[0]) $this->hood = $a->short_name;
 			if ('administrative_area_level_1' == $a->type[0]) $this->adminArea1 = $a->short_name;
-			if ('administrative_area_level_2' == $a->type[0]) $this->adminArea2 = $a->short_name;
+			if ('administrative_area_level_3' == $a->type[0]) $this->adminArea3 = $a->short_name;
 			if ('postal_code' == $a->type) $this->postCode = $a->short_name;
 			if ('postal_code_suffix' == $a->type) $this->postCodeExt = $a->short_name;
 			if ('country' == $a->type[0]) $this->country = $a->short_name;
 		}
 		if ($this->locality == '' && $this->hood != '') $this->locality = $this->hood;
+		if ($this->locality == '' && $this->adminArea3 != '') $this->locality = $this->adminArea3;
 	}
 	public function optString() {
 		if ($this->country != 'US') return '';
