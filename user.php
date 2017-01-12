@@ -4,7 +4,7 @@
 	<div id="image_column">
 		<input type="file" name="images" id="images" accept="image/*" onchange="preview.call(this);" hidden>
 		<div id="new_image" title="Please select an image. Images with 3:4 aspect ratios work best"
-			style="background-image: url(<?php echo $dd_surveys . 'res/users/' . $user['id'] . '.png'; ?>);"
+			style="background-image: url(<?php cache_check('res/users/' . $user['image'] . '.png'); ?>);"
 			onclick="document.getElementById('images').click();"></div>
 		<div class="msg">Click to change image.</div>
 	</div>
