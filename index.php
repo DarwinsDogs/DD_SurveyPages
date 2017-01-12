@@ -33,7 +33,7 @@ function toggle_sidebar() {
 	return '<a href="' . $param . '">' . ($sidebar ? 'HIDE' : 'SHOW') . ' SIDEBAR</a>';
 }
 
-function cache_check($path) { echo $path . '?mtime=' . filemtime($path); }
+#function cache_check($path) { echo $path . '?mtime=' . filemtime($path); }
 
 /* get dogs */
 if ($user) {
