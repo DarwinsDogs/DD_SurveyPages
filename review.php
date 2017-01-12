@@ -56,43 +56,18 @@ function review_likert($q) {
 	}
 }
 
-/*
-function review_choices($q) {
-	global $db, $user, $colors, $dogs;
-	$stmt = $db->prepare('SELECT answer, COUNT(answer) AS count, GROUP_CONCAT( CASE WHEN dog IN ( SELECT id FROM dogs WHERE owner = :uid )
-		THEN ( SELECT name FROM dogs WHERE id = dog ) ELSE NULL END SEPARATOR ", " ) AS dogs FROM answers WHERE question = :qn AND answer != "" GROUP BY answer ORDER BY answer');
-	$stmt->bindValue(':uid', $user['id'], PDO::PARAM_INT);
-	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
-	if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
-	$review = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	$sum = 0;
-	foreach ($review as $r) $sum += $r['count'];
-	$opts = explode('|', pronouns($q['options']));
-	for ($i = 0; $i < count($review); $i++) {
-		$r = $review[$i];
-		$w = 100 * $r['count'] / $sum;
-		echo '<div style="width: 100%; position: relative; margin-bottom: 0.25rem;">&nbsp;', $opts[$r['answer']], ' (', $r['count'], ')',
-			'<div style="border: 1px solid black; position: absolute; top: 0px; left: 0px; width: ', $w, '%; background: rgba(', $colors[count($opts)][$r['answer']], ',1); color: white; overflow: hidden; white-space: nowrap;">&nbsp;',
-			$opts[$r['answer']], ' (', $r['count'], ')</div></div>';
-	}
-}
-*/
-
 function prefix($attr, $val) { foreach (array('-moz-','-ms-','-o-','-webkit-') as $pre) echo $pre, $attr, ': ', $val, '; '; echo $attr, ': ', $val; }
 function review_choices($q) {
-	global $db, $user, $colors, $dogs;
+	global $db, $user, $dogs, $colors;
 	$stmt = $db->prepare('SELECT answer, COUNT(answer) AS count, GROUP_CONCAT( CASE WHEN dog IN ( SELECT id FROM dogs WHERE owner = :uid )
 		THEN ( SELECT name FROM dogs WHERE id = dog ) ELSE NULL END SEPARATOR ", " ) AS dogs FROM answers WHERE question = :qn AND answer != "" GROUP BY answer ORDER BY answer');
 	$stmt->bindValue(':uid', $user['id'], PDO::PARAM_INT);
 	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
 	if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
 	$review = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	$sum = 0;
-
 	$vals = Array();
 	foreach ($review as $r) $vals[] = $r['count'];
 	$opts = explode('|', pronouns($q['options']));
-
 	$n = count($vals); $degrees[0] = 0;
 	$col = $colors[$n];
 	for ($i = 1; $i < $n; $i++) $vals[$i] += $vals[$i-1];
@@ -106,10 +81,27 @@ function review_choices($q) {
 		echo "\t", '<div class="pie_slice" style="background: rgba(', $col[$n], ',1); ', prefix('transform', 'rotate(' . $degrees[$n] . 'deg)'), '"></div>', PHP_EOL;
 	echo '</div>', PHP_EOL, '<div class="pie_labels">', PHP_EOL;
 	for ($n = 0; $n < count($opts) ; $n++)
-		echo "\t", '<div class="pie_label"><div style="background: rgba(', $col[$n], ',1);"></div><span>', ucfirst($opts[$n]), '</span><span class="num">(', $vals[$n], 
+		echo "\t", '<div class="pie_label"><div style="background: rgba(', $col[$n], ',1);"></div><span>', ucfirst($opts[$n]), '</span><span class="num">(',
+			($n ? $vals[$n] - $vals[$n-1] : $vals[$n]),
 			($review[$n]['dogs'] ? ' including ' . $review[$n]['dogs'] : '' ), ')</span></div>', PHP_EOL;
 	echo '&nbsp;</div>', PHP_EOL;
+}
 
+function review_multichoices($q) {
+	global $db, $user, $dogs, $colors;
+	$opts = explode('|', pronouns($q['options']));
+	$qstr = 'SELECT (SELECT COUNT(*) FROM answers WHERE question = :qn AND answer LIKE "%0%") AS a0';
+	for ($i = 1; $i < count($opts); $i++)
+		$qstr .= ', (SELECT COUNT(*) FROM answers WHERE question = :qn AND answer LIKE "%' . $i . '%") AS a' . $i;
+	$stmt = $db->prepare($qstr);
+	$stmt->bindValue(':qn', $q['id'], PDO::PARAM_INT);
+	if (!$stmt->execute()) die('Query error: ' . $stmt->errorInfo());
+	$vals = $stmt->fetch(PDO::FETCH_NUM);
+	$sum = array_sum($vals);
+	// TODO add owner's dogs
+	for ($i = 0; $i < count($vals); $i++)
+		echo '<div class="bar_outer">&nbsp;', $opts[$i], ' (', $vals[$i], ')<div class="bar_inner" style="width: ',
+				100 * $vals[$i] / $sum, '%; background: rgba(', $colors[count($opts)][$i], ',1);">&nbsp;', $opts[$i], ' (', $vals[$i], ')</div></div>', PHP_EOL;
 }
 
 function review_multinumeric($q) {
@@ -150,8 +142,6 @@ function review_multinumeric($q) {
 }
 
 
-
-
 echo '<h3>Review for "', $title, '"</h3>', PHP_EOL,
 	'<p style="color: red">The review pages here are not yet complete and in many
 	cases will not display properly.  Please bear with us through the
@@ -164,6 +154,7 @@ foreach ($review as $q) {
 		case 'Likert': review_likert($q); break;
 		case 'MultiNumeric': review_multinumeric($q); break;
 		case 'Choices': review_choices($q); break;
+		case 'MultiChoices': review_multichoices($q); break;
 		default: echo '<p class="no_such" title="',$q['format'],'">No review available for this format yet</p>', PHP_EOL;
 	}
 	echo '</div>', PHP_EOL;
