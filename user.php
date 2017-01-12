@@ -84,6 +84,7 @@ function update_address(sel) {
 	update_height();
 }
 function preview() {
+	if (this.files[0].size > 8192000) { alert('Please select an image under 8MB'); return; }
 	var reader = new FileReader();
 	reader.onload = function (e) { document.getElementById('new_image').style.backgroundImage = 'url(' + e.target.result + ')'; }
 	reader.readAsDataURL(this.files[0]);
