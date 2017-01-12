@@ -9,7 +9,7 @@ else { header('Location: ' . $dd_surveys); }
 
 <?php echo $user['first'], ' and ', $dog['name']; ?><br/>
 
-<div class="avatar" id="user_avatar" style="background-image: url(<?php cache_check('res/user/' . $user['image'] . '.png'); ?>);"></div>
+<div class="avatar" id="user_avatar" style="background-image: url(<?php cache_check('res/users/' . $user['image'] . '.png'); ?>);"></div>
 <div class="avatar" id="dog_avatar" style="background-image: url(<?php cache_check('res/dogs/' . $dog['image'] . '.png'); ?>);"></div>
 <br/>
 
