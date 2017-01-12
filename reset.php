@@ -1,6 +1,6 @@
 <?php if (basename(__FILE__) == basename($_SERVER["SCRIPT_FILENAME"])) die(); ?>
 <div id="reset" class="nav_target">
-<h3>Reset <?php echo $user['first']; ?>'s password</h3>
+<h3>Change <?php echo $user['first']; ?>'s password</h3>
 <?php if (isset($_GET['confirm'])): ?>
 <p class="err">New password entries do not match.</p>
 <?php elseif (isset($_GET['database'])): ?>
